@@ -28,6 +28,7 @@ public class MonsterMove : MonoBehaviour
     private Animator _animator;
     private Transform _playerTransform;
 
+    // 아래 세 변수가 현재 코드에서 몬스터 상태를 정하는 역할인데 얘네는 외부에서 볼 필요 없을 것 같아요
     public bool IsWaiting => _isWaiting;
     public bool IsChasing => _isChasing;
     public bool IsAttacking => _isAttacking;
@@ -45,7 +46,7 @@ public class MonsterMove : MonoBehaviour
         SetNewRandomTarget();
     }
 
-    private void Update()
+    private void Update() // 행동에 대한 코드가 파편적으로 흩어져 있어서 얘네를 모아서 정리해야할 것 같아요
     {
         CheckForPlayer();
 
@@ -167,7 +168,9 @@ public class MonsterMove : MonoBehaviour
         if (_playerTransform == null) return;
 
         float distanceToPlayer = Vector3.Distance(transform.position, _playerTransform.position);
-
+        
+        // 지금은 일단 몬스터가 플레이어를 직접 AddForce로 밀어내지만
+        // 추후에 플레이어가 좀 더 구체적으로 구현되면 플레이어의 TakeDamage나 KnockBack등을 불러내는걸로 변경하죠
         if (distanceToPlayer <= _attackRadius + 1.5f)
         {
             Rigidbody playerRigidbody = _playerTransform.GetComponent<Rigidbody>();
@@ -325,7 +328,6 @@ public class MonsterMove : MonoBehaviour
 
         StartCoroutine(AttackCycle());
 
-        _hasAttackedInThisCycle = true;
         _cooldownTimer = _attackCooldown;
         _hitDelayTimer = 0f;
     }
