@@ -52,31 +52,4 @@ public class BlinkFloor : MonoBehaviour
             yield return new WaitForSeconds(_switchTime);
         }
     }
-
-    //private IEnumerator BlinkLoop()
-    //{
-    //    yield return new WaitForSeconds(_delay);
-
-    //    while (true)
-    //    {
-    //        TurnOn();
-    //        yield return new WaitForSeconds(_onTime);
-
-    //        TurnOff();
-
-    //        yield return new WaitForSeconds(_offTime);
-    //    }
-    //}
-
-    //private void TurnOn()
-    //{
-    //    if (_mesh != null) _mesh.enabled = true;
-    //    if (_collider != null) _collider.enabled = true;
-    //}
-
-    //private void TurnOff()
-    //{
-    //    if (_mesh != null) _mesh.enabled = false;
-    //    if (_collider != null) _collider.enabled = false;
-    //}
 }
