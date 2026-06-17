@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MonsterMove : MonoBehaviour
@@ -62,9 +63,9 @@ public class MonsterMove : MonoBehaviour
         {
             _hitDelayTimer += Time.deltaTime;
 
-            if (_hitDelayTimer >= 0.45f && !_hasAttackedInThisCycle && _cooldownTimer <= 0)
+            if (!_hasAttackedInThisCycle && _cooldownTimer <= 0)
             {
-                ExecuteAutoAttackHit();
+                Attack();
             }
         }
 
@@ -108,10 +109,16 @@ public class MonsterMove : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, _attackRadius);
     }
 
-    private void CheckForPlayer()
+    private void CheckForPlayer() // 현재 Check함수 역할이 플레이어 체크와 판단으로 여러 역할이 있습니다. 메서드를 쪼개보는건?
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, _detectRadius);
         bool playerFound = false;
+
+        // player를 찾는 방법은 여러가지가 있을 수 있는데
+        // 1. 지금처럼 overlap을 통해 안에 들어온 오브젝트 중 플레이어를 감지하는 방식
+        // 2. 사실 플레이어의 transform을 알고 있는 상태고 distance만 비교하는 방식.
+        // 아마 현재 target으로 삼은 애의 transform을 참조하거나 추후 매니저를 통해 불러오게 하면 2번 방식도 쓰고
+        // 1번 방식도 시야각이나 다른 개념을 도입하려면 이쪽이 적합할 것 같은데요
 
         foreach (var hitCollider in hitColliders)
         {
@@ -247,5 +254,107 @@ public class MonsterMove : MonoBehaviour
     {
         Vector2 randomCircle = Random.insideUnitCircle * _patrolRadius;
         _targetPosition = new Vector3(_startPosition.x + randomCircle.x, _startPosition.y, _startPosition.z + randomCircle.y);
+    }
+
+    private void SetMonsterAI() // 코드를 보니까 PlayerCheck가 동일한 역할을 수행중.
+    {
+        float distance = 0f;
+
+        if (distance <= _attackRadius)
+        {
+            //attack
+            return;
+        }
+        else if (distance <= _detectRadius)
+        {
+            // chase
+            return;
+        }
+        //patrol
+    }
+    private void DetectPlayer()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, _detectRadius);
+        _playerTransform = null;
+        foreach (var hitCollider in hitColliders)
+        {
+            if (hitCollider.CompareTag("Player"))
+            {
+                _playerTransform = hitCollider.transform;
+                break;
+            }
+        }
+    }
+    private void DecideAction()
+    {
+        if(_playerTransform != null)
+        {
+            float distanceToPlayer = Vector3.Distance(transform.position, _playerTransform.position);
+
+            if (distanceToPlayer <= _attackRadius)
+            {
+                if (!_isAttacking)
+                {
+                    _isAttacking = true;
+                    _isChasing = false;
+                    _hitDelayTimer = 0f;
+                    _hasAttackedInThisCycle = false;
+                }
+            }
+            else
+            {
+                _isChasing = true;
+                _isAttacking = false;
+                _isWaiting = false;
+            }
+        }
+        else
+        {
+            if (_isChasing || _isAttacking)
+            {
+                _isChasing = false;
+                _isAttacking = false;
+                SetNewRandomTarget();
+            }
+        }
+    }
+    private void Attack()
+    {
+        if (_playerTransform == null) return;
+        if (_hasAttackedInThisCycle == true) return;
+
+        StartCoroutine(AttackCycle());
+
+        _hasAttackedInThisCycle = true;
+        _cooldownTimer = _attackCooldown;
+        _hitDelayTimer = 0f;
+    }
+    private void PushTarget(Transform target)
+    {
+        Rigidbody targetRigidbody = target.GetComponent<Rigidbody>();
+        if (targetRigidbody != null)
+        {
+            Vector3 pushDirection = (target.position - transform.position).normalized;
+            pushDirection.y = 0.5f;
+
+            targetRigidbody.linearVelocity = Vector3.zero;
+            targetRigidbody.AddForce(pushDirection * _pushForce, ForceMode.Impulse);
+
+            Debug.Log("공격 타이밍 적중! 플레이어를 밀쳐냈습니다.");
+        }
+    }
+    private IEnumerator AttackCycle()
+    {
+        _hasAttackedInThisCycle = true;
+        yield return new WaitForSeconds(0.45f);
+        if (_playerTransform == null)
+        {
+            yield break;
+        }
+        float distanceToPlayer = Vector3.Distance(transform.position, _playerTransform.position);
+        if (distanceToPlayer <= _attackRadius + 1.5f)
+        {
+            PushTarget(_playerTransform);
+        }
     }
 }
