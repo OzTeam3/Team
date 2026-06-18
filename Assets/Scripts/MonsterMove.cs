@@ -4,122 +4,168 @@ using UnityEngine;
 
 public class MonsterMove : MonoBehaviour
 {
-    [SerializeField] private float _moveSpeed = 3.0f;
-    [SerializeField] private float _chaseSpeed = 5.0f;
-    [SerializeField] private float _patrolRadius = 5.0f;
-    [SerializeField] private float _detectRadius = 4.0f;
-    [SerializeField] private float _attackRadius = 1.6f;  
-    [SerializeField] private float _pushForce = 12.0f;   
-    [SerializeField] private float _minWaitTime = 1.0f;
-    [SerializeField] private float _maxWaitTime = 3.0f;
-    [SerializeField] private float _attackCooldown = 1.5f; 
+    public enum MonsterState
+    {
+        Patrol,
+        Chase,
+        Attack
+    }
 
-    private Vector3 _startPosition;
-    private Vector3 _targetPosition;
-    private float _waitTimer;
-    private float _cooldownTimer;      
-    private float _hitDelayTimer;      
-    private bool _isWaiting = false;
-    private bool _isChasing = false;
-    private bool _isAttacking = false;
-    private bool _hasAttackedInThisCycle = false; 
+    private float moveSpeed = 3.0f;
+    private float chaseSpeed = 5.0f;
+    private float patrolRadius = 5.0f;
+    private float detectRadius = 4.0f;
+    private float attackRadius = 2.1f;
+    private float pushForce = 12.0f;
+    private float minWaitTime = 1.0f;
+    private float maxWaitTime = 3.0f;
+    private float attackCooldown = 1.5f;
 
-    private Rigidbody _rigidbody;
-    private Animator _animator;
-    private Transform _playerTransform;
+    private Vector3 startPosition;
+    private Vector3 targetPosition;
+    private float waitTimer;
+    private float cooldownTimer;
+    private bool isWaiting = false;
+    private bool hasAttackedInThisCycle = false;
 
-    // 아래 세 변수가 현재 코드에서 몬스터 상태를 정하는 역할인데 얘네는 외부에서 볼 필요 없을 것 같아요
-    public bool IsWaiting => _isWaiting;
-    public bool IsChasing => _isChasing;
-    public bool IsAttacking => _isAttacking;
+    private Rigidbody rigidbodyComponent;
+    private Transform playerTransform;
+    private MonsterState currentState = MonsterState.Patrol;
+    private MonsterAnimationController monsterAnimation;
 
+    public bool IsWaiting => isWaiting;
+    public bool IsChasing => currentState == MonsterState.Chase;
+    public bool IsAttacking => currentState == MonsterState.Attack;
+
+    
 
     private void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody>();
-        _animator = GetComponentInChildren<Animator>();
+        rigidbodyComponent = GetComponent<Rigidbody>();
+        monsterAnimation = GetComponent<MonsterAnimationController>();
     }
 
     private void Start()
     {
-        _startPosition = transform.position;
+        startPosition = transform.position;
         SetNewRandomTarget();
+        ChangeState(MonsterState.Patrol);
     }
 
-    private void Update() // 행동에 대한 코드가 파편적으로 흩어져 있어서 얘네를 모아서 정리해야할 것 같아요
+    private void Update()
     {
-        CheckForPlayer();
-
-        if (!_isChasing && !_isAttacking)
+        if (cooldownTimer > 0)
         {
-            HandlePatrolLogic();
+            cooldownTimer -= Time.deltaTime;
         }
 
-        if (_cooldownTimer > 0)
+        switch (currentState)
         {
-            _cooldownTimer -= Time.deltaTime;
+            case MonsterState.Patrol:
+                HandlePatrolState();
+                break;
+            case MonsterState.Chase:
+                HandleChaseState();
+                break;
+            case MonsterState.Attack:
+                HandleAttackState();
+                break;
         }
-
-        if (_isAttacking)
-        {
-            _hitDelayTimer += Time.deltaTime;
-
-            if (!_hasAttackedInThisCycle && _cooldownTimer <= 0)
-            {
-                Attack();
-            }
-        }
-
-        UpdateAnimationParameters();
     }
 
     private void FixedUpdate()
     {
-        if (_isAttacking)
+        switch (currentState)
         {
-            _rigidbody.linearVelocity = Vector3.zero;
-            _rigidbody.angularVelocity = Vector3.zero;
+            case MonsterState.Patrol:
+                if (!isWaiting)
+                {
+                    MoveTo(targetPosition, moveSpeed, 10f);
+                }
+                break;
 
-            if (_playerTransform != null)
-            {
-                LookAtTarget(_playerTransform.position, 15f);
-            }
-        }
-        else if (_isChasing)
-        {
-            if (_playerTransform != null)
-            {
-                MoveTowardsTarget(_playerTransform.position, _chaseSpeed, 15f);
-            }
-        }
-        else if (!_isWaiting)
-        {
-            MoveTowardsTarget(_targetPosition, _moveSpeed, 10f);
+            case MonsterState.Chase:
+                if (playerTransform != null)
+                {
+                    MoveTo(playerTransform.position, chaseSpeed, 15f);
+                }
+                break;
+
+            case MonsterState.Attack:
+                rigidbodyComponent.linearVelocity = Vector3.zero;
+                rigidbodyComponent.angularVelocity = Vector3.zero;
+
+                if (playerTransform != null)
+                {
+                    LookAtTarget(playerTransform.position, 15f);
+                }
+                break;
         }
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(Application.isPlaying ? _startPosition : transform.position, _patrolRadius);
-
+        Gizmos.DrawWireSphere(Application.isPlaying ? startPosition : transform.position, patrolRadius);
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, _detectRadius);
-
+        Gizmos.DrawWireSphere(transform.position, detectRadius);
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, _attackRadius);
+        Gizmos.DrawWireSphere(transform.position, attackRadius);
     }
 
-    private void CheckForPlayer() // 현재 Check함수 역할이 플레이어 체크와 판단으로 여러 역할이 있습니다. 메서드를 쪼개보는건?
+    private void HandlePatrolState()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, _detectRadius);
-        bool playerFound = false;
+        if (ScanForPlayer())
+        {
+            ChangeState(MonsterState.Chase);
+            return;
+        }
 
-        // player를 찾는 방법은 여러가지가 있을 수 있는데
-        // 1. 지금처럼 overlap을 통해 안에 들어온 오브젝트 중 플레이어를 감지하는 방식
-        // 2. 사실 플레이어의 transform을 알고 있는 상태고 distance만 비교하는 방식.
-        // 아마 현재 target으로 삼은 애의 transform을 참조하거나 추후 매니저를 통해 불러오게 하면 2번 방식도 쓰고
-        // 1번 방식도 시야각이나 다른 개념을 도입하려면 이쪽이 적합할 것 같은데요
+        Patrol();
+    }
+
+    private void HandleChaseState()
+    {
+        if (!ScanForPlayer() || playerTransform == null)
+        {
+            ChangeState(MonsterState.Patrol);
+            return;
+        }
+
+        float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
+
+        if (distanceToPlayer <= attackRadius && cooldownTimer <= 0)
+        {
+            ChangeState(MonsterState.Attack);
+        }
+    }
+
+    private void HandleAttackState()
+    {
+        if (!hasAttackedInThisCycle && cooldownTimer <= 0)
+        {
+            hasAttackedInThisCycle = true;
+            cooldownTimer = attackCooldown;
+            StartCoroutine(AttackRoutine());
+        }
+    }
+
+    private void ChangeState(MonsterState newState)
+    {
+        if (currentState == newState && newState != MonsterState.Attack) return;
+
+        currentState = newState;
+
+        if (monsterAnimation != null)
+        {
+            monsterAnimation.PlayChase(currentState == MonsterState.Chase);
+            monsterAnimation.PlayAttack(currentState == MonsterState.Attack);
+        }
+    }
+
+    private bool ScanForPlayer()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectRadius);
 
         foreach (var hitCollider in hitColliders)
         {
