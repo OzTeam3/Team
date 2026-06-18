@@ -1,0 +1,9 @@
+[
+  {
+    "Id": "Item_Save_01",
+    "Name": "Save",
+    "ItemType": "Save",
+    "Regen": 0,
+    "PrefabPath": "Prefab/Prefab_Item_Save_01"
+  }
+]

@@ -1,0 +1,10 @@
+[
+  {
+    "Id": "Trap_SpinCross_001",
+    "Name": "SpinCross",
+    "TrapType": "Spin",
+    "Value1": 400,
+    "Value2": null,
+    "PrefabPath": "Prefab/Prefab_Trap_SpinCross_001"
+  }
+]
