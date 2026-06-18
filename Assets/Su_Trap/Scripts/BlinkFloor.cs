@@ -16,13 +16,19 @@ public class BlinkFloor : MonoBehaviour
 
     [Header("교차할 그룹")]
     [SerializeField] private List<BlinkGroup> _groups = new List<BlinkGroup>();
-    
+
+    private WaitForSeconds _delayWait;
+    private WaitForSeconds _switchWait;
+
     private void Start()
     {
         if (_groups.Count == 0)
         {
             return;
         }
+
+        _delayWait = new WaitForSeconds(_delay);
+        _switchWait = new WaitForSeconds(_switchTime);
 
         StartCoroutine(BlinkLoop());
     }
@@ -34,7 +40,7 @@ public class BlinkFloor : MonoBehaviour
             SetGroupActive(_groups[i], true);
         }
 
-        yield return new WaitForSeconds(_delay);
+        yield return _delayWait;
 
         while (true)
         {
@@ -42,7 +48,7 @@ public class BlinkFloor : MonoBehaviour
             {
                 SetGroupActive(_groups[i], false);
 
-                yield return new WaitForSeconds(_switchTime);
+                yield return _switchWait;
 
                 SetGroupActive(_groups[i], true);
             }

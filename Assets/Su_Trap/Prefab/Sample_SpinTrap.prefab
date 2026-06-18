@@ -389,6 +389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpinTrap
   _spinSpeed: 400
+  _knockbackForce: 10
   _trapRigidbody: {fileID: 3935896557667432178}
 --- !u!54 &3935896557667432178
 Rigidbody:
@@ -415,7 +416,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 14
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!1 &5762245722682914992
 GameObject:
