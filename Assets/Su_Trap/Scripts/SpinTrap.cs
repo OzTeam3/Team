@@ -4,28 +4,23 @@ public class SpinTrap : MonoBehaviour
 {
     [SerializeField] private float _spinSpeed = 60f;
 
-    //[SerializeField] private Rigidbody _trapRigidbody;
+    [SerializeField] private Rigidbody _trapRigidbody;
 
     private void Awake()
     {
-        //if (GetComponent<Rigidbody>() != null)
+        if (GetComponent<Rigidbody>() != null)
 
-        //{
+        {
 
-        //    _trapRigidbody = GetComponent<Rigidbody>();
+            _trapRigidbody = GetComponent<Rigidbody>();
 
-        //}
+        }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        transform.Rotate(Vector3.up * _spinSpeed * Time.deltaTime);
+        Quaternion deltaSpin = Quaternion.Euler(Vector3.up * _spinSpeed * Time.fixedDeltaTime);
+
+        _trapRigidbody.MoveRotation(_trapRigidbody.rotation * deltaSpin);
     }
-
-    //private void FixedUpdate()
-    //{
-    //    Quaternion deltaSpin = Quaternion.Euler(Vector3.up * _spinSpeed *  Time.fixedDeltaTime);
-
-    //    _trapRigidbody.MoveRotation(_trapRigidbody.rotation * deltaSpin);
-    //}
 }

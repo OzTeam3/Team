@@ -1,5 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+
+[System.Serializable]
+public class BlinkGroup
+{
+    public List<GameObject> objects = new List<GameObject>();
+}
 
 public class BlinkFloor : MonoBehaviour
 {
@@ -8,21 +15,11 @@ public class BlinkFloor : MonoBehaviour
     [SerializeField] private float _switchTime = 5.0f;
 
     [Header("교차할 그룹")]
-    [SerializeField] private GameObject _groupA;
-    [SerializeField] private GameObject _groupB;
-
-    private MeshRenderer _mesh;
-    private Collider _collider;
+    [SerializeField] private List<BlinkGroup> _groups = new List<BlinkGroup>();
     
-    private void Awake()
-    {
-        _mesh = GetComponent<MeshRenderer>();
-        _collider = GetComponent<Collider>();
-    }
-
     private void Start()
     {
-        if (_groupA == null || _groupB == null)
+        if (_groups.Count == 0)
         {
             return;
         }
@@ -32,24 +29,39 @@ public class BlinkFloor : MonoBehaviour
 
     private IEnumerator BlinkLoop()
     {
-        // 처음에 설정한 시간만큼 대기
+        for (int i = 0; i < _groups.Count; i++)
+        {
+            SetGroupActive(_groups[i], true);
+        }
+
         yield return new WaitForSeconds(_delay);
 
         while (true)
         {
-            // [1단계] Group A 활성화, Group B 비활성화
-            _groupA.SetActive(true);
-            _groupB.SetActive(false);
+            for (int i = 0; i < _groups.Count; i++)
+            {
+                SetGroupActive(_groups[i], false);
 
-            // 지정된 시간만큼 대기
-            yield return new WaitForSeconds(_switchTime);
+                yield return new WaitForSeconds(_switchTime);
 
-            // [2단계] Group A 비활성화, Group B 활성화
-            _groupA.SetActive(false);
-            _groupB.SetActive(true);
+                SetGroupActive(_groups[i], true);
+            }
+        }
+    }
 
-            // 다시 지정된 시간만큼 대기
-            yield return new WaitForSeconds(_switchTime);
+    private void SetGroupActive(BlinkGroup group, bool isActive)
+    {
+        if (group == null || group.objects == null) 
+        {
+            return;
+        }
+
+        for (int i = 0; i < group.objects.Count; i++)
+        {
+            if (group.objects[i] != null)
+            {
+                group.objects[i].SetActive(isActive);
+            }
         }
     }
 }
