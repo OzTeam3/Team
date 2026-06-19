@@ -19,8 +19,6 @@ public class PlayerState
 
     private EntityState _currentState;
 
-
-
     public void SetState(EntityState newState)
     {
         if (newState == EntityState.Idle && _currentState == EntityState.Idle)
@@ -30,10 +28,11 @@ public class PlayerState
 
         _currentState = newState;
 
+        ResetAllState();
+
         switch (_currentState)
         {
             case EntityState.Idle:
-                ResetAllState();
                 break;
             case EntityState.Walk:
                 _animator.SetBool("Walk", true);
@@ -49,7 +48,4 @@ public class PlayerState
         _animator.SetBool("Walk", false);
         _animator.SetBool("Jump", false);
     }
-
-  
-
 }
