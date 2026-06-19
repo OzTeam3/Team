@@ -1,4 +1,4 @@
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -9,6 +9,7 @@ public class AddressableUtil
         public const string Character = "JsonOutput/Character";
         public const string Item = "JsonOutput/Item";
         public const string Trap = "JsonOutput/Trap";
+        public const string Monster = "JsonOutput/Monster";
     }
 
     public static async UniTask<T> LoadAssetAsync<T>(string address)

@@ -75,11 +75,18 @@ public class DataManager : MonoBehaviour
         Type type = typeof(T);
         if (!_dataContainer.TryGetValue(type, out object container))
         {
-            Debug.LogWarning($"[Warning] {type.Name}가 컨테이너에 없습니다.");
+            Debug.LogWarning($"[Warning] {type.Name} 컨테이너가 없습니다.");
             return new List<T>();
         }
 
         var dict = (Dictionary<string, T>)container;
+
+        if (dict == null || dict.Count == 0)
+        {
+            Debug.LogWarning($"[Warning] {type.Name} 데이터가 비어있습니다.");
+            return new List<T>();
+        }
+
         return dict.Values.ToList();
     }
 
@@ -89,7 +96,8 @@ public class DataManager : MonoBehaviour
         (
             LoadDataAsync<CharacterData>(AddressableUtil.AddressPath.Character),
             LoadDataAsync<ItemData>(AddressableUtil.AddressPath.Item),
-            LoadDataAsync<TrapData>(AddressableUtil.AddressPath.Trap)
+            LoadDataAsync<TrapData>(AddressableUtil.AddressPath.Trap),
+            LoadDataAsync<MonsterData>(AddressableUtil.AddressPath.Monster)
             // 데이터 추가시 여기에 추가
         );
     }

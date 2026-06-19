@@ -52,11 +52,11 @@ public class DataTest : MonoBehaviour
             Debug.LogWarning("[Warning] myTrap이 null입니다. ID가 틀렸거나 데이터가 로드되지 않았습니다.");
         }
 
-        List<CharacterData> allCharacters = DataManager.Instance.GetAllData<CharacterData>();
+        List<TrapData> allTraps = DataManager.Instance.GetAllData<TrapData>();
 
-        foreach (var character in allCharacters)
+        foreach (var trap in allTraps)
         {
-            Debug.Log($"도감 캐릭터 이름: {character.Name}");
+            Debug.Log($"도감 트랩 이름: {trap.Name}");
         }
     }
 
