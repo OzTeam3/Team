@@ -41,20 +41,19 @@ public class DataManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("[DataManager] Addressables 초기화 실패!");
+            Debug.LogError("[Error] DataManager Addressables 초기화 실패!");
         }
     }
 
-    public T GetDataAdd<T>(string dataId) where T : GameDataBase
+    public T GetData<T>(string dataId) where T : GameDataBase
     {
         if (string.IsNullOrEmpty(dataId))
         {
-            Debug.LogError($"[{typeof(T).Name}] 요청한 ID가 틀렸거나 데이터가 로드되지 않았습니다.");
+            Debug.LogError($"[Error] [{typeof(T).Name}] 요청한 ID가 틀렸거나 데이터가 로드되지 않았습니다.");
             return null;
         }
 
         Type type = typeof(T);
-
         if (!_dataContainer.TryGetValue(type, out object container))
         {
             Debug.LogWarning($"[Warning] {type.Name} 컨테이너가 없습니다.");
@@ -62,7 +61,6 @@ public class DataManager : MonoBehaviour
         }
 
         var dict = (Dictionary<string, T>)container;
-
         if (dict.TryGetValue(dataId, out T data))
         {
             return data;
@@ -72,13 +70,26 @@ public class DataManager : MonoBehaviour
         return null;
     }
 
+    public List<T> GetAllData<T>() where T : GameDataBase
+    {
+        Type type = typeof(T);
+        if (!_dataContainer.TryGetValue(type, out object container))
+        {
+            Debug.LogWarning($"[Warning] {type.Name}가 컨테이너에 없습니다.");
+            return new List<T>();
+        }
+
+        var dict = (Dictionary<string, T>)container;
+        return dict.Values.ToList();
+    }
+
     private async UniTask LoadAllDatasAsync()
     {
         await UniTask.WhenAll
         (
-            LoadDataAsync<CharacterData>("JsonOutput/Character"),
-            LoadDataAsync<ItemData>("JsonOutput/Item"),
-            LoadDataAsync<TrapData>("JsonOutput/Trap")
+            LoadDataAsync<CharacterData>(AddressableUtil.AddressPath.Character),
+            LoadDataAsync<ItemData>(AddressableUtil.AddressPath.Item),
+            LoadDataAsync<TrapData>(AddressableUtil.AddressPath.Trap)
             // 데이터 추가시 여기에 추가
         );
     }
@@ -106,7 +117,7 @@ public class DataManager : MonoBehaviour
         }
         catch (Exception ex)
         {
-            Debug.LogError($"[{typeof(T).Name} JSON 변환 오류] {ex.Message}");
+            Debug.LogError($"[Error] [{typeof(T).Name} JSON 변환 오류] {ex.Message}");
         }
     }
 }
