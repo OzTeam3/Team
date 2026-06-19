@@ -17,8 +17,8 @@ public class DataTest : MonoBehaviour
         Debug.Log("[Test] 초기화 대기");
 
 
-        await UniTask.WaitUntil(IsDataManagerAddReady)
-            .Timeout(TimeSpan.FromSeconds(10));
+        await UniTask.WaitUntil(() => DataManager.Instance != null);
+        await UniTask.WaitUntil(() => DataManager.Instance.HasData());
 
         Debug.Log("[Test] 데이터 로딩 끝, 테스트 시작!");
 
@@ -58,10 +58,7 @@ public class DataTest : MonoBehaviour
         {
             Debug.Log($"도감 트랩 이름: {trap.Name}");
         }
-    }
 
-    private bool IsDataManagerAddReady()
-    {
-        return DataManager.Instance != null && DataManager.Instance.IsInitialized;
+
     }
 }

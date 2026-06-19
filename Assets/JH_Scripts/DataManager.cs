@@ -12,7 +12,13 @@ public class DataManager : MonoBehaviour
 
     private readonly Dictionary<Type, object> _dataContainer = new Dictionary<Type, object>();
 
-    public bool IsInitialized { get; private set; } = false;
+    private readonly HashSet<Type> _targetDataTypes = new HashSet<Type>
+    {
+        typeof(CharacterData),
+        typeof(ItemData),
+        typeof(TrapData),
+        typeof(MonsterData)
+    };
 
     private void Awake()
     {
@@ -28,58 +34,42 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    private async UniTaskVoid InitializeData()
+    public bool HasData()
     {
-        var initHandle = Addressables.InitializeAsync();
-        await initHandle.ToUniTask();
-
-        if (initHandle.Status == AsyncOperationStatus.Succeeded)
-        {
-            await LoadAllDatasAsync();
-            IsInitialized = true;
-            Debug.Log("[DataManager] 모든 데이터 로드 완료");
-        }
-        else
-        {
-            Debug.LogError("[Error] DataManager Addressables 초기화 실패!");
-        }
+        return _dataContainer.Count >= _targetDataTypes.Count;
     }
-
     public T GetData<T>(string dataId) where T : GameDataBase
     {
-        if (string.IsNullOrEmpty(dataId))
+        if (string.IsNullOrWhiteSpace(dataId))
         {
             Debug.LogError($"[Error] [{typeof(T).Name}] 요청한 ID가 틀렸거나 데이터가 로드되지 않았습니다.");
             return null;
         }
 
         Type type = typeof(T);
-        if (!_dataContainer.TryGetValue(type, out object container))
+        if (!_dataContainer.TryGetValue(type, out object container) || container is not Dictionary<string, T> dict)
         {
             Debug.LogWarning($"[Warning] {type.Name} 컨테이너가 없습니다.");
             return null;
         }
 
-        var dict = (Dictionary<string, T>)container;
-        if (dict.TryGetValue(dataId, out T data))
+        if (!dict.TryGetValue(dataId, out T data))
         {
-            return data;
+            Debug.LogWarning($"[Warning] {type.Name} 데이터에 '{dataId}' ID를 가진 데이터가 없습니다.");
+            return null;
         }
 
-        Debug.LogWarning($"[Warning] {type.Name} 데이터에 '{dataId}' ID를 가진 데이터가 없습니다.");
-        return null;
+        return data;
     }
 
     public List<T> GetAllData<T>() where T : GameDataBase
     {
         Type type = typeof(T);
-        if (!_dataContainer.TryGetValue(type, out object container))
+        if (!_dataContainer.TryGetValue(type, out object container) || container is not Dictionary<string, T> dict)
         {
-            Debug.LogWarning($"[Warning] {type.Name} 컨테이너가 없습니다.");
+            Debug.LogWarning($"[Warning] {type.Name} 컨테이너가 없거나 데이터 구조가 올바르지 않습니다.");
             return new List<T>();
         }
-
-        var dict = (Dictionary<string, T>)container;
 
         if (dict == null || dict.Count == 0)
         {
@@ -90,24 +80,25 @@ public class DataManager : MonoBehaviour
         return dict.Values.ToList();
     }
 
-    private async UniTask LoadAllDatasAsync()
+    public async UniTask LoadAllDatasAsync()
     {
-        await UniTask.WhenAll
-        (
-            LoadDataAsync<CharacterData>(AddressableUtil.AddressPath.Character),
-            LoadDataAsync<ItemData>(AddressableUtil.AddressPath.Item),
-            LoadDataAsync<TrapData>(AddressableUtil.AddressPath.Trap),
-            LoadDataAsync<MonsterData>(AddressableUtil.AddressPath.Monster)
-            // 데이터 추가시 여기에 추가
-        );
+
+        await LoadDataAsync<CharacterData>(AddressableUtil.AddressPath.Character);
+        await LoadDataAsync<ItemData>(AddressableUtil.AddressPath.Item);
+        await LoadDataAsync<TrapData>(AddressableUtil.AddressPath.Trap);
+        await LoadDataAsync<MonsterData>(AddressableUtil.AddressPath.Monster);
+        // 데이터 추가시 여기에 추가
     }
 
-    [Serializable]
-    private class SerializationWrapper<T> { public List<T> items; }
+    private async UniTask InitializeData()
+    {
+        await LoadAllDatasAsync();
+        Debug.Log("[DataManager] 데이터 로드 완료");
+    }
 
     private async UniTask LoadDataAsync<T>(string address) where T : GameDataBase
     {
-        Debug.Log($"[DataManager] Addressables를 통해 '{address}' 로드 시도 중");
+        Debug.Log($"[DataManager] '{address}' 로드 시도 중");
 
         TextAsset textAsset = await Addressables.LoadAssetAsync<TextAsset>(address).ToUniTask();
 
@@ -128,4 +119,7 @@ public class DataManager : MonoBehaviour
             Debug.LogError($"[Error] [{typeof(T).Name} JSON 변환 오류] {ex.Message}");
         }
     }
+
+    [Serializable]
+    private class SerializationWrapper<T> { public List<T> items; }
 }
