@@ -1,0 +1,9 @@
+[
+  {
+    "Id": "Char_Mj",
+    "Name": "Mj",
+    "MoveSpeed": 5,
+    "JumpForce": 5,
+    "PrefabPath": "Prefab/Prefab_Char_Mj"
+  }
+]

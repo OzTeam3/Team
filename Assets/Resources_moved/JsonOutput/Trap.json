@@ -1,0 +1,26 @@
+[
+  {
+    "Id": "Trap_SpinCross_001",
+    "Name": "SpinCross",
+    "ActionSpeed": 400,
+    "KnockbackForce": 12,
+    "Value": 0,
+    "PrefabPath": "Prefab/Prefab_Trap_SpinCross_001"
+  },
+  {
+    "Id": "Trap_BlinkFloor_001",
+    "Name": "BlinkFloor",
+    "ActionSpeed": 5,
+    "KnockbackForce": 0,
+    "Value": 0,
+    "PrefabPath": "Prefab/Prefab_Trap_BlinkFloor_001"
+  },
+  {
+    "Id": "Trap_Pendulum_001",
+    "Name": "Pendulum",
+    "ActionSpeed": 6,
+    "KnockbackForce": 12,
+    "Value": 60,
+    "PrefabPath": "Prefab/Prefab_Trap_Pendulum_001"
+  }
+]

@@ -1,0 +1,13 @@
+[
+  {
+    "Id": "Mob_TreeMonster_001",
+    "Name": "TreeMonster",
+    "MoveSpeed": 3,
+    "ChaseSpeed": 5,
+    "PatrolRadius": 5,
+    "DetectRadius": 4,
+    "AttackRadius": 0,
+    "PushFroce": 12,
+    "PrefabPath": "Prefab/Prefab_Mob_TreeMonster_001"
+  }
+]
