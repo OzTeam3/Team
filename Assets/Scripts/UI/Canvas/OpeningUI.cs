@@ -15,7 +15,8 @@ public class OpeningUI : UIBase
 
     private void OnClickStart()
     {
-        UIManager.Instance.CloseUI(UIRootType.MainUI, UIType.OpeningUI);
+        UIManager.Instance.OpenPopupUI(UIType.StartPopupUI);
+        Debug.Log("시작선택 팝업 열림");
     }
 
     private void OnClickSetting()

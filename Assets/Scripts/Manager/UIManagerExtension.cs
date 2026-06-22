@@ -12,7 +12,8 @@ public enum UIRootType
 
 public enum UIType
 {
-    OpeningUI
+    OpeningUI,
+    StartPopupUI,
 }
 
 public static class UIManagerExtension
