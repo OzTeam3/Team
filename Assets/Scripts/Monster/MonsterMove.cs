@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class MonsterMove : MonoBehaviour
@@ -11,33 +12,32 @@ public class MonsterMove : MonoBehaviour
         Attack
     }
 
-    private float moveSpeed = 3.0f;
-    private float chaseSpeed = 5.0f;
-    private float patrolRadius = 5.0f;
-    private float detectRadius = 4.0f;
-    private float attackRadius = 2.1f;
-    private float pushForce = 12.0f;
-    private float minWaitTime = 1.0f;
-    private float maxWaitTime = 3.0f;
-    private float attackCooldown = 1.5f;
+    private float _moveSpeed = 3.0f;
+    private float _chaseSpeed = 5.0f;
+    private float _patrolRadius = 5.0f;
+    private float _detectRadius = 4.0f;
+    private float _attackRadius = 2.1f;
+    private float _pushForce = 12.0f;
+    private float _minWaitTime = 1.0f;
+    private float _maxWaitTime = 3.0f;
+    private float _attackCooldown = 1.5f;
+    private float _viewAngle = 60f;
 
-    private Vector3 startPosition;
-    private Vector3 targetPosition;
-    private float waitTimer;
-    private float cooldownTimer;
-    private bool isWaiting = false;
-    private bool hasAttackedInThisCycle = false;
+    private Vector3 _startPosition;
+    private Vector3 _targetPosition;
+    private float _waitTimer;
+    private float _cooldownTimer;
+    private bool _isWaiting = false;
+    private bool _hasAttackedInThisCycle = false;
 
     private Rigidbody rigidbodyComponent;
     private Transform playerTransform;
     private MonsterState currentState = MonsterState.Patrol;
     private MonsterAnimationController monsterAnimation;
 
-    public bool IsWaiting => isWaiting;
-    public bool IsChasing => currentState == MonsterState.Chase;
-    public bool IsAttacking => currentState == MonsterState.Attack;
 
-    
+
+
 
     private void Awake()
     {
@@ -47,16 +47,16 @@ public class MonsterMove : MonoBehaviour
 
     private void Start()
     {
-        startPosition = transform.position;
+        _startPosition = transform.position;
         SetNewRandomTarget();
         ChangeState(MonsterState.Patrol);
     }
 
     private void Update()
     {
-        if (cooldownTimer > 0)
+        if (_cooldownTimer > 0)
         {
-            cooldownTimer -= Time.deltaTime;
+            _cooldownTimer -= Time.deltaTime;
         }
 
         switch (currentState)
@@ -78,16 +78,16 @@ public class MonsterMove : MonoBehaviour
         switch (currentState)
         {
             case MonsterState.Patrol:
-                if (!isWaiting)
+                if (!_isWaiting)
                 {
-                    MoveTo(targetPosition, moveSpeed, 10f);
+                    MoveTo(_targetPosition, _moveSpeed, 10f);
                 }
                 break;
 
             case MonsterState.Chase:
                 if (playerTransform != null)
                 {
-                    MoveTo(playerTransform.position, chaseSpeed, 15f);
+                    MoveTo(playerTransform.position, _chaseSpeed, 15f);
                 }
                 break;
 
@@ -106,11 +106,11 @@ public class MonsterMove : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(Application.isPlaying ? startPosition : transform.position, patrolRadius);
+        Gizmos.DrawWireSphere(Application.isPlaying ? _startPosition : transform.position, _patrolRadius);
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, detectRadius);
+        Gizmos.DrawWireSphere(transform.position, _detectRadius);
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, attackRadius);
+        Gizmos.DrawWireSphere(transform.position, _attackRadius);
     }
 
     private void HandlePatrolState()
@@ -134,7 +134,7 @@ public class MonsterMove : MonoBehaviour
 
         float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
 
-        if (distanceToPlayer <= attackRadius && cooldownTimer <= 0)
+        if (distanceToPlayer <= _attackRadius && _cooldownTimer <= 0)
         {
             ChangeState(MonsterState.Attack);
         }
@@ -142,10 +142,10 @@ public class MonsterMove : MonoBehaviour
 
     private void HandleAttackState()
     {
-        if (!hasAttackedInThisCycle && cooldownTimer <= 0)
+        if (!_hasAttackedInThisCycle && _cooldownTimer <= 0)
         {
-            hasAttackedInThisCycle = true;
-            cooldownTimer = attackCooldown;
+            _hasAttackedInThisCycle = true;
+            _cooldownTimer = _attackCooldown;
             StartCoroutine(AttackRoutine());
         }
     }
@@ -165,15 +165,23 @@ public class MonsterMove : MonoBehaviour
 
     private bool ScanForPlayer()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectRadius);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, _detectRadius);
 
         foreach (var hitCollider in hitColliders)
         {
-            if (hitCollider.CompareTag("Player"))
+            if (!hitCollider.CompareTag("Player"))
+            {
+                continue;
+            }
+
+            Vector3 dir = (hitCollider.transform.position - transform.position).normalized;
+            float angle = Vector3.Angle(transform.forward, dir);
+            if (angle < _viewAngle * 0.5f)
             {
                 playerTransform = hitCollider.transform;
                 return true;
             }
+
         }
         return false;
     }
@@ -181,19 +189,19 @@ public class MonsterMove : MonoBehaviour
 
     private IEnumerator AttackRoutine()
     {
-        hasAttackedInThisCycle = true;
+        _hasAttackedInThisCycle = true;
         yield return new WaitForSeconds(0.45f);
 
         if (playerTransform != null)
         {
             float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
-            if (distanceToPlayer <= attackRadius + 1.5f)
+            if (distanceToPlayer <= _attackRadius + 1.5f)
             {
                 KnockbackTarget(playerTransform);
             }
         }
 
-        hasAttackedInThisCycle = false;
+        _hasAttackedInThisCycle = false;
 
         if (playerTransform != null)
         {
@@ -215,7 +223,7 @@ public class MonsterMove : MonoBehaviour
             pushDirection.y = 0.5f;
 
             targetRigidbody.linearVelocity = Vector3.zero;
-            targetRigidbody.AddForce(pushDirection * pushForce, ForceMode.Impulse);
+            targetRigidbody.AddForce(pushDirection * _pushForce, ForceMode.Impulse);
 
             Debug.Log("공격 타이밍 적중! 플레이어를 밀쳐냈습니다.");
         }
@@ -223,24 +231,24 @@ public class MonsterMove : MonoBehaviour
 
     private void Patrol()
     {
-        if (isWaiting)
+        if (_isWaiting)
         {
-            waitTimer -= Time.deltaTime;
-            if (waitTimer <= 0)
+            _waitTimer -= Time.deltaTime;
+            if (_waitTimer <= 0)
             {
-                isWaiting = false;
+                _isWaiting = false;
                 SetNewRandomTarget();
             }
             return;
         }
 
         Vector3 currentPosXZ = new Vector3(transform.position.x, 0, transform.position.z);
-        Vector3 targetPosXZ = new Vector3(targetPosition.x, 0, targetPosition.z);
+        Vector3 targetPosXZ = new Vector3(_targetPosition.x, 0, _targetPosition.z);
 
         if (Vector3.Distance(currentPosXZ, targetPosXZ) < 0.2f)
         {
-            isWaiting = true;
-            waitTimer = Random.Range(minWaitTime, maxWaitTime);
+            _isWaiting = true;
+            _waitTimer = Random.Range(_minWaitTime, _maxWaitTime);
             rigidbodyComponent.linearVelocity = new Vector3(0, rigidbodyComponent.linearVelocity.y, 0);
         }
     }
@@ -271,9 +279,9 @@ public class MonsterMove : MonoBehaviour
 
     private void SetNewRandomTarget()
     {
-        Vector2 randomCircle = Random.insideUnitCircle * patrolRadius;
-        targetPosition = new Vector3(startPosition.x + randomCircle.x, startPosition.y, startPosition.z + randomCircle.y);
+        Vector2 randomCircle = Random.insideUnitCircle * _patrolRadius;
+        _targetPosition = new Vector3(_startPosition.x + randomCircle.x, _startPosition.y, _startPosition.z + randomCircle.y);
     }
 
-   
+
 }
