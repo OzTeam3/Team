@@ -1,0 +1,12 @@
+[
+  {
+    "Id": "Item_HastePotion",
+    "Name": "신속의 포션",
+    "Description": "마시면 점프력, 이동속도가 상승한다."
+  },
+  {
+    "Id": "Item_Test",
+    "Name": "임시용",
+    "Description": "즉시 속도를 올리고 끝"
+  }
+]
