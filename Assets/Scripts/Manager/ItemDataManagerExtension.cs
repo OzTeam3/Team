@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+// 기존 데이터 드리븐 작업물에 ItemData 클래스가 존재해서 Temp로 임시 명명했습니다.
+// TODO : 추후 수정 필요
 public class ItemDataTemp
 {
     public string ID { get; set; }
@@ -21,7 +23,7 @@ public class ItemDataTemp
 
 public static class ItemDataManagerExtension
 {
-    public static Dictionary<string, ItemDataTemp> _itemList = new Dictionary<string, ItemDataTemp>();
+    private static Dictionary<string, ItemDataTemp> _itemList = new Dictionary<string, ItemDataTemp>();
     public static List<ItemDataTemp> GetAllItemData(this DataManager dataManager)
     {
         return _itemList.Values.ToList();
