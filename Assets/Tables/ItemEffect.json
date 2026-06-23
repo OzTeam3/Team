@@ -1,0 +1,31 @@
+[
+  {
+    "Id": "ItemEffect_HastePotion_1",
+    "ItemId": "Item_HastePotion",
+    "EffectType": "AddBuff",
+    "StringValue": "AddSpeed",
+    "FloatValues": [
+      10,
+      10
+    ]
+  },
+  {
+    "Id": "ItemEffect_HastePotion_2",
+    "ItemId": "Item_HastePotion",
+    "EffectType": "AddBuff",
+    "StringValue": "AddJumpForce",
+    "FloatValues": [
+      10,
+      10
+    ]
+  },
+  {
+    "Id": "ItemEffect_Test_1",
+    "ItemId": "Item_Test",
+    "EffectType": "AddSpeed",
+    "StringValue": null,
+    "FloatValues": [
+      10
+    ]
+  }
+]
