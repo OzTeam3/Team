@@ -62,6 +62,19 @@ public class PlayerView : MonoBehaviour
         _jumpAction.action.started -= OnJump;
     }
 
+    // 이하는 플레이어의 변수를 수정해야해서 임시적으로 넣은 메서드입니다.
+    // 명진님과 상의 후 더 좋은 방식으로 업그레이드 되거나 할 수 있으면 따로 수정.
+    // 만약 명진님 코드와 충돌하면 Reject.
+    public void AddMoveSpeed(float increaseSpeed)
+    {
+        _movespeed += increaseSpeed;
+    }
+    public void AddJumpForce(float increaseForce)
+    {
+        _jumpForce += increaseForce;
+    }
+    // 임시 메서드는 여기까지 입니다.
+
     private void OnMove(InputAction.CallbackContext context)
     {
         _playerInput = context.ReadValue<Vector2>();
