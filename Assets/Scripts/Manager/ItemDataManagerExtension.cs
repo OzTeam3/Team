@@ -3,6 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public class ItemDataTemp
+{
+    public string ID { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public string MaterialPath { get; set; }
+    public List<EffectPayload> EffectList = new List<EffectPayload>();
+    public void InitData(ItemMasterData masterData)
+    {
+        ID = masterData.Id;
+        Name = masterData.Name;
+        Description = masterData.Description;
+        MaterialPath = masterData.MaterialPath;
+    }
+}
+
 public static class ItemDataManagerExtension
 {
     public static Dictionary<string, ItemDataTemp> _itemList = new Dictionary<string, ItemDataTemp>();
