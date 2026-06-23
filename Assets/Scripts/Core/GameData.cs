@@ -25,6 +25,23 @@ public class ItemData : GameDataBase
 }
 
 [System.Serializable]
+public class ItemEffectDTO : GameDataBase
+{
+    public string ItemID;
+    public string EffectType;
+    public string[] StringValues;
+    public float[] FloatValues;
+}
+
+[System.Serializable]
+public class ItemMasterData : GameDataBase
+{
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public string MaterialPath { get; set; }
+}
+
+[System.Serializable]
 public class TrapData : GameDataBase
 {
     public string Name;
