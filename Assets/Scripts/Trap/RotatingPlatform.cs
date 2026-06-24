@@ -18,11 +18,13 @@ public class RotatingPlatformTrap : MonoBehaviour
     private Rigidbody _platformRigidbody;
     private readonly HashSet<Rigidbody> _playersOnPlatform = new();
     private readonly List<Rigidbody> _toUnregister = new();
-    private float _minSurfaceDot; 
+
+    private float _minSurfaceDot;
 
     private void Awake()
     {
         _platformRigidbody = GetComponent<Rigidbody>();
+
         _platformRigidbody.isKinematic = true;
         _platformRigidbody.useGravity = false;
 
