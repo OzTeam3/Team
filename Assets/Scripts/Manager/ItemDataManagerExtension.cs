@@ -1,11 +1,10 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-// 기존 데이터 드리븐 작업물에 ItemData 클래스가 존재해서 Temp로 임시 명명했습니다.
-// TODO : 추후 수정 필요
-public class ItemDataTemp
+public class ItemData
 {
     public string ID { get; set; }
     public string Name { get; set; }
@@ -23,12 +22,12 @@ public class ItemDataTemp
 
 public static class ItemDataManagerExtension
 {
-    private static Dictionary<string, ItemDataTemp> _itemList = new Dictionary<string, ItemDataTemp>();
-    public static List<ItemDataTemp> GetAllItemData(this DataManager dataManager)
+    private static Dictionary<string, ItemData> _itemList = new Dictionary<string, ItemData>();
+    public static List<ItemData> GetAllItemData(this DataManager dataManager)
     {
         return _itemList.Values.ToList();
     }
-    public static ItemDataTemp GetItemData(this DataManager dataManager, string itemId)
+    public static ItemData GetItemData(this DataManager dataManager, string itemId)
     {
         if (_itemList.ContainsKey(itemId) == false)
         {
@@ -44,7 +43,7 @@ public static class ItemDataManagerExtension
             return;
         }
         InitMasterData(dataManager);
-        foreach (var effectDTO in dataManager.GetAllData<ItemEffectDTO>())
+        foreach (var effectDTO in dataManager.GetAllData<ItemEffectData>())
         {
             if (_itemList.ContainsKey(effectDTO.ItemID) == false)
             {
@@ -54,7 +53,7 @@ public static class ItemDataManagerExtension
             _itemList[effectDTO.ItemID].EffectList.Add(GetPayLoad(effectDTO));
         }
     }
-    private static EffectPayload GetPayLoad(ItemEffectDTO effectData)
+    private static EffectPayload GetPayLoad(ItemEffectData effectData)
     {
         EffectPayload payload = new EffectPayload();
         EffectType effectType;
@@ -76,7 +75,7 @@ public static class ItemDataManagerExtension
             {
                 continue;
             }
-            ItemDataTemp itemData = new ItemDataTemp();
+            ItemData itemData = new ItemData();
             itemData.InitData(item);
             _itemList[itemData.ID] = itemData;
         }

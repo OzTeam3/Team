@@ -31,7 +31,8 @@ public class DataTest : MonoBehaviour
         {
             Debug.LogWarning("[Warning] myChar이 null입니다.");
         }
-
+        
+        /*
         ItemData myItem = DataManager.Instance.GetData<ItemData>("Item_Save_01");
         if (myItem != null)
         {
@@ -41,6 +42,7 @@ public class DataTest : MonoBehaviour
         {
             Debug.LogWarning("[Warning] myItem이 null입니다. ID가 틀렸거나 데이터가 로드되지 않았습니다.");
         }
+        */
 
         TrapData myTrap = DataManager.Instance.GetData<TrapData>("Trap_SpinCross_001");
         if (myTrap != null)

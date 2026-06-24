@@ -15,6 +15,7 @@ public class CharacterData : GameDataBase
     public string PrefabPath;
 }
 
+/*
 [System.Serializable]
 public class ItemData : GameDataBase
 {
@@ -23,9 +24,10 @@ public class ItemData : GameDataBase
     public int Regen;
     public string IconPath;
 }
+*/
 
 [System.Serializable]
-public class ItemEffectDTO : GameDataBase
+public class ItemEffectData : GameDataBase
 {
     public string ItemID;
     public string EffectType;

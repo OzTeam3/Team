@@ -5,6 +5,7 @@ public class AddBuffEffect : IEffectLogic
 {
     public void ApplyEffect(EffectPayload payload)
     {
+        // TODO : 플레이어에 대한 부분 추후 GameManager 연동 후 등록
         PlayerView playerCharacter = null;
         float duration = payload._values[1];
         string EffectTypeString = payload._stringValues[0];
