@@ -29,6 +29,4 @@ public class MainHUD : UIBase
     {
         _playerRigidbody = playerRigidbody;
     }
-
-
 }

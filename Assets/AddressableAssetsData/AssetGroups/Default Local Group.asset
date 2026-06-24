@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: dcf732d7e0ea58346b14a4b673424943
   m_SerializeEntries:
+  - m_GUID: 3b7c00b9fe0a7a945969f2361bbd2947
+    m_Address: Assets/Prefabs/UI/MainHUD
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 585d489ae7b32284d9cd0ff5dae3199e
     m_Address: Assets/Prefabs/UI/StartPopupUI
     m_ReadOnly: 0

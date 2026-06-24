@@ -141,4 +141,9 @@ public class UIManager : MonoBehaviour
     {
         CloseUI(UIRootType.PopupUI, uiType);
     }
+
+    public UniTask<UIBase> OpenPopupUIAsync(UIType uiType)
+    {
+        return OpenUIAsync(UIRootType.PopupUI, uiType, false);
+    }
 }
