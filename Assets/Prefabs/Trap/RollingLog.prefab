@@ -12,12 +12,12 @@ GameObject:
   - component: {fileID: 1867758637209353471}
   - component: {fileID: 10678301120998225}
   - component: {fileID: 8959075638459497634}
-  - component: {fileID: 6759795329845584706}
   - component: {fileID: 7349742307252935604}
   - component: {fileID: 2223414161835820331}
   - component: {fileID: 8061746391041923297}
+  - component: {fileID: 8109402380492690118}
   m_Layer: 0
-  m_Name: RotatingLog
+  m_Name: RollingLog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,25 +122,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6759795329845584706
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6829365324857452400}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 455f118cc20a1154e873e73f7a664177, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RotatingPlatformTrap
-  _rotationAxis: {x: 0, y: 1, z: 0}
-  _rotationSpeed: 150
-  _playerLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  _maxSurfaceAngle: 45
-  _maxTrackDistance: 5
 --- !u!65 &7349742307252935604
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -206,3 +187,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.5644964, y: 0.78909814, z: 1.5706592}
   m_Center: {x: 0.0009518862, y: -1.9288877, z: 0.012097597}
+--- !u!114 &8109402380492690118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6829365324857452400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34cc5bfbb614ac749807a085440d0308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RollingLogTrap
+  _rotationAxis: {x: 0, y: 1, z: 0}
+  _rotationSpeed: 150
+  _playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  _maxSurfaceAngle: 45
+  _maxTrackDistance: 5
