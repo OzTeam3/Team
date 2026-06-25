@@ -18,18 +18,18 @@ public class CharacterData : GameDataBase
 [System.Serializable]
 public class StatUpItemData : GameDataBase
 {
-    public string StatType { get; set; }
-    public float Value { get; set; }
-    public float Duration { get; set; }
+    public string StatType;
+    public float Value;
+    public float Duration;
 }
 
 [System.Serializable]
 public class ItemData : GameDataBase
 {
-    public string ItemName { get; set; }
-    public string Description { get; set; }
-    public string ItemType { get; set; }
-    public string MeshId { get; set; }
+    public string ItemName;
+    public string Description;
+    public string ItemType;
+    public string MeshId;
 }
 /*
 [System.Serializable]
