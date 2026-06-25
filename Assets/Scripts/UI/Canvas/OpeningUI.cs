@@ -21,11 +21,11 @@ public class OpeningUI : UIBase
 
     private void OnClickSetting()
     {
-
+        UIManager.Instance.OpenPopupUI(UIType.SettingPopupUI);
     }
 
     private void OnClickExit()
     {
-
+        Application.Quit();
     }
 }

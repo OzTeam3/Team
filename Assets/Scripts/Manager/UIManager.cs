@@ -146,4 +146,9 @@ public class UIManager : MonoBehaviour
     {
         return OpenUIAsync(UIRootType.PopupUI, uiType, false);
     }
+
+    public void PreloadUI(UIRootType uiRootType, UIType uiType)
+    {
+        GetOrCreateUI(uiRootType, uiType).Forget();
+    }
 }

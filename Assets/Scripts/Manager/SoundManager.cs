@@ -1,12 +1,12 @@
 ﻿using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class SoundManger : MonoBehaviour
+public class SoundManager : MonoBehaviour
 {
     [SerializeField] private AudioSource _BGMSource; // 배경음용
     [SerializeField] private AudioSource _audioSource; // 효과음용
 
-    public static SoundManger Inst { get; set; }
+    public static SoundManager Instance { get; set; }
     public float BGMVolume
     {
         get { return _BGMSource.volume; }
@@ -18,6 +18,10 @@ public class SoundManger : MonoBehaviour
         set { _audioSource.volume = value; }
     }
 
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     public string GetSoudPath(string soundDataId)
     {
@@ -54,6 +58,8 @@ public class SoundManger : MonoBehaviour
             Debug.LogError($"{audioPath}를 찾을 수 없습니다! 어드레서블 설정이 되어 있는지 확인해주세요.");
             return;
         }
+
+        Debug.Log($"[SoundManager] 클립 로드 성공: {clip.name}, AudioSource volume: {audioSource.volume}, mute: {audioSource.mute}");
 
         if (isLoop == true)
         {

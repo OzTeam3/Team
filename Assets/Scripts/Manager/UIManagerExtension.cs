@@ -18,7 +18,8 @@ public enum UIType
     OpeningUI,
     StartPopupUI,
     MainHUD,
-    FadePopupUI
+    FadePopupUI,
+    SettingPopupUI,
 }
 
 public static class UIManagerExtension
@@ -35,8 +36,9 @@ public static class UIManagerExtension
 
     public static void OnFadeComplete()
     {
-        UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.OpeningUI);
+        SoundManager.Instance.PlayBGM("Assets/Sound/Title");
         UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.MainHUD);
+        UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.OpeningUI);
     }
 
     //Addressables는 비동기 로드이므로, 로드 완료 후 인스턴스를 받아 Fade()를 호출하기 위해 UniTask로 작성

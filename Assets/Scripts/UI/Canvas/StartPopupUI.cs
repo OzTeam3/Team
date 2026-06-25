@@ -15,6 +15,9 @@ public class StartPopupUI : UIBase
 
     private void OnClickNewStart()
     {
+        SoundManager.Instance.StopBGM();
+        SoundManager.Instance.PlayBGM("Assets/Sound/BGM1");
+
         //todo 데이터와 연동해서 저장한 기록을 불러온다. 일단 UI를 닫아 실행
         UIManager.Instance.ClosePopupUI(UIType.StartPopupUI);
         UIManager.Instance.CloseUI(UIRootType.MainUI, UIType.OpeningUI);

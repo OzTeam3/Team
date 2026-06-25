@@ -35,8 +35,23 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 845e614ed30060647b7292c0a2157e4f
+    m_Address: Assets/Sound/Title
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 921e197c01d7e4e44bc8b9632a4d7e2c
     m_Address: Assets/Prefabs/Manager/UIManager.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c190d3293e5cc464fa66f5804950e46b
+    m_Address: Assets/Sound/BGM1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: da9111ba423de004d9ce6a19fcf549e8
+    m_Address: Assets/Prefabs/UI/SettingPopupUI
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
