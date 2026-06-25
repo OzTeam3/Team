@@ -29,7 +29,7 @@ public class ItemData : GameDataBase
 [System.Serializable]
 public class ItemEffectData : GameDataBase
 {
-    public string ItemID;
+    public string ItemId;
     public string EffectType;
     public string[] StringValues;
     public float[] FloatValues;

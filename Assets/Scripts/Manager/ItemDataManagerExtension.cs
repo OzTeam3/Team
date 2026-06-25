@@ -18,6 +18,13 @@ public class ItemData
         Description = masterData.Description;
         MaterialPath = masterData.MaterialPath;
     }
+    public void UseItem(PlayerView Target)
+    {
+        foreach(var effect in EffectList)
+        {
+            EffectProcessor.ApplyEffect(effect);
+        }
+    }
 }
 
 public static class ItemDataManagerExtension
@@ -45,12 +52,12 @@ public static class ItemDataManagerExtension
         InitMasterData(dataManager);
         foreach (var effectDTO in dataManager.GetAllData<ItemEffectData>())
         {
-            if (_itemList.ContainsKey(effectDTO.ItemID) == false)
+            if (_itemList.ContainsKey(effectDTO.ItemId) == false)
             {
-                Debug.LogWarning($"{effectDTO.ItemID} Is not in ItemMaster Database");
+                Debug.LogWarning($"{effectDTO.ItemId} Is not in ItemMaster Database");
                 continue;
             }
-            _itemList[effectDTO.ItemID].EffectList.Add(GetPayLoad(effectDTO));
+            _itemList[effectDTO.ItemId].EffectList.Add(GetPayLoad(effectDTO));
         }
     }
     private static EffectPayload GetPayLoad(ItemEffectData effectData)
