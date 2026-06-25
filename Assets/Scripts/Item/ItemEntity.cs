@@ -1,17 +1,23 @@
+using Cysharp.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class ItemEntity : MonoBehaviour
 {
+    [SerializeField] private Material _material;
+
     private MeshRenderer _mesh;
     private ItemBase _item;
 
-    // 데이터 드리븐으로 뺄 수 있으면...
-    // DataManager에서 Item데이터를 갖고 있다. (무슨 효과인지, 얼만큼의 Value인지 Data클래스에 저장되어 있음)
-    // ItemId를 키값으로 DataManager를 통해서 GetData가 가능하기는 한데...
-    // 효과 자체도 사실... Data클래스 내부에서 구현되어있는게 아니라
-    // Data는 효과의 타입/Value쌍만 가지고 있는건 어떨까.
-    // 효과를 적용하는 효과처리하는 것들만 모아두는 클래스/다른 무언가를 만들거나.
-
+    private void Awake()
+    {
+        _mesh = GetComponent<MeshRenderer>();
+    }
+    private void Start()
+    {
+        DelayTest().Forget();
+    }
     public void SetMaterial(Material material)
     {
         _mesh.material= material;
@@ -24,7 +30,13 @@ public class ItemEntity : MonoBehaviour
     {
         _item= item;
     }
-
+    private async UniTask DelayTest()
+    {
+        await UniTask.Delay(4000);
+        SetMaterial(_material);
+        _item = new StatUpItem();
+        _item.InitItem("Item_HastePotion");
+    }
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player") == false)
@@ -40,6 +52,7 @@ public class ItemEntity : MonoBehaviour
     }
     private void AddItem(PlayerView character)
     {
+        _item.UseItem(character);
         //character.AddItem(_item);
         Destroy(this.gameObject);
     }
