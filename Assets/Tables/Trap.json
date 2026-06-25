@@ -1,26 +1,83 @@
 [
   {
-    "Id": "Trap_SpinCross_001",
-    "Name": "SpinCross",
-    "ActionSpeed": 400,
+    "Id": "Trap_SpinTrap_001",
+    "Name": "SpinTrap",
+    "ActionValue": 400,
     "KnockbackForce": 12,
-    "Value": 0,
-    "PrefabPath": "Prefab/Prefab_Trap_SpinCross_001"
+    "Value1": 0,
+    "Value2": 0,
+    "PrefabPath": "Prefab/Prefab_Trap_SpinTrap_001"
   },
   {
     "Id": "Trap_BlinkFloor_001",
     "Name": "BlinkFloor",
-    "ActionSpeed": 5,
+    "ActionValue": 0,
     "KnockbackForce": 0,
-    "Value": 0,
+    "Value1": 2,
+    "Value2": 5,
     "PrefabPath": "Prefab/Prefab_Trap_BlinkFloor_001"
   },
   {
-    "Id": "Trap_Pendulum_001",
-    "Name": "Pendulum",
-    "ActionSpeed": 6,
+    "Id": "Trap_Pendulum_Axe_001",
+    "Name": "Pendulum_Axe",
+    "ActionValue": 6,
     "KnockbackForce": 12,
-    "Value": 60,
-    "PrefabPath": "Prefab/Prefab_Trap_Pendulum_001"
+    "Value1": 60,
+    "Value2": 60,
+    "PrefabPath": "Prefab/Prefab_Trap_Pendulum_Axe_001"
+  },
+  {
+    "Id": "Trap_Pendulum_Hammer_001",
+    "Name": "Pendulum_Hammer",
+    "ActionValue": 6,
+    "KnockbackForce": 12,
+    "Value1": 60,
+    "Value2": 0,
+    "PrefabPath": "Prefab/Prefab_Trap_Pendulum_Hammer_001"
+  },
+  {
+    "Id": "Trap_Rotating_001",
+    "Name": "Rotating",
+    "ActionValue": 150,
+    "KnockbackForce": 0,
+    "Value1": 45,
+    "Value2": 5,
+    "PrefabPath": "Prefab/Prefab_Trap_Rotating_001"
+  },
+  {
+    "Id": "Trap_JumpPad_001",
+    "Name": "JumpPad",
+    "ActionValue": 15,
+    "KnockbackForce": 0,
+    "Value1": 0,
+    "Value2": 0,
+    "PrefabPath": "Prefab/Prefab_Trap_JumpPad_001"
+  },
+  {
+    "Id": "Trap_FallingPlatform_001",
+    "Name": "FallingPlatform",
+    "ActionValue": 0,
+    "KnockbackForce": 0,
+    "Value1": 1,
+    "Value2": 5,
+    "PrefabPath": "Prefab/Prefab_Trap_FallingPlatform_001"
+  },
+  {
+    "Id": "Trap_FanTrap_001",
+    "Name": "FanTrap",
+    "ActionValue": 30,
+    "KnockbackForce": 0,
+    "Value1": 0,
+    "Value2": 0,
+    "PrefabPath": "Prefab/Prefab_Trap_FanTrap_001"
+  },
+  {
+    "Id": "Trap_RollingLogTrap_001",
+    "Name": "RollingLogTrap",
+    "ActionValue": 150,
+    "KnockbackForce": 0,
+    "Value1": 45,
+    "Value2": 5,
+    "PrefabPath": "Prefab/Prefab_Trap_RollingLogTrap_001"
   }
 ]
