@@ -1,0 +1,20 @@
+[
+  {
+    "Id": "Item_HastePotion",
+    "StatType": "MoveSpeed",
+    "Value": 10,
+    "Duration": 0
+  },
+  {
+    "Id": "Item_JumpPotion",
+    "StatType": "JumpForce",
+    "Value": 10,
+    "Duration": 0
+  },
+  {
+    "Id": "Item_EnergyDrink",
+    "StatType": "MoveSpeed",
+    "Value": 10,
+    "Duration": 10
+  }
+]

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditor.ShaderGraph.Internal;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 
@@ -72,6 +73,22 @@ public class PlayerView : MonoBehaviour
     public void AddJumpForce(float increaseForce)
     {
         _jumpForce += increaseForce;
+    }
+    public void AddStat(StatType statType, float increaseStat)
+    {
+        ref float modifyingStat = ref _movespeed;
+        switch (statType)
+        {
+            case StatType.None:
+                break;
+            case StatType.MoveSpeed:
+                modifyingStat = _movespeed;
+                break;
+            case StatType.JumpForce:
+                modifyingStat = _jumpForce;
+                break;
+        }
+        modifyingStat += increaseStat;
     }
     // 임시 메서드는 여기까지 입니다.
 

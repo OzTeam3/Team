@@ -85,12 +85,10 @@ public class DataManager : MonoBehaviour
     {
 
         await LoadDataAsync<CharacterData>(AddressableUtil.AddressPath.Character);
-        //await LoadDataAsync<ItemData>(AddressableUtil.AddressPath.Item);
         await LoadDataAsync<TrapData>(AddressableUtil.AddressPath.Trap);
         await LoadDataAsync<MonsterData>(AddressableUtil.AddressPath.Monster);
-        await LoadDataAsync<ItemMasterData>(AddressableUtil.AddressPath.ItemMaster);
-        await LoadDataAsync<ItemEffectData>(AddressableUtil.AddressPath.ItemEffect);
-        ItemDataManagerExtension.LoadItemData(this);
+        await LoadDataAsync<ItemData>(AddressableUtil.AddressPath.Item);
+        await LoadDataAsync<StatUpItemData>(AddressableUtil.AddressPath.ItemStatUp);
         // 데이터 추가시 여기에 추가
     }
 
