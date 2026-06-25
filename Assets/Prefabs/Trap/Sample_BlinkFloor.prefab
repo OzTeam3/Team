@@ -50,14 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BlinkFloor
   _delay: 2
   _switchTime: 3
-  _groups:
-  - objects:
-    - {fileID: 7850601940541822615}
-    - {fileID: 7550204073979514652}
-  - objects:
-    - {fileID: 7223149499607720982}
-  - objects:
-    - {fileID: 685133877787711077}
+  _groups: []
 --- !u!1 &685133877787711077
 GameObject:
   m_ObjectHideFlags: 0

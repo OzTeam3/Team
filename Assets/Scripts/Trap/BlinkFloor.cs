@@ -10,27 +10,66 @@ public class BlinkGroup
 
 public class BlinkFloor : MonoBehaviour
 {
-    [Header("타이밍 설정")]
-    [SerializeField] private float _delay = 2.0f; // 게임 시작 후 대기 시간
-    [SerializeField] private float _switchTime = 5.0f;
-
     [Header("교차할 그룹")]
     [SerializeField] private List<BlinkGroup> _groups = new List<BlinkGroup>();
+
+    private float _delay;
+    private float _switchTime;
+    private Coroutine _blinkCoroutine;
+    private bool _hasStarted = false;
 
     private WaitForSeconds _delayWait;
     private WaitForSeconds _switchWait;
 
-    private void Start()
+    public void Init(string trapId)
     {
+        TrapData data = DataManager.Instance.GetData<TrapData>(trapId);
+        if (data == null)
+        {
+            Debug.Log($"{trapId}에 해당하는 데이터가 없습니다.");
+            return;
+        }
+
+        _delay = data.Value;
+        _switchTime = data.ActionSpeed;
+
         if (_groups.Count == 0)
         {
+            Debug.LogWarning("[BlinkFloor] 지정된 그룹이 없습니다.");
             return;
         }
 
         _delayWait = new WaitForSeconds(_delay);
         _switchWait = new WaitForSeconds(_switchTime);
 
-        StartCoroutine(BlinkLoop());
+        _hasStarted = true;
+        StartBlinkLoop();
+    }
+
+    private void OnEnable()
+    {
+        if (_hasStarted)
+        {
+            StartBlinkLoop();
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (_blinkCoroutine != null)
+        {
+            StopCoroutine(_blinkCoroutine);
+            _blinkCoroutine = null;
+        }
+    }
+
+    private void StartBlinkLoop()
+    {
+        if (_blinkCoroutine != null)
+        {
+            StopCoroutine(_blinkCoroutine);
+        }
+        _blinkCoroutine = StartCoroutine(BlinkLoop());
     }
 
     private IEnumerator BlinkLoop()
@@ -57,16 +96,16 @@ public class BlinkFloor : MonoBehaviour
 
     private void SetGroupActive(BlinkGroup group, bool isActive)
     {
-        if (group == null || group.objects == null) 
+        if (group == null || group.objects == null)
         {
             return;
         }
 
-        for (int i = 0; i < group.objects.Count; i++)
+        foreach (GameObject obj in group.objects)
         {
-            if (group.objects[i] != null)
+            if (obj != null)
             {
-                group.objects[i].SetActive(isActive);
+                obj.SetActive(isActive);
             }
         }
     }

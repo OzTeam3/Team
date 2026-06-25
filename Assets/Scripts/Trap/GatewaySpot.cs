@@ -6,14 +6,14 @@ public class GatewaySpot : MonoBehaviour
     [SerializeField] private Vector3 _positionArrivalPoint;
     [SerializeField] private Vector3 _rotationArrivalRotation;
 
-    [SerializeField] private string ArrivalZoneDataId;
+    [SerializeField] private string _arrivalZoneDataId;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            var arrivalPoint = _transformGatewayPoint == null ? _positionArrivalPoint : _transformGatewayPoint.position;
-            var arrivalRotation = _rotationArrivalRotation;
+            Vector3 arrivalPoint = _transformGatewayPoint == null ? _positionArrivalPoint : _transformGatewayPoint.position;
+            Vector3 arrivalRotation = _rotationArrivalRotation;
             MovePlayerToOtherPosition(other.transform, arrivalPoint, arrivalRotation);
         }
     }

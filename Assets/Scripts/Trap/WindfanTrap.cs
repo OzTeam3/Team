@@ -1,49 +1,92 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 
+[RequireComponent(typeof(Collider))]
 public class FanTrap : MonoBehaviour
 {
-    [Header("바람 설정")]
-    [SerializeField] private float _windStrength = 30f;
+    [Header("바람 물리 설정")]
+    [SerializeField] private ForceMode _windForceMode = ForceMode.Acceleration;
+    [SerializeField] private Transform _windPivot;
 
-    private readonly HashSet<Rigidbody> _entitiesInWind = new();
+    [Header("거리 비례 감소 설정")]
+    [SerializeField] private bool _useDistanceFalloff = true;
 
-    private void OnTriggerEnter(Collider other)
+    [Header("날개 설정")]
+    [SerializeField] private Transform _wing;
+
+    private float _spinSpeed = 720;
+    private float _maxWindStrength = 50;
+    private float _maxDistance = 10;
+
+
+    private void Awake()
     {
-        if (other.CompareTag("Player"))
+        if (_windPivot == null)
         {
-            Rigidbody playerRb = other.GetComponent<Rigidbody>();
-            if (playerRb != null)
-            {
-                _entitiesInWind.Add(playerRb);
-            }
+            _windPivot = transform;
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    public void Init(string trapId)
     {
-        if (other.CompareTag("Player"))
+        TrapData data = DataManager.Instance.GetData<TrapData>(trapId);
+        if (data == null)
         {
-            Rigidbody playerRb = other.GetComponent<Rigidbody>();
-            if (playerRb != null)
-            {
-                _entitiesInWind.Remove(playerRb);
-            }
+            Debug.Log($"{trapId}에 해당하는 데이터가 없습니다.");
+            return;
+        }
+
+        _spinSpeed = data.ActionSpeed;
+        _maxWindStrength = data.KnockbackForce;
+        _maxDistance = data.Value;
+    }
+
+    private void Update()
+    {
+        if (_wing != null)
+        {
+            _wing.Rotate(0f, 0f, _spinSpeed * Time.deltaTime);
         }
     }
 
-    private void FixedUpdate()
+    private void OnTriggerStay(Collider other)
     {
-        if (_entitiesInWind.Count == 0) return;
-
-        Vector3 windForce = transform.forward * _windStrength;
-
-        foreach (Rigidbody rb in _entitiesInWind)
+        if (!other.CompareTag("Player"))
         {
-            if (rb != null)
-            {
-                rb.AddForce(windForce, ForceMode.Force);
-            }
+            return;
         }
+
+        if (!other.TryGetComponent(out Rigidbody rb))
+        {
+            return;
+        }
+
+        float currentStrength = _maxWindStrength;
+
+        Vector3 windDirection = _windPivot.forward;
+
+        if (_useDistanceFalloff)
+        {
+            float distance = Vector3.Distance(_windPivot.position, rb.position);
+
+            float falloffRatio = Mathf.Clamp01(1f - (distance / _maxDistance));
+            currentStrength *= falloffRatio;
+        }
+
+        Vector3 appliedForce = windDirection * currentStrength;
+        rb.AddForce(appliedForce, _windForceMode);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        // 바람의 발생지 기준
+        Vector3 origin = _windPivot != null ? _windPivot.position : transform.position;
+        Vector3 direction = _windPivot != null ? _windPivot.forward : transform.forward;
+
+        // 1. 바람의 최대 거리(300m)를 선으로 표시 (노란색)
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(origin, origin + direction * _maxDistance);
+
+        // 2. 바람의 끝 지점에 구체 표시
+        Gizmos.DrawWireSphere(origin + direction * _maxDistance, 0.5f);
     }
 }
