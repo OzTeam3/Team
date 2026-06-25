@@ -15,6 +15,22 @@ public class CharacterData : GameDataBase
     public string PrefabPath;
 }
 
+[System.Serializable]
+public class StatUpItemData : GameDataBase
+{
+    public string StatType { get; set; }
+    public float Value { get; set; }
+    public float Duration { get; set; }
+}
+
+[System.Serializable]
+public class ItemData : GameDataBase
+{
+    public string ItemName { get; set; }
+    public string Description { get; set; }
+    public string ItemType { get; set; }
+    public string MeshId { get; set; }
+}
 /*
 [System.Serializable]
 public class ItemData : GameDataBase
@@ -25,23 +41,6 @@ public class ItemData : GameDataBase
     public string IconPath;
 }
 */
-
-[System.Serializable]
-public class ItemEffectData : GameDataBase
-{
-    public string ItemId;
-    public string EffectType;
-    public string[] StringValues;
-    public float[] FloatValues;
-}
-
-[System.Serializable]
-public class ItemMasterData : GameDataBase
-{
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public string MaterialPath { get; set; }
-}
 
 [System.Serializable]
 public class TrapData : GameDataBase

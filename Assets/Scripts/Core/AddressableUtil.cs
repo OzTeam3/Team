@@ -8,8 +8,7 @@ public class AddressableUtil
     {
         public const string Character = "JsonOutput/Character";
         public const string Item = "JsonOutput/Item";
-        public const string ItemMaster = "JsonOutput/ItemMaster";
-        public const string ItemEffect = "JsonOutput/ItemEffect";
+        public const string ItemStatUp = "JsonOutput/ItemStatUp";
         public const string Trap = "JsonOutput/Trap";
         public const string Monster = "JsonOutput/Monster";
     }
