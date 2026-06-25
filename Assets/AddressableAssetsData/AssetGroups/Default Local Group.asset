@@ -35,6 +35,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 68901bcd61530a9498e64316193a302b
+    m_Address: Assets/Prefabs/UI/ESCPopupUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 845e614ed30060647b7292c0a2157e4f
     m_Address: Assets/Sound/Title
     m_ReadOnly: 0

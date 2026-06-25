@@ -20,6 +20,7 @@ public enum UIType
     MainHUD,
     FadePopupUI,
     SettingPopupUI,
+    ESCPopupUI,
 }
 
 public static class UIManagerExtension
@@ -37,7 +38,6 @@ public static class UIManagerExtension
     public static void OnFadeComplete()
     {
         SoundManager.Instance.PlayBGM("Assets/Sound/Title");
-        UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.MainHUD);
         UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.OpeningUI);
     }
 
