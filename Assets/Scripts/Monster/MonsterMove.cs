@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Collections;
 using UnityEngine;
 
 public class MonsterMove : MonoBehaviour
@@ -13,15 +14,15 @@ public class MonsterMove : MonoBehaviour
     }
 
     private float _moveSpeed = 3.0f;
-    private float _chaseSpeed = 5.0f;
-    private float _patrolRadius = 5.0f;
-    private float _detectRadius = 4.0f;
-    private float _attackRadius = 2.1f;
+    private float _chaseSpeed = 7.0f;
+    private float _patrolRadius = 20.0f;
+    private float _detectRadius = 6.0f;
+    private float _attackRadius = 2.5f;
     private float _pushForce = 12.0f;
     private float _minWaitTime = 1.0f;
     private float _maxWaitTime = 3.0f;
-    private float _attackCooldown = 1.5f;
-    private float _viewAngle = 60f;
+    private float _attackCooldown = 1.7f;
+    private float _viewAngle = 90f;
 
     private Vector3 _startPosition;
     private Vector3 _targetPosition;
@@ -30,26 +31,29 @@ public class MonsterMove : MonoBehaviour
     private bool _isWaiting = false;
     private bool _hasAttackedInThisCycle = false;
 
-    private Rigidbody rigidbodyComponent;
-    private Transform playerTransform;
-    private MonsterState currentState = MonsterState.Patrol;
-    private MonsterAnimationController monsterAnimation;
-
-
+    private Rigidbody _rigidbodyComponent;
+    private Transform _playerTransform;
+    private MonsterState _currentState = MonsterState.Patrol;
+    private MonsterAnimationController _monsterAnimation;
 
 
 
     private void Awake()
     {
-        rigidbodyComponent = GetComponent<Rigidbody>();
-        monsterAnimation = GetComponent<MonsterAnimationController>();
+        _rigidbodyComponent = GetComponent<Rigidbody>();
+        _monsterAnimation = GetComponent<MonsterAnimationController>();
     }
 
     private void Start()
     {
         _startPosition = transform.position;
         SetNewRandomTarget();
+
+        _isWaiting = false;
+
         ChangeState(MonsterState.Patrol);
+
+       
     }
 
     private void Update()
@@ -59,7 +63,7 @@ public class MonsterMove : MonoBehaviour
             _cooldownTimer -= Time.deltaTime;
         }
 
-        switch (currentState)
+        switch (_currentState)
         {
             case MonsterState.Patrol:
                 HandlePatrolState();
@@ -71,11 +75,13 @@ public class MonsterMove : MonoBehaviour
                 HandleAttackState();
                 break;
         }
+
+        Animate();
     }
 
     private void FixedUpdate()
     {
-        switch (currentState)
+        switch (_currentState)
         {
             case MonsterState.Patrol:
                 if (!_isWaiting)
@@ -85,19 +91,19 @@ public class MonsterMove : MonoBehaviour
                 break;
 
             case MonsterState.Chase:
-                if (playerTransform != null)
+                if (_playerTransform != null)
                 {
-                    MoveTo(playerTransform.position, _chaseSpeed, 15f);
+                    MoveTo(_playerTransform.position, _chaseSpeed, 15f);
                 }
                 break;
 
             case MonsterState.Attack:
-                rigidbodyComponent.linearVelocity = Vector3.zero;
-                rigidbodyComponent.angularVelocity = Vector3.zero;
+                _rigidbodyComponent.linearVelocity = Vector3.zero;
+                _rigidbodyComponent.angularVelocity = Vector3.zero;
 
-                if (playerTransform != null)
+                if (_playerTransform != null)
                 {
-                    LookAtTarget(playerTransform.position, 15f);
+                    LookAtTarget(_playerTransform.position, 15f);
                 }
                 break;
         }
@@ -126,13 +132,13 @@ public class MonsterMove : MonoBehaviour
 
     private void HandleChaseState()
     {
-        if (!ScanForPlayer() || playerTransform == null)
+        if (!ScanForPlayer() || _playerTransform == null)
         {
             ChangeState(MonsterState.Patrol);
             return;
         }
 
-        float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
+        float distanceToPlayer = Vector3.Distance(transform.position, _playerTransform.position);
 
         if (distanceToPlayer <= _attackRadius && _cooldownTimer <= 0)
         {
@@ -152,15 +158,28 @@ public class MonsterMove : MonoBehaviour
 
     private void ChangeState(MonsterState newState)
     {
-        if (currentState == newState && newState != MonsterState.Attack) return;
+        if (_currentState == newState && newState != MonsterState.Attack) return;
 
-        currentState = newState;
+        _currentState = newState;
 
-        if (monsterAnimation != null)
-        {
-            monsterAnimation.PlayChase(currentState == MonsterState.Chase);
-            monsterAnimation.PlayAttack(currentState == MonsterState.Attack);
-        }
+      
+    }
+
+    private void Animate()
+    {
+        if (_monsterAnimation == null) return;
+
+        Vector3 horizontalVelocity = new Vector3(_rigidbodyComponent.linearVelocity.x, 0, _rigidbodyComponent.linearVelocity.z);
+        float currentSpeed = horizontalVelocity.magnitude;
+        bool isMoving = (currentSpeed > 0.1f);
+
+        bool isWalking = (_currentState == MonsterState.Patrol && isMoving && !_isWaiting);
+        bool isChasing = (_currentState == MonsterState.Chase && isMoving);
+        bool isAttacking = (_currentState == MonsterState.Attack);
+
+        _monsterAnimation.PlayMove(isWalking);
+        _monsterAnimation.PlayChase(isChasing);
+        _monsterAnimation.PlayAttack(isAttacking);
     }
 
     private bool ScanForPlayer()
@@ -178,7 +197,7 @@ public class MonsterMove : MonoBehaviour
             float angle = Vector3.Angle(transform.forward, dir);
             if (angle < _viewAngle * 0.5f)
             {
-                playerTransform = hitCollider.transform;
+                _playerTransform = hitCollider.transform;
                 return true;
             }
 
@@ -190,20 +209,20 @@ public class MonsterMove : MonoBehaviour
     private IEnumerator AttackRoutine()
     {
         _hasAttackedInThisCycle = true;
-        yield return new WaitForSeconds(0.45f);
+        yield return new WaitForSeconds(0.6f);
 
-        if (playerTransform != null)
+        if (_playerTransform != null)
         {
-            float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
+            float distanceToPlayer = Vector3.Distance(transform.position, _playerTransform.position);
             if (distanceToPlayer <= _attackRadius + 1.5f)
             {
-                KnockbackTarget(playerTransform);
+                KnockbackTarget(_playerTransform);
             }
         }
 
         _hasAttackedInThisCycle = false;
 
-        if (playerTransform != null)
+        if (_playerTransform != null)
         {
             ChangeState(MonsterState.Chase);
         }
@@ -225,7 +244,7 @@ public class MonsterMove : MonoBehaviour
             targetRigidbody.linearVelocity = Vector3.zero;
             targetRigidbody.AddForce(pushDirection * _pushForce, ForceMode.Impulse);
 
-            Debug.Log("공격 타이밍 적중! 플레이어를 밀쳐냈습니다.");
+            Debug.Log("공격 적중! 플레이어를 밀쳐냈습니다.");
         }
     }
 
@@ -238,6 +257,8 @@ public class MonsterMove : MonoBehaviour
             {
                 _isWaiting = false;
                 SetNewRandomTarget();
+
+              
             }
             return;
         }
@@ -249,7 +270,9 @@ public class MonsterMove : MonoBehaviour
         {
             _isWaiting = true;
             _waitTimer = Random.Range(_minWaitTime, _maxWaitTime);
-            rigidbodyComponent.linearVelocity = new Vector3(0, rigidbodyComponent.linearVelocity.y, 0);
+            _rigidbodyComponent.linearVelocity = new Vector3(0, _rigidbodyComponent.linearVelocity.y, 0);
+
+            
         }
     }
 
@@ -259,8 +282,8 @@ public class MonsterMove : MonoBehaviour
         direction.y = 0;
 
         Vector3 velocity = direction * speed;
-        velocity.y = rigidbodyComponent.linearVelocity.y;
-        rigidbodyComponent.linearVelocity = velocity;
+        velocity.y = _rigidbodyComponent.linearVelocity.y;
+        _rigidbodyComponent.linearVelocity = velocity;
 
         LookAtTarget(targetPosition, rotationSpeed);
     }

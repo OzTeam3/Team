@@ -11,6 +11,14 @@ public class MonsterAnimationController : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
     }
 
+    public void PlayMove(bool isWalking)
+    {
+        if(animator != null)
+        {
+            animator.SetBool("isWalking", isWalking);
+        }
+    }
+
     public void PlayChase(bool isChasing)
     {
         if (animator != null)
