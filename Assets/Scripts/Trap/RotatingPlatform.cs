@@ -5,9 +5,9 @@ public class RotatingPlatformTrap : MonoBehaviour
 {
     [Header("회전 설정")]
     [SerializeField] private Vector3 _rotationAxis = Vector3.up;
-    [SerializeField] private float _maxSurfaceAngle = 45f;
 
     private Rigidbody _platformRigidbody;
+    private float _maxSurfaceAngle;
     private float _rotationSpeed;
 
     private void Awake()
@@ -37,6 +37,7 @@ public class RotatingPlatformTrap : MonoBehaviour
         }
 
         _rotationSpeed = data.ActionSpeed;
+        _maxSurfaceAngle = data.Value1;
     }
 
     private void OnCollisionStay(Collision collision)

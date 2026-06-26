@@ -45,7 +45,7 @@ public class FallingPlatform : MonoBehaviour
             return;
         }
 
-        _waitingTime = data.Value;
+        _waitingTime = data.Value1;
         _respawnTime = data.ActionSpeed;
     }
 
