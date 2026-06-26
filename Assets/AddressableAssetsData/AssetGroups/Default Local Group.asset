@@ -20,8 +20,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6e6a9371fff082c4cb80a3573077ffe7
+    m_Address: Prefab/Prefab_Trap_SpinTrap_001
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 788de3fb21187ff46936c7f6320a5322
-    m_Address: JssonOutput/Map
+    m_Address: JsonOutput/Map
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -31,7 +36,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8e1bf7bfdd37fae44a01ac6f23629929
-    m_Address: JssonOutput/Item
+    m_Address: JsonOutput/Item
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -46,17 +51,17 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a865cb738acfb334c9e9edf9bf720a44
-    m_Address: JssonOutput/Trap
+    m_Address: JsonOutput/Trap
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c4f714a25761da243989a5ee73231787
-    m_Address: JssonOutput/Monster
+    m_Address: JsonOutput/Monster
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e38ae4858db21f24e89413b05b2659c8
-    m_Address: JssonOutput/Character
+    m_Address: JsonOutput/Character
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

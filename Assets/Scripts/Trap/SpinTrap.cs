@@ -23,6 +23,7 @@ public class SpinTrap : MonoBehaviour
 
         _trapRigidbody.MoveRotation(_trapRigidbody.rotation * deltaSpin);
     }
+
     public void Init(string trapId)
     {
         TrapData data = DataManager.Instance.GetData<TrapData>(trapId);
@@ -32,8 +33,10 @@ public class SpinTrap : MonoBehaviour
             return;
         }
 
-        _spinSpeed = data.ActionSpeed;
+        _spinSpeed = data.ActionValue;
         _knockbackForce = data.KnockbackForce;
+
+        Debug.Log($"[SpinTrap] {trapId} 초기화 완료! 속도: {_spinSpeed}");
     }
 
     private void OnCollisionEnter(Collision collision)

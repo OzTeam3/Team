@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6114303546051547355}
   - component: {fileID: 5424464287381491985}
   - component: {fileID: 289216449527467527}
-  - component: {fileID: 7959178856944896454}
+  - component: {fileID: 392181683987210337}
   m_Layer: 0
   m_Name: Hammer
   m_TagString: Untagged
@@ -91,7 +91,7 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7959178856944896454
+--- !u!65 &392181683987210337
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -110,8 +110,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.46494517, y: 0.28349972, z: 0.21030371}
-  m_Center: {x: -0.00004396836, y: 0.86678696, z: 0.0000013113022}
+  m_Size: {x: 0.92989033, y: 0.56419885, z: 0.42060742}
+  m_Center: {x: -0.00008793672, y: 1.7349739, z: 0.0000026226044}
 --- !u!1 &6834808972253048892
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 50867211528793642}
   - component: {fileID: 1676233943723423072}
   - component: {fileID: 3259519850026667451}
+  - component: {fileID: 3526205469120796181}
   m_Layer: 0
   m_Name: Pendulum_Hammer
   m_TagString: Untagged
@@ -139,7 +140,7 @@ Transform:
   m_GameObject: {fileID: 6834808972253048892}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 4, z: 0}
+  m_LocalPosition: {x: -0, y: 6.76, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -158,10 +159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb59fb2e74769c54293eb6887d40dc97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PendulumTrap
-  _swingSpeed: 5
-  _maxAngle: 60
   _timeOffset: 0
-  _knockbackForce: 12
 --- !u!54 &3259519850026667451
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -189,3 +187,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &3526205469120796181
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6834808972253048892}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.6208514, y: 5.5292244, z: 0.61392415}
+  m_Center: {x: 0.0014370084, y: -2.2646122, z: 0.012823403}

@@ -45,6 +45,15 @@
     "PrefabPath": "Prefab/Prefab_Trap_RotatingPlatform_001"
   },
   {
+    "Id": "Trap_RotatingPlatform_002",
+    "Name": "RotatingPlatform",
+    "ActionValue": 150,
+    "KnockbackForce": 0,
+    "Value1": 45,
+    "Value2": 0,
+    "PrefabPath": "Prefab/Prefab_Trap_RotatingPlatform_002"
+  },
+  {
     "Id": "Trap_JumpPad_001",
     "Name": "JumpPad",
     "ActionValue": 0,

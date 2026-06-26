@@ -36,7 +36,7 @@ public class RotatingPlatformTrap : MonoBehaviour
             return;
         }
 
-        _rotationSpeed = data.ActionSpeed;
+        _rotationSpeed = data.ActionValue;
         _maxSurfaceAngle = data.Value1;
     }
 

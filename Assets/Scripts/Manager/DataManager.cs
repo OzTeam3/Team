@@ -18,11 +18,18 @@ public class DataManager : MonoBehaviour
         {
             Instance = this;
 
-            InitializeData().Forget();
         }
         else
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void Start()
+    {
+        if (Instance == this)
+        {
+            InitializeData().Forget();
         }
     }
 
