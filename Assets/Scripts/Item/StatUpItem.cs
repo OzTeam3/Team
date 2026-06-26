@@ -21,7 +21,7 @@ public class StatUpItem : ItemBase
         _itemData = DataManager.Instance.GetData<StatUpItemData>(itemName);
         if (_itemData == null)
         {
-            Debug.LogWarning($"Can't Find Item {_itemName}");
+            Debug.LogWarning($"Can't Find Item {ItemId}");
             return;
         }
         bool isVariableStat = Enum.TryParse<StatType>(_itemData.StatType, out _statType);
@@ -38,7 +38,7 @@ public class StatUpItem : ItemBase
     {
         if (_itemData == null)
         {
-            Debug.LogWarning($"Can't Find Item {_itemName}");
+            Debug.LogWarning($"Can't Find Item {ItemId}");
             return;
         }
         player.AddStat(_statType, _itemData.Value);
@@ -80,10 +80,10 @@ public class StatUpItem_Light : ItemBase
     }
     public override void UseItem(PlayerView player)
     {
-        StatUpItemData itemData = DataManager.Instance.GetData<StatUpItemData>(_itemName);
+        StatUpItemData itemData = DataManager.Instance.GetData<StatUpItemData>(ItemId);
         if (itemData == null)
         {
-            Debug.LogWarning($"Can't Find Item {_itemName}");
+            Debug.LogWarning($"Can't Find Item {ItemId}");
             return;
         }
         bool isVariableStat = Enum.TryParse<StatType>(itemData.StatType, out StatType statType);
@@ -94,7 +94,7 @@ public class StatUpItem_Light : ItemBase
 
         if (itemData == null)
         {
-            Debug.LogWarning($"Can't Find Item {_itemName}");
+            Debug.LogWarning($"Can't Find Item {ItemId}");
             return;
         }
         player.AddStat(statType, itemData.Value);
@@ -106,10 +106,10 @@ public class StatUpItem_Light : ItemBase
     }
     public void UnUseItem(PlayerView player)
     {
-        StatUpItemData itemData = DataManager.Instance.GetData<StatUpItemData>(_itemName);
+        StatUpItemData itemData = DataManager.Instance.GetData<StatUpItemData>(ItemId);
         if (itemData == null)
         {
-            Debug.LogWarning($"Can't Find Item {_itemName}");
+            Debug.LogWarning($"Can't Find Item {ItemId}");
             return;
         }
         bool isVariableStat = Enum.TryParse<StatType>(itemData.StatType, out StatType statType);
