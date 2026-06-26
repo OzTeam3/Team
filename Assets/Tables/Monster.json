@@ -1,13 +1,17 @@
 [
   {
-    "Id": "Mob_TreeMonster_001",
-    "Name": "TreeMonster",
+    "Id": "Mob_Monster_001",
+    "Name": "Monster",
     "MoveSpeed": 3,
     "ChaseSpeed": 5,
     "PatrolRadius": 5,
     "DetectRadius": 4,
-    "AttackRadius": 0,
+    "AttackRadius": 2.1,
     "PushFroce": 12,
-    "PrefabPath": "Prefab/Prefab_Mob_TreeMonster_001"
+    "MinWaitTime": 1,
+    "MaxWaitTime": 3,
+    "AttackCooldown": 1.5,
+    "ViewAngle": 60,
+    "PrefabPath": "Prefab/Prefab_Mob_Monster_001"
   }
 ]
