@@ -1,4 +1,4 @@
-[
+﻿[
   {
     "Id": "Trap_SpinTrap_001",
     "Name": "SpinTrap",
@@ -23,7 +23,7 @@
     "ActionValue": 6,
     "KnockbackForce": 12,
     "Value1": 60,
-    "Value2": 60,
+    "Value2": 0,
     "PrefabPath": "Prefab/Prefab_Trap_Pendulum_Axe_001"
   },
   {
@@ -41,7 +41,7 @@
     "ActionValue": 150,
     "KnockbackForce": 0,
     "Value1": 45,
-    "Value2": 5,
+    "Value2": 0,
     "PrefabPath": "Prefab/Prefab_Trap_RotatingPlatform_001"
   },
   {
@@ -76,7 +76,7 @@
     "Name": "RollingLog",
     "ActionValue": 150,
     "KnockbackForce": 0,
-    "Value1": 0,
+    "Value1": 45,
     "Value2": 0,
     "PrefabPath": "Prefab/Prefab_Trap_RollingLog_001"
   }
