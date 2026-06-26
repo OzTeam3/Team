@@ -36,19 +36,19 @@
     "PrefabPath": "Prefab/Prefab_Trap_Pendulum_Hammer_001"
   },
   {
-    "Id": "Trap_Rotating_001",
-    "Name": "Rotating",
+    "Id": "Trap_RotatingPlatform_001",
+    "Name": "RotatingPlatform",
     "ActionValue": 150,
     "KnockbackForce": 0,
     "Value1": 45,
     "Value2": 5,
-    "PrefabPath": "Prefab/Prefab_Trap_Rotating_001"
+    "PrefabPath": "Prefab/Prefab_Trap_RotatingPlatform_001"
   },
   {
     "Id": "Trap_JumpPad_001",
     "Name": "JumpPad",
-    "ActionValue": 15,
-    "KnockbackForce": 0,
+    "ActionValue": 0,
+    "KnockbackForce": 15,
     "Value1": 0,
     "Value2": 0,
     "PrefabPath": "Prefab/Prefab_Trap_JumpPad_001"
@@ -56,28 +56,28 @@
   {
     "Id": "Trap_FallingPlatform_001",
     "Name": "FallingPlatform",
-    "ActionValue": 0,
+    "ActionValue": 5,
     "KnockbackForce": 0,
-    "Value1": 1,
-    "Value2": 5,
+    "Value1": 2,
+    "Value2": 0,
     "PrefabPath": "Prefab/Prefab_Trap_FallingPlatform_001"
   },
   {
-    "Id": "Trap_FanTrap_001",
-    "Name": "FanTrap",
-    "ActionValue": 30,
+    "Id": "Trap_WindFan_001",
+    "Name": "WindFan",
+    "ActionValue": 720,
+    "KnockbackForce": 0,
+    "Value1": 50,
+    "Value2": 10,
+    "PrefabPath": "Prefab/Prefab_Trap_WindFan_001"
+  },
+  {
+    "Id": "Trap_RollingLog_001",
+    "Name": "RollingLog",
+    "ActionValue": 150,
     "KnockbackForce": 0,
     "Value1": 0,
     "Value2": 0,
-    "PrefabPath": "Prefab/Prefab_Trap_FanTrap_001"
-  },
-  {
-    "Id": "Trap_RollingLogTrap_001",
-    "Name": "RollingLogTrap",
-    "ActionValue": 150,
-    "KnockbackForce": 0,
-    "Value1": 45,
-    "Value2": 5,
-    "PrefabPath": "Prefab/Prefab_Trap_RollingLogTrap_001"
+    "PrefabPath": "Prefab/Prefab_Trap_RollingLog_001"
   }
 ]
