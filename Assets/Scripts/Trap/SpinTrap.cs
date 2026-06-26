@@ -5,8 +5,8 @@ public class SpinTrap : MonoBehaviour
 {
     [SerializeField] private Rigidbody _trapRigidbody;
 
-    private float _spinSpeed;
-    private float _knockbackForce;
+    private float _spinSpeed = 60f;
+    private float _knockbackForce = 15f;
 
     private void Awake()
     {

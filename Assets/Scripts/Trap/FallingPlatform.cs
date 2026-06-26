@@ -9,8 +9,8 @@ public class FallingPlatform : MonoBehaviour
     [Header("실제 발판")]
     [SerializeField] private GameObject _trapFloor;
 
-    private float _waitingTime;
-    private float _respawnTime;
+    private float _waitingTime = 3f;
+    private float _respawnTime = 3f;
     private Animator _animator;
     private bool _isTriggered = false;
 
