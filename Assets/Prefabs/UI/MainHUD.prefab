@@ -235,6 +235,7 @@ RectTransform:
   m_Children:
   - {fileID: 28464704067152881}
   - {fileID: 3458042173567018000}
+  - {fileID: 1840040918590126155}
   m_Father: {fileID: 765767599288990598}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
@@ -347,11 +348,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 765767599288990598}
+  m_Father: {fileID: 7042831346616059821}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 479}
+  m_AnchoredPosition: {x: 890, y: -1.5}
   m_SizeDelta: {x: 115.83923, y: 58.26288}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1132039218046365037
@@ -536,7 +537,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1840040918590126155}
   - {fileID: 7042831346616059821}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -557,11 +557,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd2dd25d04626dc4b9e89acd2383dcd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainHUD
-  _textHeight: {fileID: 2469057048984650417}
-  _textTime: {fileID: 1672238917494940642}
-  _sliderHeight: {fileID: 7417515607073833006}
-  _playerTransfrom: {fileID: 5739879924206512596, guid: 2e8edf36ebc65e44e845677cc533249c, type: 3}
-  _MaxHeight: 50
+  Text_Time: {fileID: 0}
 --- !u!1 &9172269054310059653
 GameObject:
   m_ObjectHideFlags: 0

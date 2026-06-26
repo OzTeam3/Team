@@ -21,7 +21,7 @@ public class OpeningUI : UIBase
 
     private void OnClickSetting()
     {
-        UIManager.Instance.OpenPopupUI(UIType.SettingPopupUI);
+        UIManager.Instance.OpenUI(UIRootType.VeryFrontUI, UIType.SettingPopupUI);
     }
 
     private void OnClickExit()
