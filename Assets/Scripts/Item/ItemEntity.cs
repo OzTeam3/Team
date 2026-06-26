@@ -1,41 +1,76 @@
 using Cysharp.Threading.Tasks;
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.XR;
 
 public class ItemEntity : MonoBehaviour
 {
-    [SerializeField] private Material _material;
-
-    private MeshRenderer _mesh;
+    [SerializeField] private MeshFilter _meshFilter;
     private ItemBase _item;
 
     private void Awake()
     {
-        _mesh = GetComponent<MeshRenderer>();
+
     }
     private void Start()
     {
-        DelayTest().Forget();
+        // ItemEntity.InitItem(ItemId)
+        // 이렇게 하면 해당 아이디의 아이템으로 자동으로 초기화 됩니다.
+
+        //DelayTest().Forget();
     }
-    public void SetMaterial(Material material)
+    private void FixedUpdate()
     {
-        _mesh.material= material;
+        transform.Rotate(0, 60 * Time.fixedDeltaTime, 0);
     }
-    public void SetMaterial(string materialPath)
+    public void SetMesh(Mesh mesh)
     {
-        // Resource매니저를 통해서 메테리얼 설정.
+        _meshFilter.mesh = mesh;
     }
-    public void InitItem(ItemBase item)
+    public async void InitItem(ItemBase item)
     {
-        _item= item;
+        _item = item;
+        Mesh itemMesh = await ResourceManager.Instance.GetAssetAsync<Mesh>(item.MeshId);
+        SetMesh(itemMesh);
+    }
+    public async void InitItem(string itemId)
+    {
+        ItemData itemData = DataManager.Instance.GetData<ItemData>(itemId);
+        if(itemData == null)
+        {
+            Debug.LogWarning($"[ItemEntity] Can't find {itemId} in DataManager");
+            return;
+        }
+        ItemType itemtype;
+        ItemBase item = null;
+        bool isVariableType = Enum.TryParse<ItemType>(itemData.ItemType, out itemtype);
+        if(!isVariableType)
+        {
+            itemtype = ItemType.None;
+        }
+        switch(itemtype)
+        {
+            case ItemType.StatUp:
+                item = new StatUpItem();
+                break;
+        }
+        if(item == null)
+        {
+            return;
+        }
+        item.InitItem(itemId);
+        _item = item;
+        Mesh itemMesh = await ResourceManager.Instance.GetAssetAsync<Mesh>(item.MeshId);
+        SetMesh(itemMesh);
     }
     private async UniTask DelayTest()
     {
-        await UniTask.Delay(4000);
-        SetMaterial(_material);
-        _item = new StatUpItem();
-        _item.InitItem("Item_HastePotion");
+        await UniTask.Delay(3500);
+        //StatUpItem statUpItem = new StatUpItem();
+        //statUpItem.InitItem("Item_HastePotion");
+        InitItem("Item_HastePotion");
     }
     private void OnTriggerEnter(Collider other)
     {
