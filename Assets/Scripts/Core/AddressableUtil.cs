@@ -11,9 +11,4 @@ public class AddressableUtil
         public const string Trap = "JsonOutput/Trap";
         public const string Monster = "JsonOutput/Monster";
     }
-
-    public static async UniTask<T> LoadAssetAsync<T>(string address)
-    {
-        return await Addressables.LoadAssetAsync<T>(address).ToUniTask();
-    }
 }
