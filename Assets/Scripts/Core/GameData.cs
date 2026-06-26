@@ -30,7 +30,8 @@ public class TrapData : GameDataBase
     public string Name;
     public int ActionSpeed;
     public int KnockbackForce;
-    public int Value;
+    public int Value1;
+    public int Value2;
     public string PrefabPath;
 }
 
