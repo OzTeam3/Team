@@ -20,8 +20,28 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 788de3fb21187ff46936c7f6320a5322
+    m_Address: Jsonout/Map
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7cf985890cbb50b47a852d9b52d4068c
+    m_Address: JsonOutput/ThirdStage
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 921e197c01d7e4e44bc8b9632a4d7e2c
     m_Address: Assets/Prefabs/Manager/UIManager.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 97c3ecc5190efe94383d815aa276c610
+    m_Address: JsonOutput/FristStage
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fe2b5184a7364a646a86742f13537177
+    m_Address: JsonOutput/SecondStage
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
