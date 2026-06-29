@@ -128,6 +128,7 @@ MonoBehaviour:
   _textBase: {fileID: 250668523167701298}
   _imageBase: {fileID: 6300800360627728370}
   _imageSelect: {fileID: 0}
+  _hoverScale: 1.1
 --- !u!1 &2146251028763187764
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,12 +195,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 30
+    m_Font: {fileID: 12800000, guid: 1772f6d2cca77fa439f5e5a3fc03444f, type: 3}
+    m_FontSize: 50
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 3
-    m_MaxSize: 40
+    m_MaxSize: 50
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -530,12 +531,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 30
+    m_Font: {fileID: 12800000, guid: 1772f6d2cca77fa439f5e5a3fc03444f, type: 3}
+    m_FontSize: 50
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 3
-    m_MaxSize: 40
+    m_MaxSize: 50
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -596,6 +597,7 @@ MonoBehaviour:
   _textBase: {fileID: 8302216779635701320}
   _imageBase: {fileID: 8618820373104555027}
   _imageSelect: {fileID: 0}
+  _hoverScale: 1.1
 --- !u!1 &5349240612171891748
 GameObject:
   m_ObjectHideFlags: 0
@@ -890,12 +892,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 30
+    m_Font: {fileID: 12800000, guid: 1772f6d2cca77fa439f5e5a3fc03444f, type: 3}
+    m_FontSize: 50
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 3
-    m_MaxSize: 40
+    m_MinSize: 0
+    m_MaxSize: 50
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -1137,6 +1139,7 @@ MonoBehaviour:
   _textBase: {fileID: 7920394510719442889}
   _imageBase: {fileID: 3340180429369089711}
   _imageSelect: {fileID: 0}
+  _hoverScale: 1.1
 --- !u!1 &9188319961773063680
 GameObject:
   m_ObjectHideFlags: 0

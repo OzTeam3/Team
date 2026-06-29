@@ -1,10 +1,11 @@
 ﻿using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainHUD : UIBase
 {
-    [SerializeField] private TMP_Text Text_Time;
+    [SerializeField] private Text Text_Time;
 
     private Rigidbody _playerRigidbody;
     private float _elapsedTime = 0f;

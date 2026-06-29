@@ -6,15 +6,18 @@ using UnityEngine.UI;
 public class SettingPopupUI : UIBase
 {
     [SerializeField] private UIButton _buttonBack;
+    [SerializeField] private UIButton _buttonBack2;
     [SerializeField] private Slider _sliderBGM;
     [SerializeField] private Slider _sliderSFX;
     [SerializeField] private Dropdown _dropdownResolution;
+
 
     private List<Resolution> _availableResolutions = new List<Resolution>();
 
     private void OnEnable()
     {
         _buttonBack.BindOnClickButtonEvent(OnClickBack);
+        _buttonBack2.BindOnClickButtonEvent(OnClickBack);
 
         // 버튼 바인트랑 같은 개념 이벤트를 여는 것
         _sliderBGM.onValueChanged.AddListener(OnChangeBGM);

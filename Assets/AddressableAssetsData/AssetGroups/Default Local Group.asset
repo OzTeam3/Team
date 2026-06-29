@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: dcf732d7e0ea58346b14a4b673424943
   m_SerializeEntries:
+  - m_GUID: 163e9d7a7fa1ee848907d05bd7a89180
+    m_Address: Assets/Sound/Button_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 20a340f5f25f0ce4b83bd5ce3eb3a11d
     m_Address: Assets/Prefabs/UI/FadePopupUI
     m_ReadOnly: 0
@@ -22,6 +27,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3b7c00b9fe0a7a945969f2361bbd2947
     m_Address: Assets/Prefabs/UI/MainHUD
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 56d21883949422e4a962def5d5296cf1
+    m_Address: Assets/Sound/Button_2
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -37,6 +47,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 68901bcd61530a9498e64316193a302b
     m_Address: Assets/Prefabs/UI/ESCPopupUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6d87c106e7c25ff47a52d883caf65fc0
+    m_Address: Assets/Sound/BGM2
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
