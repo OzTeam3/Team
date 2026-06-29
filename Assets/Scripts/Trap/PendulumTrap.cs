@@ -7,9 +7,9 @@ public class PendulumTrap : MonoBehaviour
 
     private Rigidbody _trapRigidbody;
     private Quaternion _startRotation;
-    private float _swingSpeed;
-    private float _maxAngle;
-    private float _knockbackForce;
+    private float _swingSpeed = 4f;
+    private float _maxAngle = 70f;
+    private float _knockbackForce = 12f;
 
     private void Awake()
     {
@@ -32,7 +32,7 @@ public class PendulumTrap : MonoBehaviour
             return;
         }
 
-        _swingSpeed = data.ActionSpeed;
+        _swingSpeed = data.ActionValue;
         _knockbackForce = data.KnockbackForce;
         _maxAngle = data.Value1;
     }

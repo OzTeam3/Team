@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -17,6 +17,11 @@ MonoBehaviour:
   m_SerializeEntries:
   - m_GUID: 68054f97912e42b4fb7ca436100c4349
     m_Address: Assets/Prefabs/UI/OpeningUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6e6a9371fff082c4cb80a3573077ffe7
+    m_Address: Prefab/Prefab_Trap_SpinTrap_001
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

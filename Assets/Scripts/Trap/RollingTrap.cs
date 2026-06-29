@@ -7,8 +7,8 @@ public class RollingLogTrap : MonoBehaviour
     [SerializeField] private Vector3 _rotationAxis = Vector3.right;
 
     private Rigidbody _platformRigidbody;
-    private float _maxSurfaceAngle;
-    private float _rotationSpeed;
+    private float _maxSurfaceAngle = 45f;
+    private float _rotationSpeed = 80;
 
     private void Awake()
     {
@@ -34,7 +34,7 @@ public class RollingLogTrap : MonoBehaviour
             return;
         }
 
-        _rotationSpeed = data.ActionSpeed;
+        _rotationSpeed = data.ActionValue;
         _maxSurfaceAngle = data.Value1;
     }
 

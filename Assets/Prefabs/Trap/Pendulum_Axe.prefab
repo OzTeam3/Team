@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5775508171601763808}
   - component: {fileID: 4586908667542333363}
   - component: {fileID: 1663673191753489835}
-  - component: {fileID: 1161929128144917802}
+  - component: {fileID: 4597643434518190971}
   m_Layer: 0
   m_Name: Axe
   m_TagString: Untagged
@@ -95,7 +95,7 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1161929128144917802
+--- !u!65 &4597643434518190971
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -114,8 +114,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.9052493, y: 0.5527447, z: 0.13}
-  m_Center: {x: 0, y: 1.0657183, z: 0}
+  m_Size: {x: 1.8176082, y: 1.3583193, z: 0.27658623}
+  m_Center: {x: 0, y: 2.2380257, z: -0.00000006953876}
 --- !u!1 &3717121843672123497
 GameObject:
   m_ObjectHideFlags: 0
@@ -127,6 +127,7 @@ GameObject:
   - component: {fileID: 1246045529613334465}
   - component: {fileID: 3741547543042284798}
   - component: {fileID: 8247807527483459151}
+  - component: {fileID: 4489801313732403713}
   m_Layer: 0
   m_Name: Pendulum_Axe
   m_TagString: Untagged
@@ -162,10 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb59fb2e74769c54293eb6887d40dc97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PendulumTrap
-  _swingSpeed: 5
-  _maxAngle: 60
   _timeOffset: 60
-  _knockbackForce: 12
 --- !u!54 &8247807527483459151
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -193,3 +191,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &4489801313732403713
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3717121843672123497}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.58341885, y: 6.000592, z: 0.5087091}
+  m_Center: {x: -0.0059736967, y: -2.5002966, z: 0.0012728572}

@@ -46,7 +46,7 @@ public class FallingPlatform : MonoBehaviour
         }
 
         _waitingTime = data.Value1;
-        _respawnTime = data.ActionSpeed;
+        _respawnTime = data.ActionValue;
     }
 
     private void OnEnable()
@@ -69,7 +69,6 @@ public class FallingPlatform : MonoBehaviour
         {
             return;
         }
-
         if (_isTriggered)
         {
             return;

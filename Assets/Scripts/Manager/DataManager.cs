@@ -16,12 +16,19 @@ public class DataManager : MonoBehaviour
         {
             Instance = this;
 
-            InitializeData().Forget();
         }
         else
         {
             Debug.LogWarning($"[DataManager:Awake] 현재 인스턴스가 존재하여 중복 오브젝트를 파괴합니다.");
             Destroy(gameObject);
+        }
+    }
+
+    private void Start()
+    {
+        if (Instance == this)
+        {
+            InitializeData().Forget();
         }
     }
 

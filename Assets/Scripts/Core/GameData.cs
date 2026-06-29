@@ -28,7 +28,7 @@ public class ItemData : GameDataBase
 public class TrapData : GameDataBase
 {
     public string Name;
-    public int ActionSpeed;
+    public int ActionValue;
     public int KnockbackForce;
     public int Value1;
     public int Value2;
