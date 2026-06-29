@@ -1,7 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
-using UnityEngine;
-using UnityEngine.AddressableAssets;
-
+﻿
+//어드레서블 이주헌님이 다해주세요
 public class AddressableUtil
 {
     public static class AddressPath
