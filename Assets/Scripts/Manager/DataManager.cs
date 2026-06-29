@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class DataManager : MonoBehaviour
 {
@@ -22,6 +20,7 @@ public class DataManager : MonoBehaviour
         }
         else
         {
+            Debug.LogWarning($"[DataManager:Awake] 현재 인스턴스가 존재하여 중복 오브젝트를 파괴합니다.");
             Destroy(gameObject);
         }
     }
@@ -70,24 +69,23 @@ public class DataManager : MonoBehaviour
 
     public async UniTask LoadAllDatasAsync()
     {
-
         await LoadDataAsync<CharacterData>(AddressableUtil.AddressPath.Character);
         await LoadDataAsync<ItemData>(AddressableUtil.AddressPath.Item);
         await LoadDataAsync<TrapData>(AddressableUtil.AddressPath.Trap);
         await LoadDataAsync<MonsterData>(AddressableUtil.AddressPath.Monster);
-        // 데이터 추가시 여기에 추가
+        await LoadDataAsync<ZoneData>(AddressableUtil.AddressPath.Zone);
     }
 
     private async UniTask InitializeData()
     {
         await LoadAllDatasAsync();
 
-        DataManagerTest();
+        //DataManagerTest();
 
         Debug.Log("[DataManager:InitializeData] 데이터 로드 완료");
     }
 
-    private async UniTask DataManagerTest()
+    private void DataManagerTest()
     {
         Debug.Log("[DataManager:Test] 데이터 로딩 끝, 테스트 시작!");
 

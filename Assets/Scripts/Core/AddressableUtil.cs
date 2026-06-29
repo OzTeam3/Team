@@ -10,9 +10,12 @@ public class AddressableUtil
         public const string Item = "JsonOutput/Item";
         public const string Trap = "JsonOutput/Trap";
         public const string Monster = "JsonOutput/Monster";
-        public const string Ground = "JsonOutput/Ground";
-        public const string FirstStage = "JsonOutput/FirstStage";
-        public const string SecondStage = "JsonOutput/SecondStage";
-        public const string ThirdStage = "JsonOutput/ThirdStage";
+        public const string Map = "JsonOutput/Map";
+        public const string Zone = "JsonOutput/Zone";
+
+        public static string GetZonePath(string zoneName)
+        {
+            return $"JsonOutput/{zoneName}";
+        }
     }
 }

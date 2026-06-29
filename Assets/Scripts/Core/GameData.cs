@@ -48,3 +48,14 @@ public class MonsterData : GameDataBase
     public string PrefabPath;
 }
 
+[System.Serializable]
+public class ZoneData : GameDataBase
+{
+    public string Name;
+    public int MinY;
+    public int MaxY;
+    public string PrefabPath;
+
+    public bool IsLoaded { get; set; } = false;
+}
+
