@@ -7,11 +7,13 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioSource _audioSource; // 효과음용
 
     public static SoundManager Instance { get; set; }
+
     public float BGMVolume
     {
         get { return _BGMSource.volume; }
         set { _BGMSource.volume = value; }
     }
+
     public float SFXVolume
     {
         get { return _audioSource.volume; }
@@ -49,7 +51,6 @@ public class SoundManager : MonoBehaviour
         _audioSource.Stop();
     }
 
-    // 어드레서블 불러오기 함수
     public static async UniTaskVoid LoadAndPlayAudioClip(AudioSource audioSource, string audioPath, bool isLoop = false)
     {
         AudioClip clip = await ResourceManager.Instance.GetAssetAsync<AudioClip>(audioPath);
@@ -64,7 +65,6 @@ public class SoundManager : MonoBehaviour
         if (isLoop == true)
         {
             audioSource.clip = clip;
-            audioSource.loop = true;
             audioSource.Play();
         }
         else

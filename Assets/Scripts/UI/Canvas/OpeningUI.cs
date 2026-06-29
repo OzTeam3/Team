@@ -8,6 +8,7 @@ public class OpeningUI : UIBase
 
     private void OnEnable()
     {
+        //노래 바꾸기
         _buttonStart.BindOnClickButtonEvent(OnClickStart);
         _buttonSetting.BindOnClickButtonEvent(OnClickSetting);
         _buttonExit.BindOnClickButtonEvent(OnClickExit);
@@ -24,6 +25,7 @@ public class OpeningUI : UIBase
         UIManager.Instance.OpenUI(UIRootType.VeryFrontUI, UIType.SettingPopupUI);
     }
 
+    //#ifUnityEditor 찾아보기
     private void OnClickExit()
     {
         Application.Quit();

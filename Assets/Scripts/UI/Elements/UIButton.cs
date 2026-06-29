@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -42,6 +43,7 @@ public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         transform.localScale = _originalScale;
     }
 
+    //얼리리턴
     private void SetDefaultUI()
     {
         if (_imageSelect != null)
@@ -50,6 +52,7 @@ public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
     }
 
+    //널체크 에러 추카
     private void InitUIButton()
     {
         if (_buttonBase != null)
@@ -59,24 +62,26 @@ public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         _buttonBase = GetComponentInChildren<Button>();
     }
 
-    public void BindOnClickButtonEvent(Action onClickCallback)
+    //수정
+    public void BindOnClickButtonEvent(UnityAction onClickCallback)
     {
         if (_buttonBase == null)
         {
             return;
         }
-        _buttonBase.onClick.AddListener(new UnityEngine.Events.UnityAction(onClickCallback));
+        _buttonBase.onClick.AddListener(onClickCallback);
     }
 
-    public void UnBindOnClickButtonEvent(Action onClickCallback)
+    public void UnBindOnClickButtonEvent(UnityAction onClickCallback)
     {
         if (_buttonBase == null)
         {
             return;
         }
-        _buttonBase.onClick.RemoveListener(new UnityEngine.Events.UnityAction(onClickCallback));
+        _buttonBase.onClick.RemoveListener(onClickCallback);
     }
 
+    //널체크
     public void OnClickSetSelectUI()
     {
         if (_imageSelect != null)
@@ -86,6 +91,7 @@ public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
     }
 
+    //하드코드 빼주세요 최상위로 올려주세요.
     private void PlayHoverSound()
     {
         SoundManager.Instance.PlaySFX("Assets/Sound/Button_1");
