@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerView : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [Header("플레이어 설정")]
     [SerializeField] private float _movespeed = 10f;
