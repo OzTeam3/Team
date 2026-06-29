@@ -28,9 +28,10 @@ public class ItemData : GameDataBase
 public class TrapData : GameDataBase
 {
     public string Name;
-    public int ActionSpeed;
+    public int ActionValue;
     public int KnockbackForce;
-    public int Value;
+    public int Value1;
+    public int Value2;
     public string PrefabPath;
 }
 
@@ -45,5 +46,16 @@ public class MonsterData : GameDataBase
     public int AttackRadius;
     public int PushForce;
     public string PrefabPath;
+}
+
+[System.Serializable]
+public class ZoneData : GameDataBase
+{
+    public string Name;
+    public int MinY;
+    public int MaxY;
+    public string PrefabPath;
+
+    public bool IsLoaded { get; set; } = false;
 }
 

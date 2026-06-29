@@ -10,10 +10,12 @@ public class AddressableUtil
         public const string Item = "JsonOutput/Item";
         public const string Trap = "JsonOutput/Trap";
         public const string Monster = "JsonOutput/Monster";
-    }
+        public const string Map = "JsonOutput/Map";
+        public const string Zone = "JsonOutput/Zone";
 
-    public static async UniTask<T> LoadAssetAsync<T>(string address)
-    {
-        return await Addressables.LoadAssetAsync<T>(address).ToUniTask();
+        public static string GetZonePath(string zoneName)
+        {
+            return $"JsonOutput/{zoneName}";
+        }
     }
 }

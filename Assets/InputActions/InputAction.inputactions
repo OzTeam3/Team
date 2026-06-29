@@ -1,0 +1,127 @@
+{
+    "version": 1,
+    "name": "InputAction",
+    "maps": [
+        {
+            "name": "Player",
+            "id": "d8771e48-5980-4edf-92e0-710221ad29fd",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "PassThrough",
+                    "id": "d65c1286-9735-4da8-9c62-24c85c39dda2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "2D Vector",
+                    "id": "e3231819-2370-4e1a-8443-b0b6898034d7",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "848407e3-2cc6-4ef5-88af-55b76bae4289",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "df8f6f0a-6a88-4ba4-b4f4-eaf432b82c07",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "719f1789-43bb-4d94-955a-4d5256097537",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "9a8c0741-c00f-423a-a82c-3fe85b1728a0",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                }
+            ]
+        },
+        {
+            "name": "Camera",
+            "id": "b6254bbe-2a95-45f0-86a4-482ed09a4420",
+            "actions": [
+                {
+                    "name": "DragHotigontal",
+                    "type": "Value",
+                    "id": "c7c6e660-136a-4f1a-ae59-3333bf1d4a04",
+                    "expectedControlType": "Axis",
+                    "processors": "Scale(factor=30)",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "DragVertical",
+                    "type": "Value",
+                    "id": "1e12a4cd-5b3f-49d8-82c7-d6ea7236395e",
+                    "expectedControlType": "Axis",
+                    "processors": "Scale(factor=30)",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "bc081341-efb3-496d-b389-e0b589b6e5dd",
+                    "path": "<Mouse>/delta/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DragHotigontal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "16017173-11dd-448f-a17d-65a4d7d66fe8",
+                    "path": "<Mouse>/delta/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DragVertical",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

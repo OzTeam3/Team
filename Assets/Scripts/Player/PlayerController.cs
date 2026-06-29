@@ -8,22 +8,26 @@ public class PlayerController : MonoBehaviour
     [Header("플레이어 설정")]
     [SerializeField] private float _movespeed = 10f;
     [SerializeField] private float _rotationSpeed = 10f;
-    [SerializeField] private float _acceleration= 30f;
-    [SerializeField] private float _airAcceleration= 10f;
+    [SerializeField] private float _acceleration = 30f;
+    [SerializeField] private float _airAcceleration = 10f;
 
 
     [Header("점프 및 물리")]
     [SerializeField] private float _jumpForce = 5f;
     [SerializeField] private float _groundDrag = 3f;
-    [SerializeField] private float _airDrag= 0f;
+    [SerializeField] private float _airDrag = 0f;
     [SerializeField] private bool _isGrounded;
 
     [Header("컴포넌트")]
-    [SerializeField] private Rigidbody _playerRigidbody;    
+    [SerializeField] private Rigidbody _playerRigidbody;
     [SerializeField] private GroundDetector GroundDetector;
+
+    [Header("카메라")]
+    [SerializeField] private Camera _camera;
 
     [SerializeField] private InputActionReference _jumpAction;
     [SerializeField] private InputActionReference _moveAction;
+
 
     private Vector2 _playerInput;
     private PlayerState _playerState;
@@ -31,7 +35,6 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         Animator animator = GetComponent<Animator>();
-
         _playerState = new PlayerState(animator);
     }
 
@@ -51,7 +54,7 @@ public class PlayerController : MonoBehaviour
         Move();
         ClampHorizontalSpeed();
     }
-     
+
     private void OnDisable()
     {
         GroundDetector.GroundTriggeredEvent -= OnGroundTriggered;
@@ -102,14 +105,32 @@ public class PlayerController : MonoBehaviour
 
         if (_playerInput != Vector2.zero)
         {
+            Vector3 cameraForward = _camera.transform.forward;
+            Vector3 cameraRight = _camera.transform.right;
+            cameraForward.y = 0f;
+            cameraRight.y = 0f;
+            cameraForward.Normalize();
+            cameraRight.Normalize();
 
-            Vector3 targetDir = new Vector3(_playerInput.x, 0f, _playerInput.y).normalized;
+            Vector3 targetDir = (cameraForward * _playerInput.y + cameraRight * _playerInput.x).normalized;
+
+
+            //Vector3 targetDir = new Vector3(_playerInput.x, 0f, _playerInput.y).normalized;
             Quaternion targetRotation = Quaternion.LookRotation(targetDir);
 
             _playerRigidbody.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime));
 
-            float currentAccel = _isGrounded ? _acceleration : _airAcceleration;
-            _playerRigidbody.AddForce(targetDir * currentAccel, ForceMode.Acceleration);
+            //float currentAccel = _isGrounded ? _acceleration : _airAcceleration;
+            //_playerRigidbody.AddForce(targetDir * currentAccel, ForceMode.Acceleration);
+
+            Vector3 targetVelocity = targetDir * _movespeed;
+            _playerRigidbody.linearVelocity = new Vector3(targetVelocity.x, _playerRigidbody.linearVelocity.y, targetVelocity.z);
+
+        }
+        else
+        {
+            // 입력 없을 때 수평 속도 즉시 제거
+            _playerRigidbody.linearVelocity = new Vector3(0f, _playerRigidbody.linearVelocity.y, 0f);
         }
     }
 

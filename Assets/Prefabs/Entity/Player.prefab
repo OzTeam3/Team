@@ -240,7 +240,7 @@ GameObject:
   - component: {fileID: 5218478411434163481}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -763,6 +763,7 @@ MonoBehaviour:
   _isGrounded: 0
   _playerRigidbody: {fileID: 3406136614077109361}
   GroundDetector: {fileID: 1177236092201799232}
+  _camera: {fileID: 3004738663427339099}
   _jumpAction: {fileID: -1873380620536913896, guid: aa230b9f0f5d5264887a4d13fed7e1ec, type: 3}
   _moveAction: {fileID: -1188211802824129500, guid: aa230b9f0f5d5264887a4d13fed7e1ec, type: 3}
 --- !u!136 &1137315541521900769
@@ -2460,7 +2461,7 @@ SpriteRenderer:
   m_Size: {x: 2.56, y: 2.56}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
 --- !u!114 &8791517668340152443
 MonoBehaviour:
