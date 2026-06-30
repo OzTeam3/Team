@@ -1,0 +1,67 @@
+﻿using UnityEngine;
+
+[RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
+public class SectorMeshCreator : MonoBehaviour
+{
+    public float _viewAngle = 90f;
+    public float _detectRadius = 6f;
+    public int _segments = 20;
+
+    private Mesh _mesh;
+    private MeshFilter _meshFilter;
+
+    private void Awake()
+    {
+        _meshFilter = GetComponent<MeshFilter>();
+        _mesh = new Mesh { name = "SectorMesh" };
+        _meshFilter.mesh = _mesh;
+
+        CreateSectorMesh();
+    }
+
+    public void UpdateMeshSettings(float angle, float radius)
+    {
+        _viewAngle = angle;
+        _detectRadius = radius;
+        CreateSectorMesh();
+    }
+
+    private void CreateSectorMesh()
+    {
+        if (_mesh == null) return;
+
+        _mesh.Clear();
+
+        int vertexCount = _segments + 2;
+        Vector3[] vertices = new Vector3[vertexCount];
+        int[] triangles = new int[_segments * 3];
+
+        vertices[0] = Vector3.zero;
+
+        float startAngle = -_viewAngle * 0.5f;
+        float angleStep = _viewAngle / _segments;
+
+        for (int i = 0; i <= _segments; i++)
+        {
+            float currentAngle = startAngle + (angleStep * i);
+            float rad = currentAngle * Mathf.Deg2Rad;
+
+            float x = Mathf.Sin(rad) * _detectRadius;
+            float z = Mathf.Cos(rad) * _detectRadius;
+
+            vertices[i + 1] = new Vector3(x, 0f, z);
+        }
+
+        for (int i = 0; i < _segments; i++)
+        {
+            triangles[i * 3] = 0;         
+            triangles[i * 3 + 1] = i + 1; 
+            triangles[i * 3 + 2] = i + 2; 
+        }
+
+        _mesh.vertices = vertices;
+        _mesh.triangles = triangles;
+        _mesh.RecalculateNormals();
+        _mesh.RecalculateBounds();
+    }
+}

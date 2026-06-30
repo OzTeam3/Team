@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: behurt
+  m_Name: Tree_behurt
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -2247,8 +2247,7 @@ AnimationClip:
         time: 0.16666675
         value: {x: 0.00000000854332, y: 0.00000023838186, z: -0.00458357, w: 0.9999895}
         inSlope: {x: 0.00000033578044, y: 0.000000110226665, z: -0.000004323704, w: 0}
-        outSlope: {x: 0.00000033578044, y: 0.000000110226665, z: -0.000004323704,
-          w: 0}
+        outSlope: {x: 0.00000033578044, y: 0.000000110226665, z: -0.000004323704, w: 0}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
@@ -2362,10 +2361,8 @@ AnimationClip:
       - serializedVersion: 3
         time: 0.26666677
         value: {x: 0.00000007832329, y: -0.000000022026667, z: 0.0041533476, w: 0.9999914}
-        inSlope: {x: -0.00000016530612, y: -0.0000005594927, z: -0.0000085146285,
-          w: 0}
-        outSlope: {x: -0.00000016530612, y: -0.0000005594927, z: -0.0000085146285,
-          w: 0}
+        inSlope: {x: -0.00000016530612, y: -0.0000005594927, z: -0.0000085146285, w: 0}
+        outSlope: {x: -0.00000016530612, y: -0.0000005594927, z: -0.0000085146285, w: 0}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
