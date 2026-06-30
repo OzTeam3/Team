@@ -1617,7 +1617,6 @@ GameObject:
   - component: {fileID: 6483636595283306730}
   - component: {fileID: 2373082533812474407}
   - component: {fileID: 5147035884278825762}
-  - component: {fileID: 1123138768363231677}
   - component: {fileID: 8181184827281513601}
   - component: {fileID: 1243039259426964858}
   m_Layer: 0
@@ -1694,19 +1693,6 @@ CapsuleCollider:
   m_Height: 1.4
   m_Direction: 1
   m_Center: {x: 0, y: 0.7, z: 0}
---- !u!114 &1123138768363231677
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5123599339265116343}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aae02c04a7d03ec48aa9f83deadcfbaf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MonsterHP
-  _maxHP: 50
 --- !u!114 &8181184827281513601
 MonoBehaviour:
   m_ObjectHideFlags: 0

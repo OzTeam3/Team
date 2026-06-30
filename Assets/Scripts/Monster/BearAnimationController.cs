@@ -6,8 +6,9 @@ public class BearAnimationController
 
     public BearAnimationController(Animator animator)
     {
-        _animator = animator;
+        //널체크
 
+        _animator = animator;
     }
 
     public void PlayMove(bool isWalking)

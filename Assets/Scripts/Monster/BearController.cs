@@ -15,6 +15,8 @@ public class BearController : MonoBehaviour
     }
 
     [SerializeField] private NavMeshAgent _agent;
+
+    //데이터 드리븐
     private float _moveSpeed = 3.0f;
     private float _chaseSpeed = 6.0f;
     private float _patrolRadius = 20.0f;
@@ -28,21 +30,22 @@ public class BearController : MonoBehaviour
     private float _patrolRotationSpeed = 120.0f;
     private float _chaseRotationSpeed = 360.0f;
     private float _attackHitBuffer = 1.5f;
+    
+    private Rigidbody _rigidbodyComponent;
+    private Transform _playerTransform;
+    private BearAnimationController _bearAnimation;
 
-    private WaitForSeconds _attackDelayWait;
+    private BearState _currentState = BearState.Patrol;
+    
     private Vector3 _spawnedPosition;
     private Vector3 _targetPosition;
+
     private float _waitTimer;
     private float _cooldownTimer;
     private bool _isWaiting;
-    private bool _hasAttackedInThisCycle = false;
+    private bool _hasAttackedInThisCycle;
 
-    private Rigidbody _rigidbodyComponent;
-    private Transform _playerTransform;
-    private BearState _currentState = BearState.Patrol;
-    private BearAnimationController _bearAnimation;
-
-
+    private WaitForSeconds _attackDelayWait;
 
     private void Awake()
     {
@@ -52,15 +55,18 @@ public class BearController : MonoBehaviour
             _rigidbodyComponent.freezeRotation = true;
         }
 
+        //널체크 필수
         Animator unityAnimator = GetComponentInChildren<Animator>();
+
         _bearAnimation = new BearAnimationController(unityAnimator);
 
+        //하드코딩 풀어주기
         _attackDelayWait = new WaitForSeconds(0.6f);
     }
 
     private void OnEnable()
     {
-        _spawnedPosition = transform.position;
+        _spawnedPosition = transform.position; //awake
         UpdateNextPatrolPosition();
 
         _isWaiting = false;
@@ -101,36 +107,6 @@ public class BearController : MonoBehaviour
         }
         Animate();
     }
-
-    //private void FixedUpdate()
-    //{
-    //    switch (_currentState)
-    //    {
-    //        case BearState.Patrol:
-    //            if (!_isWaiting)
-    //            {
-    //                MoveTo(_targetPosition, _moveSpeed, _patrolRotationSpeed);
-    //            }
-    //            break;
-
-    //        case BearState.Chase:
-    //            if (_playerTransform != null)
-    //            {
-    //                MoveTo(_playerTransform.position, _chaseSpeed, _chaseRotationSpeed);
-    //            }
-    //            break;
-
-    //        case BearState.Attack:
-    //            _rigidbodyComponent.linearVelocity = Vector3.zero;
-    //            _rigidbodyComponent.angularVelocity = Vector3.zero;
-
-    //            if (_playerTransform != null)
-    //            {
-    //                RotateToTarget(_playerTransform.position, _chaseRotationSpeed);
-    //            }
-    //            break;
-    //    }
-    //}
 
     private void HandlePatrolState()
     {
@@ -182,8 +158,10 @@ public class BearController : MonoBehaviour
         }
     }
 
+    //메서드명 바꿔주세요
     private void Animate()
     {
+        //리턴 괄호추가 띄어쓰기 하기
         if (_bearAnimation == null) return;
 
         Vector3 horizontalVelocity = new Vector3(_agent.velocity.x, 0, _agent.velocity.z);
@@ -201,6 +179,7 @@ public class BearController : MonoBehaviour
 
     private bool ScanForPlayer()
     {
+        //overlapSphere -> nonalloc 바꿔보기 (과제)
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, _detectRadius);
 
         foreach (var hitCollider in hitColliders)
@@ -288,29 +267,14 @@ public class BearController : MonoBehaviour
             _isWaiting = true;
             _waitTimer = Random.Range(_minWaitTime, _maxWaitTime);
             _agent.ResetPath();
-
-            
         }
     }
-
-    //private void MoveTo(Vector3 targetPosition, float speed, float rotationSpeed)
-    //{
-    //    Vector3 direction = (targetPosition - transform.position).normalized;
-    //    direction.y = 0;
-
-    //    Vector3 velocity = direction * speed;
-    //    velocity.y = _rigidbodyComponent.linearVelocity.y;
-
-    //    RotateToTarget(targetPosition, rotationSpeed);
-    //    _rigidbodyComponent.linearVelocity = velocity;
-    //}
-
 
     private void MoveTo(Vector3 targetPosition, float speed, float rotationSpeed)
     {
         _agent.destination = targetPosition;
         _agent.speed = speed;
-        _agent.acceleration = speed * 1.5f;
+        _agent.acceleration = speed * 1.5f; //상수로 뺴주세요
         _agent.angularSpeed = rotationSpeed;
 
         _agent.destination = targetPosition;
@@ -331,6 +295,8 @@ public class BearController : MonoBehaviour
     private void UpdateNextPatrolPosition()
     {
         Vector2 randomCircle = Random.insideUnitCircle * _patrolRadius;
+       
+        //한줄로 바꿔주기
         Vector3 randomTarget = new Vector3(
             _spawnedPosition.x + randomCircle.x,
             _spawnedPosition.y,
