@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-
+//유징 정리
 
 public enum PlayerState
 {
@@ -19,16 +19,21 @@ public interface IPlayerState
     void ExitState(Player player);
 }
 
-
-
-
-public class PlayerState_Idle : IPlayerState
+public abstract class PlayerState_Base : IPlayerState
 {
-    private Animator _animator;
-    private Rigidbody _rigidbody; // 플레이어 에서 퍼블릭으로 열어 주면 이걸 빼고 player._rigidbody 이렇게 접근하는 방법도 있다.
+    protected Animator _animator;
+    protected Rigidbody _rigidbody;
 
-    public void EnterState(Player player)
+    public abstract void EnterState(Player player);
+    public abstract void ExitState(Player player);
+    public abstract void UpdateState(Player player);
+}
+
+public class PlayerState_Idle : PlayerState_Base
+{
+    public override void EnterState(Player player)
     {
+        //제미나이랑 의논
         if (_animator == null)
         {
             _animator = player.GetAnimator();
@@ -48,7 +53,7 @@ public class PlayerState_Idle : IPlayerState
         _animator.SetBool("Idle", true);
     }
 
-    public void UpdateState(Player player)
+    public override void UpdateState(Player player)
     {
         if (!player._isGrounded)
         {
@@ -60,6 +65,8 @@ public class PlayerState_Idle : IPlayerState
             player.ChangeState(PlayerState.Grab);
             return;
         }
+        
+        //얼리리턴 이상한데?
         if (player._playerInput != Vector2.zero)
         {
             if (player._running)
@@ -72,10 +79,12 @@ public class PlayerState_Idle : IPlayerState
             }
             return;
         }
+
+        //미끄럼 확인 해보세여
         Idle();
     }
 
-    public void ExitState(Player player)
+    public override void ExitState(Player player)
     {
         _animator.SetBool("Idle", false);
     }
@@ -83,7 +92,6 @@ public class PlayerState_Idle : IPlayerState
     {
         _rigidbody.linearVelocity = new Vector3(0f, _rigidbody.linearVelocity.y, 0f);
     }
-
 }
 
 public class PlayerState_Walk : IPlayerState
@@ -154,6 +162,7 @@ public class PlayerState_Walk : IPlayerState
     {
         _animator.SetBool("Walk", false);
     }
+
     private void Move(Player player)
     {
         Vector2 _playerInput = player._playerInput;
@@ -166,7 +175,7 @@ public class PlayerState_Walk : IPlayerState
         Quaternion targetRotation = Quaternion.LookRotation(targetDir);
         _rigidbody.MoveRotation(Quaternion.Slerp(player.transform.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime));
 
-        Vector3 moveOffset = targetDir * _speed * Time.fixedDeltaTime;
+        Vector3 moveOffset = _speed * Time.fixedDeltaTime * targetDir;
         _rigidbody.MovePosition(_rigidbody.position + moveOffset);
     }
 }
@@ -177,6 +186,7 @@ public class PlayerState_Run : IPlayerState
     private Rigidbody _rigidbody;
     private Camera _camera;
 
+    //가져오든지 삭제하던지
     private float _speed = 5f;
     private float _rotationSpeed = 10f;
 
@@ -240,6 +250,7 @@ public class PlayerState_Run : IPlayerState
     {
         _animator.SetBool("Run", false);
     }
+
     private void Move(Player player)
     {
         Vector2 _playerInput = player._playerInput;
@@ -256,6 +267,7 @@ public class PlayerState_Run : IPlayerState
         _rigidbody.MovePosition(_rigidbody.position + moveOffset);
     }
 }
+
 public class PlayerState_Jump : IPlayerState
 {
     private Animator _animator;
@@ -264,9 +276,11 @@ public class PlayerState_Jump : IPlayerState
 
     private float _speed = 2.5f;
     private float _rotationSpeed = 10f;
+    private float _jumpForce = 5f;//
 
     public void EnterState(Player player)
     {
+        player._isGrounded = false;
         if (_animator == null)
         {
             _animator = player.GetAnimator();
@@ -292,6 +306,7 @@ public class PlayerState_Jump : IPlayerState
             }
         }
         player.SetSpeed(_speed);
+        _rigidbody.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);//
         _animator.SetBool("Jump", true);
     }
 
@@ -302,19 +317,21 @@ public class PlayerState_Jump : IPlayerState
             player.ChangeState(PlayerState.Grab);
             return;
         }
-        if (player._isGrounded)
+
+        if (!player._isGrounded)
         {
-            if (player._playerInput == Vector2.zero)
-            {
-                player.ChangeState(PlayerState.Idle);
-            }
-            else
-            {
-                player.ChangeState(player._running ? PlayerState.Run : PlayerState.Walk);
-            }
+            Move(player);
             return;
         }
-        Move(player);
+
+        if (player._playerInput == Vector2.zero)
+        {
+            player.ChangeState(PlayerState.Idle);
+        }
+        else
+        {
+            player.ChangeState(player._running ? PlayerState.Run : PlayerState.Walk);
+        }
     }
 
     public void ExitState(Player player)
@@ -436,7 +453,8 @@ public class PlayerState_Grab : IPlayerState
             }
             else
             {
-                player._grab = false;
+                //상태를 아이들로 바꿔줘야 되는거 아닌가?
+                player._grab = false; //얘는 Exit에서 해주는게 좋을듯
             }
         }
 
