@@ -9,14 +9,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8526486348790548796}
-  - component: {fileID: 1496596937822702833}
+  - component: {fileID: 7084373194884363270}
   m_Layer: 0
-  m_Name: BlinkTrap_f1
+  m_Name: BlinkPlatform01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8526486348790548796
 Transform:
   m_ObjectHideFlags: 0
@@ -34,7 +34,7 @@ Transform:
   - {fileID: 419082556696253286}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1496596937822702833
+--- !u!114 &7084373194884363270
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,13 +43,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1078083019431332360}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20fe5b0796d25564ab97b4ca464ae43b, type: 3}
+  m_Script: {fileID: 11500000, guid: 33a5ac1a41f87274384a78a89ba59759, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BlinkFloor
-  _groups:
-  - objects:
+  _blinkGroups:
+  - _blinkPlatform:
     - {fileID: 6271726854504850186}
-  - objects:
+  - _blinkPlatform:
     - {fileID: 1052489853133982172}
 --- !u!1001 &1255721266611551690
 PrefabInstance:

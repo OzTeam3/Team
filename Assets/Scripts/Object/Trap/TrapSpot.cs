@@ -1,65 +1,60 @@
-﻿using UnityEngine;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
+using System.Threading;
+using UnityEngine;
 
-//캔슬 토큰 신경써 주세요
 public class TrapSpot : MonoBehaviour
 {
     [SerializeField] private string _trapId;
 
-    //Awake로 해도된다
-    private void Start()
+    private CancellationTokenSource _cancellationTokenSource;
+
+    private void Awake()
     {
-        //얼리리턴으로 바꿔주세요
-        //IsNullOrWhiteSpace
-        if (!string.IsNullOrEmpty(_trapId))
+        if (string.IsNullOrWhiteSpace(_trapId))
         {
-            DelayedSpawn().Forget();
+            return;
         }
-    }
 
-    private async UniTask DelayedSpawn()
-    { 
-        await UniTask.Delay(1000);
-
+        _cancellationTokenSource = new CancellationTokenSource();
         InitTrap(_trapId).Forget();
     }
-
+    
     public async UniTask InitTrap(string trapId)
     {
         TrapData trapData = DataManager.Instance.GetData<TrapData>(trapId);
 
-        if (trapData == null)
+        if (string.IsNullOrWhiteSpace(trapId))
         {
-            Debug.LogWarning($"[TrapSpot] DataManager에서 {trapId}를 찾을 수 없습니다.");
+            Debug.LogError("[TrapSpot] 잘못된 trapId가 있습니다.");
             return;
         }
 
-        //한줄로 처리
-        GameObject trapPrefab = await ResourceManager.Instance.InstantiateGameObjectAsync(
-            trapData.PrefabPath,
-            transform
-        );
+        if (trapData == null)
+        {
+            Debug.LogError($"[TrapSpot] DataManager에서 {trapId}를 찾을 수 없습니다.");
+            return;
+        }
+
+        GameObject trapPrefab = await ResourceManager.Instance.InstantiateGameObjectAsync(trapData.PrefabPath,transform, cancellationToken: _cancellationTokenSource.Token);
 
         if (trapPrefab == null)
         {
-            Debug.LogError($"[TrapSpot] {trapData.PrefabPath} 에셋을 불러오지 못했습니다.");
+            Debug.LogError("[TrapSpot] 프리팹을 불러오지 못했습니다.");
             return;
         }
 
-        //베이스로 뺴고 한줄로 관리 abstract로
-        //얼리리턴으로 바꿔주세요
-        if (trapPrefab.TryGetComponent<SpinTrap>(out SpinTrap spinTrap)) spinTrap.Init(trapId);
-        else if (trapPrefab.TryGetComponent<JumpPad>(out JumpPad jumpPad)) jumpPad.Init(trapId);
-        else if (trapPrefab.TryGetComponent<PendulumTrap>(out PendulumTrap pendulumTrap)) pendulumTrap.Init(trapId);
-        else if (trapPrefab.TryGetComponent<RollingLogTrap>(out RollingLogTrap rollingTrap)) rollingTrap.Init(trapId);
-        else if (trapPrefab.TryGetComponent<RotatingPlatformTrap>(out RotatingPlatformTrap rotatingTrap)) rotatingTrap.Init(trapId);
-        else if (trapPrefab.TryGetComponent<FanTrap>(out FanTrap fanTrap)) fanTrap.Init(trapId);
-        else if (trapPrefab.TryGetComponent<BlinkFloor>(out BlinkFloor blinkFloor)) blinkFloor.Init(trapId);
-        else if (trapPrefab.TryGetComponent<FallingPlatform>(out FallingPlatform fallingPlatform)) fallingPlatform.Init(trapId);
-        else
+        if (!trapPrefab.TryGetComponent(out TrapBase trapBase))
         {
-            Debug.LogWarning($"[TrapEntity] {trapPrefab.name} 오브젝트에서 초기화할 트랩 스크립트를 찾지 못했습니다.");
+            Debug.LogError($"[TrapSpot] {trapPrefab.name} 오브젝트에서 TrapBase 컴포넌트를 찾지 못했습니다.");
+            return;
         }
 
+        trapBase.Init(trapId, trapData);
+        trapPrefab.SetActive(true);
+    }
+    private void OnDisable()
+    {
+        _cancellationTokenSource?.Cancel();
+        _cancellationTokenSource?.Dispose();
     }
 }

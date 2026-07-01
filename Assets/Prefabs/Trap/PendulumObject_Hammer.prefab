@@ -50,7 +50,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2382045448959043011}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -125,12 +125,12 @@ GameObject:
   - component: {fileID: 3259519850026667451}
   - component: {fileID: 3526205469120796181}
   m_Layer: 0
-  m_Name: Pendulum_Hammer
+  m_Name: PendulumObject_Hammer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &50867211528793642
 Transform:
   m_ObjectHideFlags: 0
@@ -156,10 +156,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6834808972253048892}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb59fb2e74769c54293eb6887d40dc97, type: 3}
+  m_Script: {fileID: 11500000, guid: 2fba16d84ad1e0b44bf316dde77a5929, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PendulumTrap
-  _timeOffset: 0
+  _timeOffset: 60
 --- !u!54 &3259519850026667451
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -182,7 +182,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0

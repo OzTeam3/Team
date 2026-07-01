@@ -3,28 +3,24 @@
 public class GatewaySpot : MonoBehaviour
 {
     [SerializeField] private Transform _transformGatewayPoint;
-    
-    //안씀
-    [SerializeField] private Vector3 _positionArrivalPoint;
-    [SerializeField] private Vector3 _rotationArrivalRotation;
-    [SerializeField] private string _arrivalZoneDataId;
 
-    //코드 싹 수정
     private void OnTriggerEnter(Collider other)
     {
-        //얼리리턴
-        if (other.gameObject.CompareTag("Player"))
+        if (!other.gameObject.CompareTag("Player"))
         {
-            Vector3 arrivalPoint = _transformGatewayPoint == null ? _positionArrivalPoint : _transformGatewayPoint.position;
-            Vector3 arrivalRotation = _rotationArrivalRotation;
-           
-            MovePlayerToOtherPosition(other.transform, arrivalPoint, arrivalRotation);
+            return;
         }
+        if (_transformGatewayPoint == null)
+        {
+            Debug.LogError("[GatewaySpot] _transformGatewayPoint가 지정되지 않았습니다.");
+            return;
+        }
+
+        MovePlayerToOtherPosition(other.transform, _transformGatewayPoint.position, _transformGatewayPoint.rotation);
     }
 
-    private void MovePlayerToOtherPosition(Transform playerTransform, Vector3 targetPosition, Vector3 targetRotation)
+    private void MovePlayerToOtherPosition(Transform playerTransform, Vector3 targetPosition, Quaternion targetRotation)
     {
-        playerTransform.position = targetPosition;
-        playerTransform.Rotate(targetRotation);
+        playerTransform.SetPositionAndRotation(targetPosition, targetRotation);
     }
 }

@@ -147,12 +147,12 @@ GameObject:
   - component: {fileID: 6508845357967406916}
   - component: {fileID: 4571254796549001211}
   m_Layer: 0
-  m_Name: WoodFallingPlatform
+  m_Name: BreakingPlatform01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5560306108661825945
 Transform:
   m_ObjectHideFlags: 0
@@ -178,10 +178,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5956247451993912952}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8fca5a2e2d921843886c8f07eeb1027, type: 3}
+  m_Script: {fileID: 11500000, guid: 259ac36ddcac83142b72f45dad26d040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FallingPlatform
-  _trapFloor: {fileID: 5219075288202173174}
+  _trapPlatform: {fileID: 5219075288202173174}
 --- !u!65 &4571254796549001211
 BoxCollider:
   m_ObjectHideFlags: 0
