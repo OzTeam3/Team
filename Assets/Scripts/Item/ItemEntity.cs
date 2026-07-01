@@ -1,91 +1,85 @@
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.XR;
 
+//안쓰는 유징 정리해주세요
+//에러문
 public class ItemEntity : MonoBehaviour
 {
+    //매시 필터는 겟컴포넌트로 뺴기
     [SerializeField] private MeshFilter _meshFilter;
+    [SerializeField] private string _itemDataId;
+
     private ItemBase _item;
 
-    private void Awake()
+    private void OnEnable()
     {
-
+        InitItem();
     }
-    private void Start()
-    {
-        // ItemEntity.InitItem(ItemId)
-        // �̷��� �ϸ� �ش� ���̵��� ���������� �ڵ����� �ʱ�ȭ �˴ϴ�.
 
-        //DelayTest().Forget();
-    }
+    //업데이트에서 해주세요
     private void FixedUpdate()
     {
         transform.Rotate(0, 60 * Time.fixedDeltaTime, 0);
     }
-    public void SetMesh(Mesh mesh)
+
+    //메서드명 수정
+    public async UniTask InitItem()
     {
-        _meshFilter.mesh = mesh;
-    }
-    public async void InitItem(ItemBase item)
-    {
-        _item = item;
-        Mesh itemMesh = await ResourceManager.Instance.GetAssetAsync<Mesh>(item.MeshId);
-        SetMesh(itemMesh);
-    }
-    public async void InitItem(string itemId)
-    {
-        ItemData itemData = DataManager.Instance.GetData<ItemData>(itemId);
+        ItemData itemData = DataManager.Instance.GetData<ItemData>(_itemDataId);
         if(itemData == null)
         {
-            Debug.LogWarning($"[ItemEntity] Can't find {itemId} in DataManager");
+            Debug.LogWarning($"[ItemEntity] Can't find {_itemDataId} in DataManager");
             return;
         }
-        ItemType itemtype;
-        ItemBase item = null;
-        bool isVariableType = Enum.TryParse<ItemType>(itemData.ItemType, out itemtype);
+       
+        //변수명을 성공했는지?
+        bool isVariableType = Enum.TryParse(itemData.ItemType, out ItemType itemtype);
+       
+        //에러체크
         if(!isVariableType)
         {
             itemtype = ItemType.None;
         }
-        switch(itemtype)
+
+        switch (itemtype)
         {
             case ItemType.StatUp:
-                item = new StatUpItem();
+                _item = new StatUpItem();
                 break;
+            default:
+                return;
         }
-        if(item == null)
-        {
-            return;
-        }
-        item.InitItem(itemId);
-        _item = item;
-        Mesh itemMesh = await ResourceManager.Instance.GetAssetAsync<Mesh>(item.MeshId);
-        SetMesh(itemMesh);
+
+        //_Item초기화 하는 메서드
+
+        //위로 가도될듯
+        Mesh itemMesh = await ResourceManager.Instance.GetAssetAsync<Mesh>(itemData.MeshId);
+        _meshFilter.mesh = itemMesh;
     }
-    private async UniTask DelayTest()
-    {
-        await UniTask.Delay(3500);
-        //StatUpItem statUpItem = new StatUpItem();
-        //statUpItem.InitItem("Item_HastePotion");
-        InitItem("Item_HastePotion");
-    }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player") == false)
         {
             return;
         }
-        if(other.transform.TryGetComponent<PlayerView>(out var player) == false)
+
+        if(other.transform.TryGetComponent(out Player player) == false)
         {
             Debug.LogWarning("PlayerTag Object does not have a PlayerView componenet");
             return;
         }
+
+        //유즈 아이템
         AddItem(player);
     }
-    private void AddItem(PlayerView character)
+
+    //삭제될수도
+    private void AddItem(Player character)
     {
         _item.UseItem(character);
         //character.AddItem(_item);

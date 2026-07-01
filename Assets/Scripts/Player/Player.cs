@@ -246,4 +246,22 @@ public class Player : MonoBehaviour
     {
         return _rigidbody;
     }
+
+    [SerializeField] private float _movespeed;
+
+    public void AddStat(StatType statType, float increaseStat)
+    {
+        switch (statType)
+        {
+            case StatType.None:
+                Debug.LogError("이상한 값");
+                break;
+            case StatType.MoveSpeed:
+                _movespeed += increaseStat;
+                break;
+            case StatType.JumpForce:
+                _jumpForce += increaseStat;
+                break;
+        }
+    }
 }
