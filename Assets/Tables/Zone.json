@@ -1,30 +1,46 @@
-﻿[
+[
   {
     "Id": "Ground_Zone",
     "Name": "Ground",
+    "Type": "UnStage",
     "MinY": 0,
-    "MaxY": 50,
+    "MaxY": 0,
+    "OffsetX": 0,
+    "OffsetY": 0,
+    "OffsetZ": 0,
     "PrefabsPath": "JsonOutput/Ground"
   },
   {
     "Id": "FirstStage_Zone",
     "Name": "FirstStage",
+    "Type": "Stage",
     "MinY": 0,
     "MaxY": 100,
+    "OffsetX": 0,
+    "OffsetY": 8,
+    "OffsetZ": 0,
     "PrefabsPath": "JsonOutput/FirstStage"
   },
   {
     "Id": "SecondStage_Zone",
     "Name": "SecondStage",
+    "Type": "Stage",
     "MinY": 50,
     "MaxY": 150,
+    "OffsetX": 0,
+    "OffsetY": 8,
+    "OffsetZ": 0,
     "PrefabsPath": "JsonOutput/SecondStage"
   },
   {
     "Id": "ThirdStage_Zone",
     "Name": "ThirdStage",
+    "Type": "Stage",
     "MinY": 100,
-    "MaxY": 150,
+    "MaxY": 200,
+    "OffsetX": 0,
+    "OffsetY": 8,
+    "OffsetZ": 0,
     "PrefabsPath": "JsonOutput/ThirdStage"
   }
 ]
