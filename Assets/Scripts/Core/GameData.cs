@@ -16,6 +16,23 @@ public class CharacterData : GameDataBase
 }
 
 [System.Serializable]
+public class StatUpItemData : GameDataBase
+{
+    public string StatType;
+    public float Value;
+    public float Duration;
+}
+
+[System.Serializable]
+public class ItemData : GameDataBase
+{
+    public string ItemName;
+    public string Description;
+    public string ItemType;
+    public string MeshId;
+}
+/*
+[System.Serializable]
 public class ItemData : GameDataBase
 {
     public string Name;
@@ -23,6 +40,7 @@ public class ItemData : GameDataBase
     public int Regen;
     public string IconPath;
 }
+*/
 
 [System.Serializable]
 public class TrapData : GameDataBase
