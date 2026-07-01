@@ -12,42 +12,34 @@ public enum StatType
 
 public class StatUpItem : ItemBase
 {
-    Player _owner; //삭제해도될듯
-    StatUpItemData _itemData;
-    StatType _statType;
+    private StatUpItemData _itemData;
+    private StatType _statType;
 
-    public override void InitItem(string itemName)
+    public override void InitItem(string itemId)
     {
-        base.InitItem(itemName);
-
-        _itemData = DataManager.Instance.GetData<StatUpItemData>(itemName);
+        _itemData = DataManager.Instance.GetData<StatUpItemData>(itemId);
 
         if (_itemData == null)
         {
-            Debug.LogWarning($"Can't Find Item {ItemId}");
+            Debug.LogWarning($"[StatUpItem:InitItem] StatUpItemData 테이블에서 아이디를 찾을 수 없음");
             return;
         }
 
         //아까처럼 수정
-        bool isVariableStat = Enum.TryParse(_itemData.StatType, out _statType);
+        bool isStatParsed = Enum.TryParse(_itemData.StatType, out _statType);
 
-        if (!isVariableStat)
+        if (!isStatParsed)
         {
-            _statType = StatType.None;
+            Debug.LogWarning($"[StatUpItem:InitItem] StatType 파싱 실패");
+            return;
         }
-    }
-
-    //없어지겟죠
-    public override void AcquireItem(Player player)
-    {
-        _owner = player;
     }
 
     public override void UseItem(Player player)
     {
         if (_itemData == null)
         {
-            Debug.LogWarning($"Can't Find Item {ItemId}");
+            Debug.LogWarning($"[StatUpItem:UseItem] 아이템 데이터 없음.");
             return;
         }
 
@@ -66,12 +58,12 @@ public class StatUpItem : ItemBase
 
     private async UniTask ReserveDisableItem(Player player, float duration)
     {
-        CancellationToken cancelToken = _owner.GetCancellationTokenOnDestroy();
+        CancellationToken cancelToken = player.GetCancellationTokenOnDestroy();
         TimeSpan delayTime = System.TimeSpan.FromSeconds(duration);
         bool isCancel = await UniTask.Delay(delayTime, cancellationToken: cancelToken).SuppressCancellationThrow();
         if (isCancel)
         {
-            Debug.LogWarning("Owner Object is Destroyed while Buff OnRunning");
+            Debug.LogWarning("[StatUpItem:ReserveDisableItem] 비동기 처리 중 관련 오브젝트 파괴 됨");
             return;
         }
         UnUseItem(player);
