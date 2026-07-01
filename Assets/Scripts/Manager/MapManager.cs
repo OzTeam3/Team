@@ -1,12 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
-using Cysharp.Threading.Tasks.Triggers;
-using NUnit.Framework;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Threading;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.Experimental.GlobalIllumination;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 //using 정리
 //로그 정리
@@ -14,22 +9,25 @@ public class MapManager : MonoBehaviour
 {
     public static MapManager Instance { get; private set; }
 
-    //시리얼라이즈 없어도된다
-    [SerializeField] private Transform _playerTransform;
-
     private readonly Dictionary<string, GameObject> _spawnedZones = new Dictionary<string, GameObject>();
     private List<ZoneData> _zoneDataList;
 
     //?????
     private Transform _stageRoot;
     private GameObject _stageParent;
+    [SerializeField]private Transform _playerTransform;
 
 
-    //리소스 매니저 같게 해주요
     private void Awake()
     {
-        if (Instance == null) { Instance = this; }
-        else { Destroy(gameObject); }
+        if (Instance != null && Instance != this)
+        {
+            Debug.LogWarning($"[MapManager:Awake] 현재 인스턴스가 존재하여 중복 오브젝트를 파괴합니다.");
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
     }
 
     private void Start()
@@ -44,11 +42,13 @@ public class MapManager : MonoBehaviour
         CheckPlayerTransform();
     }
 
-    private async UniTask InitializeMapManager()
-    {    
-        //게임매니저로 뺸다.
+    private async UniTask InitializeMapManager(CancellationToken cancellationToken = default)
+    {
+        //게임매니저로 뺸다. 머지하면 빠짐
         //await UniTask.WaitUntil(() => DataManager.Instance.IsInitialized);
-        await DataManager.Instance.LoadAllDatasAsync();
+        await DataManager.Instance.LoadAllDatasAsync(cancellationToken);
+
+        //await UniTask.WaitUntil(() => DataManager.Instance != null && DataManager.Instance.LoadAllDatasAsync(cancellationToken).Status == UniTaskStatus.Succeeded);
 
         _zoneDataList = DataManager.Instance.GetAllData<ZoneData>();
         if (_zoneDataList == null)
@@ -57,41 +57,39 @@ public class MapManager : MonoBehaviour
             return;
         }
 
-        //하드코딩 풀어주세요
-        _stageParent = new GameObject("StageRoot");
-
-        foreach (ZoneData zone in _zoneDataList)
+        _stageParent = new GameObject(AddressableUtil.ZonePath.WayUp);
+        if (_stageParent == null)
         {
-            //분리좀해주세요
-            GameObject zoneObj = await ResourceManager.Instance.InstantiateGameObjectAsync(AddressableUtil.AddressPath.GetZonePath(zone.Name));
+            Debug.LogError("[MapManager: InitializeMapManager] 오브젝트를 생성하지 못했습니다.");
+            return;
+        }
 
-            //얼리리턴
-           //Obj 안쓰기
-            if (zoneObj != null)
+        foreach (ZoneData zoneData in _zoneDataList)
+        {
+            string zonePath = AddressableUtil.GetZonePath(zoneData.Name);
+            GameObject zoneObject = await ResourceManager.Instance.InstantiateGameObjectAsync(zonePath, cancellationToken: cancellationToken);
+            if (zoneObject == null)
             {
-                //구조적 수정 (타입으로 관리해도 되는거 아닌가?)
-                //하드코딩 풀어주세요
-
-                if (zone.Name.Contains("Stage"))
-                {
-                    zoneObj.transform.SetParent(_stageParent.transform);
-                    zoneObj.transform.position = new Vector3(-341.21f, 335.75f, 477.65f);
-                }
-                else
-                {
-                    zoneObj.transform.position = new Vector3();
-                }
-
-                _spawnedZones[zone.Name] = zoneObj;
-                zoneObj.SetActive(false);
-                zone.IsLoaded = false;
-
-                if (zone.Name.Contains("Ground"))
-                {
-                    zoneObj.SetActive(true);
-                    zone.IsLoaded = true;
-                }
+                continue;
             }
+            
+            //bool isStage = zoneData.Type == ZoneType.Stage; 팀장님한테 질문할것
+            bool isStage = zoneData.Name.Contains("Stage");
+            if (isStage)
+            {
+                zoneObject.transform.SetParent(_stageParent.transform);
+                zoneObject.transform.position = new Vector3(0, 8f, 0);
+            }
+            else
+            {
+                zoneObject.transform.position = Vector3.zero;
+            }
+
+            _spawnedZones[zoneData.Name] = zoneObject;
+
+            bool isGround = !isStage;
+            zoneObject.SetActive(isGround);
+            zoneData.IsLoaded = isGround;
         }
     }
 
@@ -102,41 +100,40 @@ public class MapManager : MonoBehaviour
             return;
         }
 
-        //거리로 합시다.
         float playerY = _playerTransform.position.y;
-        //Vector3.Distance(); 이 방법있고 최적화 : 제곱근 쓰는 방법있어여 (도전영역)
+        // 게임매니저받으면 혜창님이 해줌
 
-        foreach (ZoneData zone in _zoneDataList)
+        foreach (ZoneData zoneData in _zoneDataList)
         {
-            if (zone.Name.Contains("Stage"))
+            bool isStage = zoneData.Name.Contains("Stage");
+            if (isStage)
             {
 
-                bool isInside = (playerY >= (zone.MinY - 10)) && playerY <= (zone.MaxY + 10);
+                bool isInside = (playerY >= (zoneData.MinY)) && (playerY <= (zoneData.MaxY));
 
-                if (isInside != zone.IsLoaded)
+                if (isInside != zoneData.IsLoaded)
                 {
-                    UpdateZoneState(zone, isInside);
+                    UpdateZoneState(zoneData, isInside);
                 }
             }
         }
     }
 
-    private void UpdateZoneState(ZoneData zone, bool isInside)
+    private void UpdateZoneState(ZoneData zoneData, bool isInside)
     {
-        //중괄호 띄어쓰기 워닝이나 에러 출력해주세요
-        if (zone.IsLoaded == isInside) return;
-
-        zone.IsLoaded = isInside;
-
-        //얼리리턴
-        if (!_spawnedZones.TryGetValue(zone.Name, out GameObject zoneObj))
+        if (zoneData.IsLoaded == isInside)
         {
-            zoneObj.SetActive(isInside);
-            Debug.Log($"[MapManager: UpdateZoneState] {zone.Name} 활성화 상태: {isInside}");
+            return;
         }
-        else
+
+        zoneData.IsLoaded = isInside;
+
+        if (!_spawnedZones.TryGetValue(zoneData.Name, out GameObject zoneObj))
         {
-            Debug.LogWarning($"[MapManager: UpdateZoneState] {zone.Name} 오브젝트를 찾을 수 없습니다.");
+            Debug.LogWarning($"[MapManager: UpdateZoneState] 오브젝트를 찾을 수 없습니다.");
+            return;
         }
+
+        zoneObj.SetActive(isInside);
     }
 }
