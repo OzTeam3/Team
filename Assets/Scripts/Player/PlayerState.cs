@@ -25,7 +25,7 @@ public interface IPlayerState
 public class PlayerState_Idle : IPlayerState
 {
     private Animator _animator;
-    private Rigidbody _rigidbody;
+    private Rigidbody _rigidbody; // 플레이어 에서 퍼블릭으로 열어 주면 이걸 빼고 player._rigidbody 이렇게 접근하는 방법도 있다.
 
     public void EnterState(Player player)
     {
@@ -140,15 +140,11 @@ public class PlayerState_Walk : IPlayerState
         if (player._running)
         {
             player.ChangeState(PlayerState.Run);
+            return;
         }
         if (player._playerInput == Vector2.zero)
         {
             player.ChangeState(PlayerState.Idle);
-            return;
-        }
-        if (player._running)
-        {
-            player.ChangeState(PlayerState.Run);
             return;
         }
         Move(player);
@@ -330,6 +326,11 @@ public class PlayerState_Jump : IPlayerState
     {
         Vector2 _playerInput = player._playerInput;
 
+        if (_playerInput == Vector2.zero)
+        {
+            return; 
+        }
+
         Vector3 cameraForward = Vector3.ProjectOnPlane(_camera.transform.forward, Vector3.up).normalized;
         Vector3 cameraRight = Vector3.ProjectOnPlane(_camera.transform.right, Vector3.up).normalized;
 
@@ -348,9 +349,9 @@ public class PlayerState_Grab : IPlayerState
     private Animator _animator;
     private Rigidbody _rigidbody;
 
-    private Vector3 _startPos;              //3안 일때 추가
-    private float _climbTimer;              //3안 일때 추가
-    private float _climbDuration = 0.5f;    //3안 일때 추가
+    //private Vector3 _startPos;              //3안 일때 추가
+    //private float _climbTimer;              //3안 일때 추가
+    //private float _climbDuration = 0.5f;    //3안 일때 추가
     public void EnterState(Player player)
     {
         if (_animator == null)
@@ -372,10 +373,10 @@ public class PlayerState_Grab : IPlayerState
         _animator.SetBool("Grab", true);
         _rigidbody.useGravity = false;
         //_rigidbody.isKinematic = true; // 2안일때 추가
-        //_rigidbody.linearVelocity = Vector3.zero; // 기존
+        _rigidbody.linearVelocity = Vector3.zero; // 기존
 
-        _startPos = player.transform.position;
-        _climbTimer = 0f;
+        //_startPos = player.transform.position;     //3안 일때 추가
+        //_climbTimer = 0f;                          //3안 일때 추가
     }
 
     public void UpdateState(Player player)
@@ -416,28 +417,28 @@ public class PlayerState_Grab : IPlayerState
         //}
 
         // 1안 (엘리베이터처럼 올라감)
-        //if (player.transform.position.y < player._targetClimbPos.y - 0.1f)
-        //{
-        //    Vector3 upTarget = new Vector3(player.transform.position.x, player._targetClimbPos.y, player.transform.position.z);
+        if (player.transform.position.y < player._targetClimbPos.y - 0.05f)
+        {
+            Vector3 upTarget = new Vector3(player.transform.position.x, player._targetClimbPos.y, player.transform.position.z);
 
-        //    Vector3 movePos = Vector3.MoveTowards(player.transform.position, upTarget, 3f * Time.fixedDeltaTime);
-        //    _rigidbody.MovePosition(movePos);
-        //}
-        //else
-        //{
-        //    Vector3 forwardTarget = new Vector3(player._targetClimbPos.x, player.transform.position.y, player._targetClimbPos.z);
-        //    float dist = Vector3.Distance(player.transform.position, forwardTarget);
+            Vector3 movePos = Vector3.MoveTowards(player.transform.position, upTarget, 3f * Time.fixedDeltaTime);
+            _rigidbody.MovePosition(movePos);
+        }
+        else
+        {
+            Vector3 forwardTarget = new Vector3(player._targetClimbPos.x, player.transform.position.y, player._targetClimbPos.z);
+            float dist = Vector3.Distance(player.transform.position, forwardTarget);
 
-        //    if (dist > 0.15f)
-        //    {
-        //        Vector3 movePos = Vector3.MoveTowards(player.transform.position, forwardTarget, 3f * Time.fixedDeltaTime);
-        //        _rigidbody.MovePosition(movePos);
-        //    }
-        //    else
-        //    {
-        //        player._grab = false;
-        //    }
-        //}
+            if (dist > 0.15f)
+            {
+                Vector3 movePos = Vector3.MoveTowards(player.transform.position, forwardTarget, 3f * Time.fixedDeltaTime);
+                _rigidbody.MovePosition(movePos);
+            }
+            else
+            {
+                player._grab = false;
+            }
+        }
 
         //2안 슝 하고 바로 올라가버림
         //float distance = Vector3.Distance(player.transform.position, player._targetClimbPos);
@@ -454,21 +455,21 @@ public class PlayerState_Grab : IPlayerState
 
 
         //3안 
-        _climbTimer += Time.fixedDeltaTime;
+        //_climbTimer += Time.fixedDeltaTime;
 
-        float tClimb = _climbTimer / _climbDuration;
+        //float tClimb = _climbTimer / _climbDuration;
 
-        float smoothT = Mathf.SmoothStep(0f, 1f, tClimb);
+        //float smoothT = Mathf.SmoothStep(0f, 1f, tClimb);
 
-        Vector3 newPos = Vector3.Lerp(_startPos, player._targetClimbPos, smoothT);
-     
-        newPos.y += Mathf.Sin(smoothT * Mathf.PI) * 0.3f;
+        //Vector3 newPos = Vector3.Lerp(_startPos, player._targetClimbPos, smoothT);
 
-        _rigidbody.MovePosition(newPos);
+        //newPos.y += Mathf.Sin(smoothT * Mathf.PI) * 0.3f;
 
-        if (tClimb >= 1f)
-        {
-            player._grab = false;
-        }
+        //_rigidbody.MovePosition(newPos);
+
+        //if (tClimb >= 1f)
+        //{
+        //    player._grab = false;
+        //}
     }
 }

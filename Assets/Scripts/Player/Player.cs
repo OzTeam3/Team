@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Cysharp.Threading.Tasks.Triggers;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -26,6 +27,7 @@ public class Player : MonoBehaviour
 
     [Header("Player Set")]
     [SerializeField] public Vector3 _targetClimbPos;
+    //[SerializeField] private float _climbUpOffset = 0.5f;
 
     [Header("Jump Set")]
     [SerializeField] private float _jumpForce = 5f;
@@ -159,8 +161,23 @@ public class Player : MonoBehaviour
         }
 
         _canGrab = true;
+        //Vector3 top = ledgeCollider.bounds.max; // 사물 최고점
 
-        _targetClimbPos = ledgeCollider.transform.position + new Vector3(0, 1f, 0);
+        //_targetClimbPos = ledgeCollider.transform.position + new Vector3(0, 1f, 0); // << 범인으로 예상 사물체의 y값보다 낮게 잡는거같음 + 기존
+        //_targetClimbPos = new Vector3(ledgeCollider.transform.position.x, top.y + 0.1f, ledgeCollider.transform.position.z); //최고점 구해서 올라가는거
+
+
+        // 트리거 감지 후 플레이어 y 살짝 위 + 끼임 현상 발생 실린더 형태의 구조물이 대각선으로 누워있을 경우 옆면 탐
+        //_targetClimbPos = new Vector3(ledgeCollider.transform.position.x, transform.position.y + _climbUpOffset,ledgeCollider.transform.position.z);
+
+        // 1. 발판 표면 중 플레이어(나)와 가장 가까운 지점을 찾습니다. (X, Z축 훅 빨려들어감 방지)
+        Vector3 closestPoint = ledgeCollider.ClosestPoint(transform.position);
+
+        // 2. 발판 오브젝트가 가진 콜라이더 박스의 가장 높은 Y값을 구합니다. (꼭대기 높이)
+        float topY = ledgeCollider.bounds.max.y;
+
+        // 3. X, Z는 부딪힌 표면으로 유지하고, Y값만 발판 꼭대기로 정렬합니다.
+        _targetClimbPos = new Vector3(closestPoint.x, topY, closestPoint.z);
     }
 
     public void SetSpeed(float speed)
