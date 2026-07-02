@@ -1,7 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using Cysharp.Threading.Tasks;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using UnityEngine;
+using System;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
@@ -9,10 +12,14 @@ public class GameManager : MonoBehaviour
     [Header("----Player Settings")]
     private GameObject _playerPrefab;
     private Rigidbody _playerRigidbody;
+    private Transform _playerTransform;
+    private GameObject _playerObject;
+
     [Header("----Data Keys")]
     private readonly string StartPosionID = "StartPosition_001";
     private readonly string PlayerID = "Char_Mj";
 
+    public event Action<Transform> PlayerCreated;
     public CharacterData _characterData;
     private PlayerView _currentSaveData;
 
@@ -42,9 +49,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        
         InitPlayer();
-
+        StartUI(this.GetCancellationTokenOnDestroy()).Forget();
     }
 
     public void InitPlayer()
@@ -64,8 +70,12 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        GameObject playerObject = Instantiate(_playerPrefab, _currentSaveData._checkPointPosition, Quaternion.identity);
-        _playerRigidbody = playerObject.GetComponent<Rigidbody>();
+        _playerObject = Instantiate(_playerPrefab, _currentSaveData._checkPointPosition, Quaternion.identity);
+        _playerRigidbody = _playerObject.GetComponent<Rigidbody>();
+        _playerTransform = _playerObject.GetComponentInChildren<Transform>();
+
+        PlayerCreated?.Invoke(_playerTransform);
+
     }
 
     public void SaveGame(Vector3 checkPosition)
@@ -91,7 +101,12 @@ public class GameManager : MonoBehaviour
         _currentSaveData = null;
         SetDefaultPlayerData();
         SetPlayerPosition();
+        if (_playerObject != null)
+        {
+            Destroy(_playerObject);
+        }
     }
+
 
     public void ExitGame()
     {
@@ -201,5 +216,15 @@ public class GameManager : MonoBehaviour
         {
             _currentSaveData = newPlayerData;
         }
+    }
+    private async UniTaskVoid StartUI(CancellationToken cancellationToken)
+    {
+        UIManager.Instance.OpenFadeUI(cancellationToken).Forget();
+        await UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.TitleUI, cancellationToken: cancellationToken);
+    }
+
+    public Transform GetPlayerTransform()
+    {
+        return _playerTransform;
     }
 }
