@@ -5,28 +5,24 @@ using System.IO;
 using System.Threading;
 using UnityEngine;
 using System;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks.Triggers;
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    [Header("----Player Settings")]
-    private GameObject _playerPrefab;
-    private Rigidbody _playerRigidbody;
-    private Transform _playerTransform;
-    private GameObject _playerObject;
+    private Player _player;
 
-    [Header("----Data Keys")]
-    private readonly string StartPosionID = "StartPosition_001";
     private readonly string PlayerID = "Char_Mj";
 
-    public event Action<Transform> PlayerCreated;
-    public CharacterData _characterData;
-    private PlayerView _currentSaveData;
+    public event Action<Player> PlayerCreated;
 
-    private string _savePath;
+    private CharacterData _characterData;
 
-    public Dictionary<string, CharacterData> characterDict = new Dictionary<string, CharacterData>();
+    private PlayerView _playerSaveModel;
 
+    private string _savePath; //확인
 
     private void Awake()
     {
@@ -38,193 +34,159 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
-        LoadJsonData();
-        RequstLoadGame();
-
-        if (_currentSaveData == null)
-        {
-            SetDefaultPlayerData();
-        }
     }
 
     private void Start()
     {
-        InitPlayer();
+
         StartUI(this.GetCancellationTokenOnDestroy()).Forget();
     }
 
-    public void InitPlayer()
+    private CancellationToken token = new CancellationToken();
+    public void Initallize()
     {
+        _characterData = DataManager.Instance.GetData<CharacterData>(PlayerID);
+    }
 
-        if (_playerPrefab == null)
-        {
-             if (characterDict.TryGetValue(PlayerID, out CharacterData playerData))
-            {
-                _playerPrefab = Resources.Load<GameObject>(playerData.PrefabPath);
-            }
-        }
+    public async UniTask InstantiatePlayerAsync()
+    {
+        GameObject player = await ResourceManager.Instance.InstantiateGameObjectAsync(_characterData.PrefabPath, cancellationToken: token);
 
-        if (_playerPrefab == null || _currentSaveData == null)
+        if(!player.TryGetComponent(out Player player1))
         {
-            Debug.LogError("[GameManager] 프리팹 혹은 세이브 데이터가 없어서 플레이어를 생성 할 수 없습니다");
+            Debug.LogError("ddd");
             return;
         }
 
-        _playerObject = Instantiate(_playerPrefab, _currentSaveData._checkPointPosition, Quaternion.identity);
-        _playerRigidbody = _playerObject.GetComponent<Rigidbody>();
-        _playerTransform = _playerObject.GetComponentInChildren<Transform>();
+        //플레이어 초기화
 
-        PlayerCreated?.Invoke(_playerTransform);
-
+        _player = player1;
+        PlayerCreated?.Invoke(_player);
     }
 
-    public void SaveGame(Vector3 checkPosition)
+    public void SaveGame(Vector3 savePosition)
     {
-        if (_currentSaveData == null)
+        if (_playerSaveModel == null)
         {
             Debug.LogError("_currentSaveData가 널입니다");
             return;
         }
 
-        _currentSaveData._checkPointPosition = checkPosition;
-        RequstSaveGame();
-    }
+        _playerSaveModel._checkPointPosition = savePosition;
+        
+        bool isRequestSuccess = RequestSaveGame();
 
+        if(!isRequestSuccess)
+        {
+            Debug.LogError("");
+        }
+    }
+    
     public void LoadGame()
     {
         RequstLoadGame();
-        SetPlayerPosition();
     }
 
+
+    //리셋을 할까?
     public void ResetGame()
     {
-        _currentSaveData = null;
         SetDefaultPlayerData();
         SetPlayerPosition();
-        if (_playerObject != null)
-        {
-            Destroy(_playerObject);
-        }
     }
-
 
     public void ExitGame()
     {
-        #if UNITY_EDITOR
-          UnityEditor.EditorApplication.isPlaying = false;
-        #else
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
           Application.Quit();
-        #endif
+#endif
     }
 
     public void SetPlayerPosition()
     {
-        if (_playerRigidbody == null) return;
-
-        _playerRigidbody.linearVelocity = Vector3.zero;
-        _playerRigidbody.angularVelocity = Vector3.zero;
-        _playerRigidbody.position = _currentSaveData._checkPointPosition;
-    }
-
-    private string GetPath()
-    {
-        if (string.IsNullOrWhiteSpace(_savePath))
+        if (_player == null)
         {
-            _savePath = Path.Combine(Application.persistentDataPath, "SaveGameData.json");
-        }
-        return _savePath;
-    }
-
-    private void RequstSaveGame()
-    {
-        string path = GetPath();
-
-        string json = JsonUtility.ToJson(_currentSaveData, true);
-
-        if (string.IsNullOrEmpty(json))
-        {
-            Debug.LogError("저장할 세이브 데이터가 없습니다");
+            Debug.LogError("");
             return;
         }
 
-        File.WriteAllText(path, json);
+        //_playerRigidbody.linearVelocity = Vector3.zero;
+        //_playerRigidbody.angularVelocity = Vector3.zero;
+        //_playerRigidbody.position = _playerSaveModel._checkPointPosition;
     }
 
-    public void RequstLoadGame()
+    private string GetSavePath()
     {
-        string path = GetPath();
+        _savePath = Path.Combine(Application.persistentDataPath, "SaveGameData.json");
 
-        if (File.Exists(path))
+        if (string.IsNullOrWhiteSpace(_savePath))
         {
-            string json = File.ReadAllText(path);
-            PlayerView data = JsonUtility.FromJson<PlayerView>(json);
-
-            if (data == null)
-            {
-                Debug.LogError("파일은 있지만 데이터를 읽어오는 데 실패했습니다.");
-                return;
-            }
-
-            _currentSaveData = data;
-
+            Debug.LogError("");
+            return string.Empty;
         }
+
+        return _savePath;
     }
 
-    private void LoadJsonData()
+    private bool RequestSaveGame()
     {
-        TextAsset jsonAsset = Resources.Load<TextAsset>("Character");
-        
+        string savePath = GetSavePath();
 
-        if (jsonAsset != null)
+        if (string.IsNullOrWhiteSpace(savePath))
         {
-            List<CharacterData> tempList = JsonConvert.DeserializeObject<List<CharacterData>>(jsonAsset.text);
-
-            characterDict.Clear();
-            foreach (CharacterData data in tempList)
-            {
-                characterDict.Add(data.Id, data);
-            }
-
+            Debug.LogError("");
+            return false;
         }
-        else
+
+        string saveData = JsonUtility.ToJson(_playerSaveModel, true);
+
+        if (string.IsNullOrWhiteSpace(saveData))
         {
-            Debug.LogError("JSON 파일을 찾을 수 없습니다.");
+            Debug.LogError("저장할 세이브 데이터가 없습니다");
+            return false;
         }
+
+        File.WriteAllText(savePath, saveData);
+        return true;
+    }
+
+    private void RequstLoadGame()
+    {
+        string savePath = GetSavePath();
+
+        if (!File.Exists(savePath))
+        {
+            SetDefaultPlayerData();
+            return;
+        }
+
+        string saveData = File.ReadAllText(savePath);
+        PlayerView loadPlayerSaveModel = JsonUtility.FromJson<PlayerView>(saveData);
+
+        if (loadPlayerSaveModel == null)
+        {
+            Debug.LogError("데이터를 읽어오는 데 실패했습니다.");
+            return;
+        }
+
+        _playerSaveModel = loadPlayerSaveModel;
     }
 
     public void SetDefaultPlayerData()
     {
-        if (_currentSaveData != null) return;
+        PlayerView newPlayerSaveModel = new PlayerView();
 
-        PlayerView newPlayerData = new PlayerView();
-        newPlayerData._playerId = PlayerID;
+        newPlayerSaveModel._playerId = _characterData.Id;
+        newPlayerSaveModel._checkPointPosition = new Vector3(_characterData.StartPositionX, _characterData.StartPositionY, _characterData.StartPositionZ);
 
-        if (characterDict.TryGetValue(StartPosionID, out CharacterData startData))
-        {
-            newPlayerData._checkPointPosition = new Vector3(
-                startData.StartPositionX,
-                startData.StartPositionY,
-                startData.StartPositionZ
-            );
-        }
-        else
-        {
-            Debug.LogWarning("시작 지점 데이터를 찾지 못했습니다.");
-        }
-
-        if (newPlayerData != null)
-        {
-            _currentSaveData = newPlayerData;
-        }
+        _playerSaveModel = newPlayerSaveModel;
     }
+
     private async UniTaskVoid StartUI(CancellationToken cancellationToken)
     {
-        UIManager.Instance.OpenFadeUI(cancellationToken).Forget();
-        await UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.TitleUI, cancellationToken: cancellationToken);
-    }
-
-    public Transform GetPlayerTransform()
-    {
-        return _playerTransform;
+       // UIManager.Instance.OpenFadeUI(cancellationToken).Forget();
+       //await UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.TitleUI, cancellationToken: cancellationToken);
     }
 }
