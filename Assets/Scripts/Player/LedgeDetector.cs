@@ -3,24 +3,25 @@ using UnityEngine;
 
 public class LedgeDetector : MonoBehaviour
 {
-    public event Action<Collider> LedgeTriggeredEvent;
+    public event Action<Collider> OnLedgeTriggeredAction;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Ledge")) // 태그 그라운드로 
+        if (!other.CompareTag("Ground"))
         {
-            Debug.Log("충돌중");
-            LedgeTriggeredEvent?.Invoke(other);
+            return;
         }
+
+        OnLedgeTriggeredAction?.Invoke(other);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Ledge"))
+        if (!other.CompareTag("Ground"))
         {
-            LedgeTriggeredEvent?.Invoke(null); // 괄호안에 널투입
+            return;
         }
+
+        OnLedgeTriggeredAction?.Invoke(null);
     }
 }
-
-//그라운드 확인 -콜라이더 가져오기 -  모서리 알아서 -  

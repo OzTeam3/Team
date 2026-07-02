@@ -3,15 +3,25 @@ using UnityEngine;
 
 public class GroundDetector : MonoBehaviour
 {
-    public event Action<bool> GroundTriggeredEvent;
+    public event Action<bool> OnGroundTriggeredAction;
 
     private void OnTriggerEnter(Collider other)
     {
-        GroundTriggeredEvent.Invoke(true);
+        if (!other.CompareTag("Ground"))
+        {
+            return;
+        }
+
+        OnGroundTriggeredAction?.Invoke(true);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        GroundTriggeredEvent.Invoke(false);
+        if (!other.CompareTag("Ground"))
+        {
+            return;
+        }
+
+        OnGroundTriggeredAction?.Invoke(false);
     }
 }
