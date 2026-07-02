@@ -1,4 +1,4 @@
-[
+﻿[
   {
     "Id": "Ground_Zone",
     "Name": "Ground",
@@ -8,7 +8,7 @@
     "OffsetX": 0,
     "OffsetY": 0,
     "OffsetZ": 0,
-    "PrefabsPath": "JsonOutput/Ground"
+    "PrefabPath": "JsonOutput/Ground"
   },
   {
     "Id": "FirstStage_Zone",
@@ -19,7 +19,7 @@
     "OffsetX": 0,
     "OffsetY": 8,
     "OffsetZ": 0,
-    "PrefabsPath": "JsonOutput/FirstStage"
+    "PrefabPath": "JsonOutput/FirstStage"
   },
   {
     "Id": "SecondStage_Zone",
@@ -30,7 +30,7 @@
     "OffsetX": 0,
     "OffsetY": 8,
     "OffsetZ": 0,
-    "PrefabsPath": "JsonOutput/SecondStage"
+    "PrefabPath": "JsonOutput/SecondStage"
   },
   {
     "Id": "ThirdStage_Zone",
@@ -41,6 +41,6 @@
     "OffsetX": 0,
     "OffsetY": 8,
     "OffsetZ": 0,
-    "PrefabsPath": "JsonOutput/ThirdStage"
+    "PrefabPath": "JsonOutput/ThirdStage"
   }
 ]

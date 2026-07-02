@@ -36,8 +36,8 @@ public class SpinTrap : MonoBehaviour
             return;
         }
 
-        _spinSpeed = data.ActionValue;
-        _knockbackForce = data.KnockbackForce;
+        //_spinSpeed = data.ActionValue;
+       // _knockbackForce = data.KnockbackForce;
 
         Debug.Log($"[SpinTrap] {trapId} 초기화 완료! 속도: {_spinSpeed}");
     }

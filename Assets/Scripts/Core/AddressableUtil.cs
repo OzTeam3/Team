@@ -13,16 +13,6 @@
         public const string Sound = "JsonOutput/Sound";
     }
 
-    public static class ZonePath
-    {
-        public const string Ground = "JsonOutput/Ground";
-        public const string FirstStage = "JsonOutput/FirstStage";
-        public const string SecondStage = "JsonOutput/SecondStage";
-        public const string ThirdStage = "JsonOutput/ThirdStage";
-        public const string WayUp = "JsonOutput/WayUp";
-        public const string Map = "JsonOutput/Map";
-    }
-
     public static class UIPath
     {
         public const string ESCPopupUI = "JsonOutput/ESCPopupUI";
@@ -67,32 +57,8 @@
         public const string WindFan01 = "Prefab/Prefab_Trap_WindFan_001";
     }
 
-
-    public static string GetZonePath(string zoneName)
-    {
-        return $"JsonOutput/{zoneName}";
-    }
-
     public static string GetUIPath(string uiName)
     {
         return $"JsonOutput/{uiName}";
-    }
-    public static class ZoneName
-    {
-        public const string Ground = "Ground";
-        public const string FirstStage = "FirstStage";
-        public const string SecondStage = "SecondStage";
-        public const string ThirdStage = "ThirdStage";
-        public const string WayUp = "WayUp";
-        public const string Map = "Map";
-    }
-    public static class StageConfig
-    {
-        public const string DefaultStageName = ZoneName.WayUp;
-
-        public static string GetStageName()
-        {
-            return DefaultStageName;
-        }
     }
 }

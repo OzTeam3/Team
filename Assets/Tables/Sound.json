@@ -2,26 +2,26 @@
   {
     "Id": "Bgm1_001",
     "Name": "Bgm1",
-    "PrefabsPath": "JsonOutput/Bgm1"
+    "PrefabPath": "JsonOutput/Bgm1"
   },
   {
     "Id": "Bgm2_001",
     "Name": "Bgm2",
-    "PrefabsPath": "JsonOutput/Bgm2"
+    "PrefabPath": "JsonOutput/Bgm2"
   },
   {
     "Id": "Title_001",
     "Name": "Title",
-    "PrefabsPath": "JsonOutput/Title"
+    "PrefabPath": "JsonOutput/Title"
   },
   {
     "Id": "Button1_001",
     "Name": "Button1",
-    "PrefabsPath": "JsonOutput/Button1"
+    "PrefabPath": "JsonOutput/Button1"
   },
   {
     "Id": "Button2_001",
     "Name": "Button2",
-    "PrefabsPath": "JsonOutput/Button2"
+    "PrefabPath": "JsonOutput/Button2"
   }
 ]

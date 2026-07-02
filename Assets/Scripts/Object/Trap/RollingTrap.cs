@@ -38,8 +38,8 @@ public class RollingLogTrap : MonoBehaviour
             return;
         }
 
-        _rotationSpeed = data.ActionValue;
-        _maxSurfaceAngle = data.Value1;
+       // _rotationSpeed = data.ActionValue;
+       // _maxSurfaceAngle = data.Value1;
     }
 
     //최적화 enter과 exit로 변경(필수)

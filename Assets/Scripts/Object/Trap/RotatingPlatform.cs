@@ -37,8 +37,8 @@ public class RotatingPlatformTrap : MonoBehaviour
             return;
         }
 
-        _rotationSpeed = data.ActionValue;
-        _maxSurfaceAngle = data.Value1;
+        //_rotationSpeed = data.ActionValue;
+       // _maxSurfaceAngle = data.Value1;
     }
 
     private void OnCollisionStay(Collision collision)

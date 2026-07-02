@@ -39,9 +39,9 @@ public class FanTrap : MonoBehaviour
             return;
         }
 
-        _spinSpeed = data.ActionValue;
-        _maxWindStrength = data.Value1;
-        _maxDistance = data.Value2;
+       // _spinSpeed = data.ActionValue;
+       /// _maxWindStrength = data.Value1;
+      //  _maxDistance = data.Value2;
     }
 
     private void Update()

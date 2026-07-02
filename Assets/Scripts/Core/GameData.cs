@@ -149,10 +149,11 @@ public class UIData : GameDataBase
     public string PrefabPath;
 }
 
+[System.Serializable]
 public class SoundData : GameDataBase
 {
     public string Name;
-    public string PrefabsPath;
+    public string PrefabPath;
 }
 
 public class GameSettingData : GameDataBase

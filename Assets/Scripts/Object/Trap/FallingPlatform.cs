@@ -48,8 +48,8 @@ public class FallingPlatform : MonoBehaviour
             return;
         }
 
-        _waitingTime = data.Value1;
-        _respawnTime = data.ActionValue;
+       // _waitingTime = data.Value1;
+      //  _respawnTime = data.ActionValue;
     }
 
     private void OnEnable()

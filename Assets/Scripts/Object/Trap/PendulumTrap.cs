@@ -36,9 +36,9 @@ public class PendulumTrap : MonoBehaviour
             return;
         }
 
-        _swingSpeed = data.ActionValue;
+       // _swingSpeed = data.ActionValue;
         _knockbackForce = data.KnockbackForce;
-        _maxAngle = data.Value1;
+        //_maxAngle = data.Value1;
     }
 
     private void FixedUpdate()

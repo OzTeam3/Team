@@ -3,20 +3,17 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
-//using 정리
-//로그 정리
 public class MapManager : MonoBehaviour
 {
     public static MapManager Instance { get; private set; }
 
+    private const float SeamlessOffset = 10.0f;
+
     private readonly Dictionary<string, GameObject> _spawnedZones = new Dictionary<string, GameObject>();
     private List<ZoneData> _zoneDataList;
 
-    //?????
-    private Transform _stageRoot;
-    private GameObject _stageParent;
-    [SerializeField]private Transform _playerTransform;
-
+    [SerializeField] private GameObject _stageRoot;
+    [SerializeField] private Transform _playerTransform;
 
     private void Awake()
     {
@@ -33,7 +30,6 @@ public class MapManager : MonoBehaviour
     private void Start()
     {
         InitializeMapManager().Forget();
-
     }
 
     private void Update()
@@ -43,21 +39,15 @@ public class MapManager : MonoBehaviour
 
     private async UniTask InitializeMapManager(CancellationToken cancellationToken = default)
     {
-        //게임매니저로 뺸다. 머지하면 빠짐
-        //await UniTask.WaitUntil(() => DataManager.Instance.IsInitialized);
-        await DataManager.Instance.LoadAllDatasAsync(cancellationToken);
-
-        //await UniTask.WaitUntil(() => DataManager.Instance != null && DataManager.Instance.LoadAllDatasAsync(cancellationToken).Status == UniTaskStatus.Succeeded);
-
         _zoneDataList = DataManager.Instance.GetAllData<ZoneData>();
+
         if (_zoneDataList == null)
         {
             Debug.LogError("[MapManager: InitializeMapManager] 데이터를 가져오지 못했습니다.");
             return;
         }
 
-        _stageParent = new GameObject(AddressableUtil.StageConfig.GetStageName());
-        if (_stageParent == null)
+        if (_stageRoot == null)
         {
             Debug.LogError("[MapManager: InitializeMapManager] 오브젝트를 생성하지 못했습니다.");
             return;
@@ -65,8 +55,7 @@ public class MapManager : MonoBehaviour
 
         foreach (ZoneData zoneData in _zoneDataList)
         {
-            string zonePath = AddressableUtil.GetZonePath(zoneData.Name);
-            GameObject zoneObject = await ResourceManager.Instance.InstantiateGameObjectAsync(zonePath, cancellationToken: cancellationToken);
+            GameObject zoneObject = await ResourceManager.Instance.InstantiateGameObjectAsync(zoneData.PrefabPath, cancellationToken: cancellationToken);
             if (zoneObject == null)
             {
                 continue;
@@ -75,7 +64,7 @@ public class MapManager : MonoBehaviour
             bool isStage = zoneData.Name.Contains(ZoneType.Stage.ToString());
             if (isStage)
             {
-                zoneObject.transform.SetParent(_stageParent.transform);
+                zoneObject.transform.SetParent(_stageRoot.transform);
             }
 
             zoneObject.transform.position = zoneData.StagePosition;
@@ -94,14 +83,13 @@ public class MapManager : MonoBehaviour
         }
 
         float playerY = _playerTransform.position.y;
-        // 게임매니저받으면 혜창님이 해줌
 
         foreach (ZoneData zoneData in _zoneDataList)
         {
             bool isStage = zoneData.Name.Contains(ZoneType.Stage.ToString());
             if (isStage)
             {
-                bool isInside = (playerY >= (zoneData.MinY)) && (playerY <= (zoneData.MaxY));
+                bool isInside = (playerY >= (zoneData.MinY - SeamlessOffset)) && (playerY <= (zoneData.MaxY + SeamlessOffset));
 
                 if (isInside != zoneData.IsLoaded)
                 {

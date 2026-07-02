@@ -40,8 +40,8 @@ public class BlinkFloor : MonoBehaviour
             return;
         }
 
-        _delay = data.Value1;
-        _switchTime = data.Value2;
+       // _delay = data.Value1;
+       // _switchTime = data.Value2;
 
         if (_groups.Count == 0)
         {
