@@ -1,4 +1,4 @@
-[
+﻿[
   {
     "Id": "Trap_SpinObject_001",
     "Name": "SpinObject01",
@@ -78,7 +78,7 @@
     "PrefabPath": "Prefab/Prefab_Trap_RollingPlatform_001"
   },
   {
-    "Id": "Trap_RollingPlatform_001",
+    "Id": "Trap_RollingPlatform_002",
     "Name": "RollingPlatform02",
     "SpinSpeed": 150,
     "KnockbackForce": 0,
@@ -88,7 +88,7 @@
     "MaxAngle": 45,
     "MaxWindStrength": 0,
     "MaxDistance": 0,
-    "PrefabPath": "Prefab/Prefab_Trap_RollingPlatform_001"
+    "PrefabPath": "Prefab/Prefab_Trap_RollingPlatform_002"
   },
   {
     "Id": "Trap_PendulumObject_001",
@@ -101,10 +101,10 @@
     "MaxAngle": 60,
     "MaxWindStrength": 0,
     "MaxDistance": 0,
-    "PrefabPath": "Prefab/Prefab_Trap_PendulumObject_001"
+    "PrefabPath": "Prefab/Prefab_Trap_PendulumObject_Axe"
   },
   {
-    "Id": "Trap_PendulumObject_001",
+    "Id": "Trap_PendulumObject_002",
     "Name": "Pendulum_Hammer",
     "SpinSpeed": 6,
     "KnockbackForce": 12,
@@ -114,7 +114,7 @@
     "MaxAngle": 60,
     "MaxWindStrength": 0,
     "MaxDistance": 0,
-    "PrefabPath": "Prefab/Prefab_Trap_PendulumObject_001"
+    "PrefabPath": "Prefab/Prefab_Trap_PendulumObject_Hammer"
   },
   {
     "Id": "Trap_WindFan_001",
