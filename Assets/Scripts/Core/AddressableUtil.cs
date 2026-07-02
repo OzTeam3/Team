@@ -10,6 +10,7 @@
         public const string Zone = "JsonOutput/Zone";
         public const string UI = "JsonOutput/UI";
         public const string GameSetting = "JsonOutput/GameSetting";
+        public const string Sound = "JsonOutput/Sound";
     }
 
     public static class ZonePath
@@ -51,6 +52,23 @@
         public const string FinalPosition = "JsonOutput/FinalPosition";
 
     }
+
+    public static class TrapPath
+    {
+        public const string SpinObject01 = "Prefab/Prefab_Trap_SpinObject_001";
+        public const string BreakingPlatform01 = "Prefab/Prefab_Trap_BreakingPlatform_001";
+        public const string BlinkPlatform01 = "Prefab/Prefab_Trap_BlinkPlatform_001";
+        public const string JumpPad01 = "Prefab/Prefab_Trap_JumpPad_001";
+        public const string RollingObject01 = "Prefab/Prefab_Trap_RollingObject_001";
+        public const string RollingPlatform01 = "Prefab/Prefab_Trap_RollingPlatform_001";
+        public const string RollingPlatform02 = "Prefab/Prefab_Trap_RollingPlatform_002";
+        public const string Pendulum_Axe = "Prefab/Prefab_Trap_Pendulum_Axe";
+        public const string Pendulum_Hammer = "Prefab/Prefab_Trap_Pendulum_Hammer";
+        public const string WindFan01 = "Prefab/Prefab_Trap_WindFan_001";
+
+    }
+
+
     public static string GetZonePath(string zoneName)
     {
         return $"JsonOutput/{zoneName}";

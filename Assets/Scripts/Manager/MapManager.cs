@@ -38,7 +38,6 @@ public class MapManager : MonoBehaviour
 
     private void Update()
     {
-        if (_zoneDataList == null) { return; }
         CheckPlayerTransform();
     }
 
@@ -72,24 +71,18 @@ public class MapManager : MonoBehaviour
             {
                 continue;
             }
-            
-            //bool isStage = zoneData.Type == ZoneType.Stage; 팀장님한테 질문할것
-            bool isStage = zoneData.Name.Contains("Stage");
+
+            bool isStage = zoneData.Name.Contains(ZoneType.Stage.ToString());
             if (isStage)
             {
                 zoneObject.transform.SetParent(_stageParent.transform);
-                zoneObject.transform.position = new Vector3(0, 8f, 0);
-            }
-            else
-            {
-                zoneObject.transform.position = Vector3.zero;
             }
 
+            zoneObject.transform.position = zoneData.StagePosition;
             _spawnedZones[zoneData.Name] = zoneObject;
-
-            bool isGround = !isStage;
-            zoneObject.SetActive(isGround);
-            zoneData.IsLoaded = isGround;
+            bool isNotGround = !isStage;
+            zoneObject.SetActive(isNotGround);
+            zoneData.IsLoaded = isNotGround;
         }
     }
 
@@ -105,10 +98,9 @@ public class MapManager : MonoBehaviour
 
         foreach (ZoneData zoneData in _zoneDataList)
         {
-            bool isStage = zoneData.Name.Contains("Stage");
+            bool isStage = zoneData.Name.Contains(ZoneType.Stage.ToString());
             if (isStage)
             {
-
                 bool isInside = (playerY >= (zoneData.MinY)) && (playerY <= (zoneData.MaxY));
 
                 if (isInside != zoneData.IsLoaded)

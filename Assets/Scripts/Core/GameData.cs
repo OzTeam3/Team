@@ -44,8 +44,13 @@ public class GameDataBase
 public class CharacterData : GameDataBase
 {
     public string Name;
-    public float MoveSpeed;
+    public float WalkSpeed;
+    public float RotationSpeed;
+    public float JumpSpeed;
     public float JumpForce;
+    public float StartPositionX;
+    public float StartPositionY;
+    public float StartPositionZ;
     public string PrefabPath;
 }
 
@@ -62,10 +67,14 @@ public class ItemData : GameDataBase
 public class TrapData : GameDataBase
 {
     public string Name;
-    public float ActionValue;
+    public float SpinSpeed;
     public float KnockbackForce;
-    public float Value1;
-    public float Value2;
+    public float WaitingTime;
+    public float RespawnTime;
+    public float BounceForce;
+    public float MaxAngle;
+    public float MaxWindStrength;
+    public float MaxDistance;
     public string PrefabPath;
 }
 
@@ -79,6 +88,16 @@ public class MonsterData : GameDataBase
     public float DetectRadius;
     public float AttackRadius;
     public float PushForce;
+    public float MinWaitTime;
+    public float MaxWaitTime;
+    public float AttackCooldown;
+    public float ViewAngle;
+    public float PatrolRotationSpeed;
+    public float ChaseRotationSpeed;
+    public float AttackHitBuffer;
+    public float StartPositionX;
+    public float StartPositionY;
+    public float StartPositionZ;
     public string PrefabPath;
 }
 
@@ -94,7 +113,11 @@ public class ZoneData : GameDataBase
     public float OffsetY;
     public float OffsetZ;
     public string PrefabPath;
-
+    
+    public Vector3 StagePosition
+    {
+         get { return new Vector3(OffsetX, OffsetY, OffsetZ); }
+    }
     public bool IsLoaded { get; set; } = false;
 }
 
@@ -103,6 +126,21 @@ public class UIData : GameDataBase
 {
     public string Name;
     public UIRootType UIRootType;
-    public string UIType;
+    public UIType UIType;
     public string PrefabPath;
+}
+
+public class SoundData : GameDataBase
+{
+    public string Name;
+    public string PrefabsPath;
+}
+
+public class GameSettingData : GameDataBase
+{
+    public string Name;
+    public float PositionX;
+    public float PositionY;
+    public float PositionZ;
+    public string PrefabsPath;
 }

@@ -79,10 +79,15 @@ public class DataManager : MonoBehaviour
             return CollectionCache<T>.EmptyList;
         }
 
-        //카운트 0이 에러인가?
-        if (dataTable == null || dataTable.Count == 0)
+        if (dataTable == null)
         {
             Debug.LogError($"[DataManager:GetAllData] 데이터가 비어있습니다.");
+            return CollectionCache<T>.EmptyList;
+        }
+
+        if (dataTable.Count == 0)
+        {
+            Debug.LogWarning($"[DataManager:GetAllData] 데이터가 비어있습니다.");
             return CollectionCache<T>.EmptyList;
         }
 
@@ -99,6 +104,7 @@ public class DataManager : MonoBehaviour
         await LoadDataAsync<MonsterData>(AddressableUtil.DataPath.Monster, cancellationToken);
         await LoadDataAsync<ZoneData>(AddressableUtil.DataPath.Zone, cancellationToken);
         await LoadDataAsync<UIData>(AddressableUtil.DataPath.UI, cancellationToken);
+        await LoadDataAsync<SoundData>(AddressableUtil.DataPath.Sound, cancellationToken);
     }
 
     //삭제 게임매니저 머지후

@@ -1,37 +1,27 @@
-[
+﻿[
   {
     "Id": "Bgm1_001",
     "Name": "Bgm1",
-    "UIRootType": "PopupUI",
-    "UIType": "Bgm1",
     "PrefabsPath": "JsonOutput/Bgm1"
   },
   {
     "Id": "Bgm2_001",
     "Name": "Bgm2",
-    "UIRootType": "VeryFrontfUI",
-    "UIType": "Bgm2",
     "PrefabsPath": "JsonOutput/Bgm2"
   },
   {
     "Id": "Title_001",
     "Name": "Title",
-    "UIRootType": "ContentUI",
-    "UIType": "Title",
     "PrefabsPath": "JsonOutput/Title"
   },
   {
     "Id": "Button1_001",
     "Name": "Button1",
-    "UIRootType": "VeryFrontfUI",
-    "UIType": "Button1",
     "PrefabsPath": "JsonOutput/Button1"
   },
   {
     "Id": "Button2_001",
     "Name": "Button2",
-    "UIRootType": "VeryFrontfUI",
-    "UIType": "Button2",
     "PrefabsPath": "JsonOutput/Button2"
   }
 ]
