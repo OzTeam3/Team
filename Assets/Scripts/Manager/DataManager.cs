@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading;
 using UnityEngine;
 
-
 public class DataManager : MonoBehaviour
 {
     public static DataManager Instance { get; private set; }
@@ -22,13 +21,6 @@ public class DataManager : MonoBehaviour
         }
 
         Instance = this;
-    }
-
-    //삭제
-    private void Start()
-    {
-        //게임매니저로 빠진다.
-        InitializeData().Forget();
     }
 
     public T GetData<T>(string dataId) where T : GameDataBase
@@ -91,8 +83,6 @@ public class DataManager : MonoBehaviour
             return CollectionCache<T>.EmptyList;
         }
 
-        //이건 생각만 : Linq 사용해야될까?
-        //foreach문 으로 처리할 순 없나?
         return dataTable.Values.ToList();
     }
 
@@ -105,12 +95,6 @@ public class DataManager : MonoBehaviour
         await LoadDataAsync<ZoneData>(AddressableUtil.DataPath.Zone, cancellationToken);
         await LoadDataAsync<UIData>(AddressableUtil.DataPath.UI, cancellationToken);
         await LoadDataAsync<SoundData>(AddressableUtil.DataPath.Sound, cancellationToken);
-    }
-
-    //삭제 게임매니저 머지후
-    private async UniTask InitializeData()
-    {
-        await LoadAllDatasAsync();
     }
 
     private async UniTask LoadDataAsync<T>(string address, CancellationToken cancellationToken) where T : GameDataBase

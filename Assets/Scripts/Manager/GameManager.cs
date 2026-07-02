@@ -1,28 +1,24 @@
 ﻿using Cysharp.Threading.Tasks;
-using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using UnityEngine;
-using System;
-using System.Threading.Tasks;
-using Cysharp.Threading.Tasks.Triggers;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    private Player _player;
-
     private readonly string PlayerID = "Char_Mj";
-
-    public event Action<Player> PlayerCreated;
 
     private CharacterData _characterData;
 
     private PlayerView _playerSaveModel;
 
-    private string _savePath; //확인
+    private string _savePath;
+    private bool _isPlaying;
+
+    public Player PlayerController { get; private set; }
+
+    public float ElapsedTime { get; private set; }
 
     private void Awake()
     {
@@ -38,30 +34,81 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-
-        StartUI(this.GetCancellationTokenOnDestroy()).Forget();
+        UIManager.Instance.OpenFadeUI(InitalizeGame, token).Forget();
     }
 
-    private CancellationToken token = new CancellationToken();
-    public void Initallize()
+    private void Update()
     {
-        _characterData = DataManager.Instance.GetData<CharacterData>(PlayerID);
-    }
-
-    public async UniTask InstantiatePlayerAsync()
-    {
-        GameObject player = await ResourceManager.Instance.InstantiateGameObjectAsync(_characterData.PrefabPath, cancellationToken: token);
-
-        if(!player.TryGetComponent(out Player player1))
+        if (!_isPlaying)
         {
-            Debug.LogError("ddd");
             return;
         }
 
-        //플레이어 초기화
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            OpenEscapePopup();
+        }
 
-        _player = player1;
-        PlayerCreated?.Invoke(_player);
+        ElapsedTime += Time.deltaTime;
+    }
+
+    private void OpenEscapePopup()
+    {
+        UIManager.Instance.OpenPopupUIAsync(UIType.ESCPopupUI, token).Forget();
+    }
+
+    private CancellationToken token = new CancellationToken();
+    
+    public void InitalizeGame()
+    {
+        InitallizeLogic().Forget();
+    }
+
+    public async UniTask<Player> SettingPlayer()
+    {
+        if (PlayerController == null)
+        {
+            await InstantiatePlayerAsync();
+        }
+
+        SetPlayerPosition();
+
+        return PlayerController;
+    }
+
+    public void PlayNewGame()
+    {
+        ResetPlaySaveModel();
+        ElapsedTime = _playerSaveModel.ElapsedTime;
+        _isPlaying = true;
+    }
+
+    public void PlayLoadGame()
+    {
+        LoadGame();
+        ElapsedTime = _playerSaveModel.ElapsedTime;
+        _isPlaying = true;
+    }
+
+    public void EndGame()
+    {
+        _isPlaying = false;
+        PlayerController.gameObject.SetActive(false);
+    }
+
+    public void FinishGame()
+    {
+        EndGame();
+        UIManager.Instance.OpenPopupUIAsync(UIType.EndingPopupUI).Forget();
+    }
+
+    public void ExitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+          Application.Quit();
+#endif
     }
 
     public void SaveGame(Vector3 savePosition)
@@ -72,7 +119,8 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        _playerSaveModel._checkPointPosition = savePosition;
+        _playerSaveModel.CheckPointPosition = savePosition;
+        _playerSaveModel.ElapsedTime = ElapsedTime;
         
         bool isRequestSuccess = RequestSaveGame();
 
@@ -87,44 +135,50 @@ public class GameManager : MonoBehaviour
         RequstLoadGame();
     }
 
-
-    //리셋을 할까?
-    public void ResetGame()
-    {
-        SetDefaultPlayerData();
-        SetPlayerPosition();
-    }
-
-    public void ExitGame()
-    {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-          Application.Quit();
-#endif
-    }
-
     public void SetPlayerPosition()
     {
-        if (_player == null)
+        if (PlayerController == null)
         {
-            Debug.LogError("");
+            Debug.LogError("[GameManager:SetPlayerPosition] 플레이어가 없습니다.");
             return;
         }
 
-        //_playerRigidbody.linearVelocity = Vector3.zero;
-        //_playerRigidbody.angularVelocity = Vector3.zero;
-        //_playerRigidbody.position = _playerSaveModel._checkPointPosition;
+        PlayerController.transform.position = _playerSaveModel.CheckPointPosition;
+    }
+
+    private async UniTask InitallizeLogic()
+    {
+        await DataManager.Instance.LoadAllDatasAsync(token);
+        _characterData = DataManager.Instance.GetData<CharacterData>(PlayerID);
+        await UIManager.Instance.OpenMainUIAsync(UIType.TitleUI);
+    }
+
+    private async UniTask InstantiatePlayerAsync()
+    {
+        GameObject player = await ResourceManager.Instance.InstantiateGameObjectAsync(_characterData.PrefabPath, cancellationToken: token);
+
+        if (!player.TryGetComponent(out Player player1))
+        {
+            Debug.LogError("[GameManager:InstantiatePlayerAsync] 플레이어 컨트롤러 컴포.");
+            return;
+        }
+
+        //플레이어 초기화
+
+        PlayerController = player1;
     }
 
     private string GetSavePath()
     {
-        _savePath = Path.Combine(Application.persistentDataPath, "SaveGameData.json");
-
         if (string.IsNullOrWhiteSpace(_savePath))
         {
-            Debug.LogError("");
-            return string.Empty;
+            _savePath = Path.Combine(Application.persistentDataPath, "SaveGameData.json");
+
+            if (string.IsNullOrWhiteSpace(_savePath))
+            {
+                Debug.LogError("[GameManager:GetSavePath] 올바르지 않은 저장 경로입니다.");
+                return string.Empty;
+            }
         }
 
         return _savePath;
@@ -144,7 +198,7 @@ public class GameManager : MonoBehaviour
 
         if (string.IsNullOrWhiteSpace(saveData))
         {
-            Debug.LogError("저장할 세이브 데이터가 없습니다");
+            Debug.LogError("\"[GameManager:RequestSaveGame] 저장할 세이브 데이터가 없습니다");
             return false;
         }
 
@@ -158,7 +212,7 @@ public class GameManager : MonoBehaviour
 
         if (!File.Exists(savePath))
         {
-            SetDefaultPlayerData();
+            ResetPlaySaveModel();
             return;
         }
 
@@ -167,26 +221,21 @@ public class GameManager : MonoBehaviour
 
         if (loadPlayerSaveModel == null)
         {
-            Debug.LogError("데이터를 읽어오는 데 실패했습니다.");
+            Debug.LogError("\"[GameManager:RequstLoadGame] 데이터를 읽어오는 데 실패했습니다.");
             return;
         }
 
         _playerSaveModel = loadPlayerSaveModel;
     }
 
-    public void SetDefaultPlayerData()
+    public void ResetPlaySaveModel()
     {
         PlayerView newPlayerSaveModel = new PlayerView();
 
-        newPlayerSaveModel._playerId = _characterData.Id;
-        newPlayerSaveModel._checkPointPosition = new Vector3(_characterData.StartPositionX, _characterData.StartPositionY, _characterData.StartPositionZ);
+        newPlayerSaveModel.PlayerId = _characterData.Id;
+        newPlayerSaveModel.CheckPointPosition = new Vector3(_characterData.StartPositionX, _characterData.StartPositionY, _characterData.StartPositionZ);
+        newPlayerSaveModel.ElapsedTime = 0.0f;
 
         _playerSaveModel = newPlayerSaveModel;
-    }
-
-    private async UniTaskVoid StartUI(CancellationToken cancellationToken)
-    {
-       // UIManager.Instance.OpenFadeUI(cancellationToken).Forget();
-       //await UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.TitleUI, cancellationToken: cancellationToken);
     }
 }

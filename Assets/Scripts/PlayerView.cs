@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class PlayerView : MonoBehaviour
+public class PlayerView
 {
-    public string _playerId;
-    public Vector3 _checkPointPosition;
-   
+    public string PlayerId;
+    public Vector3 CheckPointPosition;
+    public float ElapsedTime;
 }

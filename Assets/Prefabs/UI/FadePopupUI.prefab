@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2650812805518131303
 MonoBehaviour:
@@ -50,8 +50,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45c4cd67d0080e44ea97afd99d246272, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FadePopupUI
-  _imagePanel: {fileID: 2183386743879885782}
-  _imagePane2: {fileID: 3112713158750256956}
+  _backGround: {fileID: 3112713158750256956}
+  _fade: {fileID: 2183386743879885782}
   _fadeTime: 1
 --- !u!1 &3469482512073524068
 GameObject:
@@ -65,7 +65,7 @@ GameObject:
   - component: {fileID: 4432542603005703028}
   - component: {fileID: 3112713158750256956}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: BackGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 457587047939223667}
   - component: {fileID: 2183386743879885782}
   m_Layer: 5
-  m_Name: Image
+  m_Name: FadeImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -163,7 +163,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1830, y: 990}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &457587047939223667
 CanvasRenderer:

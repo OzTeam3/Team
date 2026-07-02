@@ -1,6 +1,4 @@
-﻿using Cysharp.Threading.Tasks;
-using System.Threading;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class StartPopupUI : UIBase
 {
@@ -15,31 +13,39 @@ public class StartPopupUI : UIBase
         _buttonBack.BindOnClickButtonEvent(OnClickBack);
     }
 
+    private void OnDisable()
+    {
+        _buttonNewStart.UnBindOnClickButtonEvent(OnClickNewStart);
+        _buttonContinue.UnBindOnClickButtonEvent(OnClickContinue);
+        _buttonBack.UnBindOnClickButtonEvent(OnClickBack);
+    }
+
     private async void OnClickNewStart()
     {
-        AudioController.Instance.PlayBGM(AddressableUtil.SoundPath.Bgm1);
-        GameManager.Instance.ResetGame();
-        UIManager.Instance.ClosePopupUI(UIType.StartPopupUI);
-        UIManager.Instance.CloseUI(UIRootType.MainUI, UIType.TitleUI);
-        GameManager.Instance.InitPlayer();
-
+        GameManager.Instance.PlayNewGame();
+        await MapManager.Instance.InitializeMapManager();
         await UIManager.Instance.OpenContentUIAsync(UIType.MainHUD);
-        MainHUD.Instance.StartHUD();
+
+        UIManager.Instance.CloseUI(UIType.StartPopupUI);
+        UIManager.Instance.CloseUI(UIType.TitleUI);
+
+        AudioController.Instance.PlayBGM(AddressableUtil.SoundPath.Bgm);
     }
 
     private async void OnClickContinue()
     {
-        GameManager.Instance.LoadGame();
-        GameManager.Instance.InitPlayer();
-        UIManager.Instance.ClosePopupUI(UIType.StartPopupUI);
-        UIManager.Instance.CloseUI(UIRootType.MainUI, UIType.TitleUI);
-
+        GameManager.Instance.PlayLoadGame();
+        await MapManager.Instance.InitializeMapManager();
         await UIManager.Instance.OpenContentUIAsync(UIType.MainHUD);
-        MainHUD.Instance.StartHUD();
+
+        UIManager.Instance.CloseUI(UIType.StartPopupUI);
+        UIManager.Instance.CloseUI(UIType.TitleUI);
+
+        AudioController.Instance.PlayBGM(AddressableUtil.SoundPath.Bgm);
     }
 
     private void OnClickBack()
     {
-        UIManager.Instance.ClosePopupUI(UIType.StartPopupUI);
+        UIManager.Instance.CloseUI(UIType.StartPopupUI);
     }
 }

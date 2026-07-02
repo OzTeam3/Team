@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,26 +10,40 @@ public class SettingPopupUI : UIBase
     [SerializeField] private Slider _sliderSFX;
     [SerializeField] private Dropdown _dropdownResolution;
 
+    private readonly List<Resolution> _availableResolutions = new List<Resolution>();
 
-    private List<Resolution> _availableResolutions = new List<Resolution>();
+    private void Awake()
+    {
+        InitResolutionDropdown();
+    }
 
     private void OnEnable()
     {
         _buttonBack.BindOnClickButtonEvent(OnClickBack);
         _buttonBack2.BindOnClickButtonEvent(OnClickBack);
 
-        // 버튼 바인트랑 같은 개념 이벤트를 여는 것
         _sliderBGM.onValueChanged.AddListener(OnChangeBGM);
         _sliderSFX.onValueChanged.AddListener(OnChangeSFX);
+
         _dropdownResolution.onValueChanged.AddListener(OnChangeResolution);
 
         InitSliderVolume();
-        InitResolutionDropdown();
+    }
+
+    private void OnDisable()
+    {
+        _buttonBack.UnBindOnClickButtonEvent(OnClickBack);
+        _buttonBack2.UnBindOnClickButtonEvent(OnClickBack);
+
+        _sliderBGM.onValueChanged.RemoveListener(OnChangeBGM);
+        _sliderSFX.onValueChanged.RemoveListener(OnChangeSFX);
+
+        _dropdownResolution.onValueChanged.RemoveListener(OnChangeResolution);
     }
 
     private void OnClickBack()
     {
-        UIManager.Instance.ClosePopupUI(UIType.SettingPopupUI);
+        UIManager.Instance.CloseUI(UIType.SettingPopupUI);
     }
 
     private void OnChangeBGM(float value)
@@ -45,7 +58,6 @@ public class SettingPopupUI : UIBase
 
     private void OnChangeResolution(int index)
     {
-        //드롭다운에서 몇 번째 항목을 선택했는지 받아서 그 항목에 해당하는 가로, 세로 크기를 찾아내고, 해상도를 바꿈
         Resolution selected = _availableResolutions[index];
         Screen.SetResolution(selected.width, selected.height, Screen.fullScreen);
     }
@@ -58,7 +70,6 @@ public class SettingPopupUI : UIBase
 
     private void InitResolutionDropdown()
     {
-        // 모니터가 지원하는 해상도 목록을 가져와서 해시셋을 이용해 중복없이 드롭다운에 채워넣는 함수.
         _availableResolutions.Clear();
 
         List<string> options = new List<string>();

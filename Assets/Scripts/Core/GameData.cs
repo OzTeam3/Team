@@ -9,25 +9,25 @@ public enum ZoneType
     UnStage
 }
 
-//public enum UIRootType
-//{
-//    BackgroundUI,
-//    MainUI,
-//    ContentUI,
-//    PopupUI,
-//    VeryFrontUI
-//}
+public enum UIRootType
+{
+    BackgroundUI,
+    MainUI,
+    ContentUI,
+    PopupUI,
+    VeryFrontUI
+}
 
-//public enum UIType
-//{
-//    ESCPopupUI,
-//    FadePopupUI,
-//    MainHUD,
-//    TitleUI,
-//    SettingPopupUI,
-//    StartPopupUI,
-//    EndingPopupUI
-//}
+public enum UIType
+{
+    ESCPopupUI,
+    FadePopupUI,
+    MainHUD,
+    TitleUI,
+    SettingPopupUI,
+    StartPopupUI,
+    EndingPopupUI
+}
 
 [Serializable]
 public class SerializationWrapper<T>

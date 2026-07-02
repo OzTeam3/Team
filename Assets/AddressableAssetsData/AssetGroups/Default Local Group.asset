@@ -15,13 +15,48 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: dcf732d7e0ea58346b14a4b673424943
   m_SerializeEntries:
+  - m_GUID: 163e9d7a7fa1ee848907d05bd7a89180
+    m_Address: JsonOutput/Button1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 20a340f5f25f0ce4b83bd5ce3eb3a11d
+    m_Address: JsonOutput/FadePopupUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3b7c00b9fe0a7a945969f2361bbd2947
+    m_Address: JsonOutput/MainHUD
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4ca738e4a03badf4a89491ed46666e10
+    m_Address: Prefab/Prefab_Char_Mj
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 56d21883949422e4a962def5d5296cf1
+    m_Address: JsonOutput/Button2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 585d489ae7b32284d9cd0ff5dae3199e
+    m_Address: JsonOutput/StartPopupUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 62b72b9a346b3a949866162f8c6627b4
     m_Address: JsonOutput/UI
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 68054f97912e42b4fb7ca436100c4349
-    m_Address: Assets/Prefabs/UI/OpeningUI
+    m_Address: JsonOutput/TitleUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 68901bcd61530a9498e64316193a302b
+    m_Address: JsonOutput/ESCPopupUI
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -35,13 +70,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8e1bf7bfdd37fae44a01ac6f23629929
-    m_Address: JsonOutput/Item
+  - m_GUID: 845e614ed30060647b7292c0a2157e4f
+    m_Address: JsonOutput/Title
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 921e197c01d7e4e44bc8b9632a4d7e2c
-    m_Address: Assets/Prefabs/Manager/UIManager.prefab
+  - m_GUID: 8e1bf7bfdd37fae44a01ac6f23629929
+    m_Address: JsonOutput/Item
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -57,6 +92,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bf890fc9fed48bd4d9df1a47ff9fbf1e
     m_Address: JsonOutput/GameSetting
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c190d3293e5cc464fa66f5804950e46b
+    m_Address: JsonOutput/Bgm
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -80,8 +120,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: da9111ba423de004d9ce6a19fcf549e8
+    m_Address: JsonOutput/SettingPopupUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e38ae4858db21f24e89413b05b2659c8
     m_Address: JsonOutput/Character
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f1c862beeccdba64a9f1f1529dd8e51f
+    m_Address: JsonOutput/EndingPopupUI
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

@@ -9,11 +9,13 @@ public class MapManager : MonoBehaviour
 
     private const float SeamlessOffset = 10.0f;
 
+    [SerializeField] private Transform _mapRoot;
+    [SerializeField] private Transform _playerTransform;
+
     private readonly Dictionary<string, GameObject> _spawnedZones = new Dictionary<string, GameObject>();
     private List<ZoneData> _zoneDataList;
 
-    [SerializeField] private GameObject _stageRoot;
-    [SerializeField] private Transform _playerTransform;
+    private bool _isInitalized;
 
     private void Awake()
     {
@@ -27,52 +29,69 @@ public class MapManager : MonoBehaviour
         Instance = this;
     }
 
-    private void Start()
-    {
-        InitializeMapManager().Forget();
-    }
-
     private void Update()
     {
         CheckPlayerTransform();
     }
 
-    private async UniTask InitializeMapManager(CancellationToken cancellationToken = default)
+    public async UniTask InitializeMapManager(CancellationToken cancellationToken = default)
     {
-        _zoneDataList = DataManager.Instance.GetAllData<ZoneData>();
-
-        if (_zoneDataList == null)
+        if (!_isInitalized)
         {
-            Debug.LogError("[MapManager: InitializeMapManager] 데이터를 가져오지 못했습니다.");
-            return;
-        }
+            _zoneDataList = DataManager.Instance.GetAllData<ZoneData>();
 
-        if (_stageRoot == null)
-        {
-            Debug.LogError("[MapManager: InitializeMapManager] 오브젝트를 생성하지 못했습니다.");
-            return;
-        }
-
-        foreach (ZoneData zoneData in _zoneDataList)
-        {
-            GameObject zoneObject = await ResourceManager.Instance.InstantiateGameObjectAsync(zoneData.PrefabPath, cancellationToken: cancellationToken);
-            if (zoneObject == null)
+            if (_zoneDataList == null)
             {
-                continue;
+                Debug.LogError("[MapManager: InitializeMapManager] 데이터를 가져오지 못했습니다.");
+                return;
             }
 
-            bool isStage = zoneData.Name.Contains(ZoneType.Stage.ToString());
-            if (isStage)
+            foreach (ZoneData zoneData in _zoneDataList)
             {
-                zoneObject.transform.SetParent(_stageRoot.transform);
-            }
+                GameObject zoneObject = await ResourceManager.Instance.InstantiateGameObjectAsync(zoneData.PrefabPath, _mapRoot, cancellationToken: cancellationToken);
 
-            zoneObject.transform.position = zoneData.StagePosition;
-            _spawnedZones[zoneData.Name] = zoneObject;
-            bool isNotGround = !isStage;
-            zoneObject.SetActive(isNotGround);
-            zoneData.IsLoaded = isNotGround;
+                if (zoneObject == null)
+                {
+                    Debug.LogError("[MapManager:InitializeMapManager] 맵 생성에 실패했습니다.");
+                    break;
+                }
+
+                bool isStage = zoneData.Name.Contains(ZoneType.Stage.ToString());
+
+                zoneObject.transform.position = zoneData.StagePosition;
+                _spawnedZones[zoneData.Name] = zoneObject;
+                bool isNotGround = !isStage;
+                zoneObject.SetActive(isNotGround);
+                zoneData.IsLoaded = isNotGround;
+            }
+            _isInitalized = true;
         }
+
+        EnableMap();
+
+        Player player = await GameManager.Instance.SettingPlayer();
+        _playerTransform = player.transform;
+        _playerTransform.gameObject.SetActive(true);
+    }
+
+    public void DisableMap()
+    {
+        if (_mapRoot == null)
+        {
+            Debug.LogError("[MapManager:EnableMap] 맵 루트가 없습니다.");
+        }
+
+        _mapRoot.gameObject.SetActive(false);
+    }
+
+    private void EnableMap()
+    {
+        if (_mapRoot == null)
+        {
+            Debug.LogError("[MapManager:EnableMap] 맵 루트가 없습니다.");
+        }
+
+        _mapRoot.gameObject.SetActive(true);
     }
 
     private void CheckPlayerTransform()

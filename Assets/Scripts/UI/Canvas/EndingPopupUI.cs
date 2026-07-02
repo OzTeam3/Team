@@ -9,19 +9,32 @@ public class EndingPopupUI : UIBase
 
     private void OnEnable()
     {
-        _buttonTitle.BindOnClickButtonEvent(OnClickTitle);
+        Time.timeScale = 0;
 
-        if (MainHUD.Instance != null)
-        {
-            SetClearTime(MainHUD.Instance._elapsedTime);
-        }
+        float playTime = GameManager.Instance.ElapsedTime;
+        SetClearTime(playTime);
+
+        _buttonTitle.BindOnClickButtonEvent(OnClickTitle);
+    }
+
+    private void OnDisable()
+    {
+        Time.timeScale = 1;
+        _buttonTitle.UnBindOnClickButtonEvent(OnClickTitle);
     }
 
     private void OnClickTitle()
     {
-        UIManager.Instance.CloseContentUI(UIType.MainHUD);
-        UIManager.Instance.ClosePopupUI(UIType.EndingPopupUI);
-        UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.TitleUI).Forget();
+        ClickTitle().Forget();
+    }
+
+    private async UniTask ClickTitle()
+    {
+        UIManager.Instance.CloseUI(UIType.MainHUD);
+        await UIManager.Instance.OpenMainUIAsync(UIType.TitleUI);
+        GameManager.Instance.EndGame();
+        MapManager.Instance.DisableMap();
+        UIManager.Instance.CloseUI(UIType.EndingPopupUI);
     }
 
     private void SetClearTime(float clearTime)
@@ -35,5 +48,4 @@ public class EndingPopupUI : UIBase
             _textTime.text = string.Format("{0:00}:{1:00}:{2:00}", hours, minutes, seconds);
         }
     }
-
 }

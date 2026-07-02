@@ -26,51 +26,6 @@ public class ResourceManager : MonoBehaviour
         Instance = this;
     }
 
-    public void Initialize()
-    {
-        //최적화 작업중
-
-        //var instancePairs = _instantiatedGameObjectDict.ToList();
-        //foreach (var pair in instancePairs)
-        //{
-        //    if (pair.Key != null)
-        //    {
-        //        TryReleaseInstance(pair.Key);
-        //    }
-        //}
-        //_instantiatedGameObjectDict.Clear();
-
-
-        //var loadedPairs = _loadedHandleDict.ToList();
-        //foreach (var pair in loadedPairs)
-        //{
-        //    if (!string.IsNullOrWhiteSpace(pair.Key))
-        //    {
-        //        TryRelease(pair.Key);
-        //    }
-        //}
-        //_loadedHandleDict.Clear();
-
-
-        //var loadingPairs = _loadingHandleDict.ToList();
-        //foreach (var pair in loadingPairs)
-        //{
-        //    var handle = pair.Value;
-        //    if (handle.IsValid())
-        //    {
-        //        if (handle.Result is GameObject instance && instance != null)
-        //        {
-        //            Addressables.ReleaseInstance(instance);
-        //        }
-        //        else
-        //        {
-        //            Addressables.Release(handle);
-        //        }
-        //    }
-        //}
-        //_loadingHandleDict.Clear();
-    }
-
     public async UniTask<T> GetAssetAsync<T>(string address, CancellationToken cancellationToken = default) where T : UnityEngine.Object
     {
         if (string.IsNullOrWhiteSpace(address))
