@@ -20,12 +20,12 @@ public class MapTestController : MonoBehaviour
         {
             if (Keyboard.current.iKey.isPressed)
             {
-                _testPlayerY += 5 * Time.deltaTime;
+                _testPlayerY += 20 * Time.deltaTime;
             }
 
             if (Keyboard.current.oKey.isPressed)
             {
-                _testPlayerY -= 5 * Time.deltaTime;
+                _testPlayerY -= 20 * Time.deltaTime;
             }
         }
     }

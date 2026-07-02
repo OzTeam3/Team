@@ -1,4 +1,39 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+public enum ZoneType
+{
+    None,
+    Stage,
+    UnStage
+}
+
+//public enum UIRootType
+//{
+//    BackgroundUI,
+//    MainUI,
+//    ContentUI,
+//    PopupUI,
+//    VeryFrontUI
+//}
+
+//public enum UIType
+//{
+//    ESCPopupUI,
+//    FadePopupUI,
+//    MainHUD,
+//    TitleUI,
+//    SettingPopupUI,
+//    StartPopupUI,
+//    EndingPopupUI
+//}
+
+[Serializable]
+public class SerializationWrapper<T>
+{
+    public List<T> items;
+}
 
 [System.Serializable]
 public class GameDataBase
@@ -10,8 +45,13 @@ public class GameDataBase
 public class CharacterData : GameDataBase
 {
     public string Name;
-    public int MoveSpeed;
-    public int JumpForce;
+    public float WalkSpeed;
+    public float RotationSpeed;
+    public float JumpSpeed;
+    public float JumpForce;
+    public float StartPositionX;
+    public float StartPositionY;
+    public float StartPositionZ;
     public string PrefabPath;
 }
 
@@ -46,10 +86,14 @@ public class ItemData : GameDataBase
 public class TrapData : GameDataBase
 {
     public string Name;
-    public int ActionValue;
-    public int KnockbackForce;
-    public int Value1;
-    public int Value2;
+    public float SpinSpeed;
+    public float KnockbackForce;
+    public float WaitingTime;
+    public float RespawnTime;
+    public float BounceForce;
+    public float MaxAngle;
+    public float MaxWindStrength;
+    public float MaxDistance;
     public string PrefabPath;
 }
 
@@ -57,12 +101,22 @@ public class TrapData : GameDataBase
 public class MonsterData : GameDataBase
 {
     public string Name;
-    public int MoveSpeed;
-    public int ChaseSpeed;
-    public int PatrolRadius;
-    public int DetectRadius;
-    public int AttackRadius;
-    public int PushForce;
+    public float MoveSpeed;
+    public float ChaseSpeed;
+    public float PatrolRadius;
+    public float DetectRadius;
+    public float AttackRadius;
+    public float PushForce;
+    public float MinWaitTime;
+    public float MaxWaitTime;
+    public float AttackCooldown;
+    public float ViewAngle;
+    public float PatrolRotationSpeed;
+    public float ChaseRotationSpeed;
+    public float AttackHitBuffer;
+    public float StartPositionX;
+    public float StartPositionY;
+    public float StartPositionZ;
     public string PrefabPath;
 }
 
@@ -70,10 +124,42 @@ public class MonsterData : GameDataBase
 public class ZoneData : GameDataBase
 {
     public string Name;
-    public int MinY;
-    public int MaxY;
+    public ZoneType Type;
+    public float MinY;
+    public float MaxY;
+    public float PositionY;
+    public float OffsetX;
+    public float OffsetY;
+    public float OffsetZ;
     public string PrefabPath;
-
+    
+    public Vector3 StagePosition
+    {
+         get { return new Vector3(OffsetX, OffsetY, OffsetZ); }
+    }
     public bool IsLoaded { get; set; } = false;
 }
 
+[System.Serializable]
+public class UIData : GameDataBase
+{
+    public string Name;
+    public UIRootType UIRootType;
+    public UIType UIType;
+    public string PrefabPath;
+}
+
+public class SoundData : GameDataBase
+{
+    public string Name;
+    public string PrefabsPath;
+}
+
+public class GameSettingData : GameDataBase
+{
+    public string Name;
+    public float PositionX;
+    public float PositionY;
+    public float PositionZ;
+    public string PrefabsPath;
+}

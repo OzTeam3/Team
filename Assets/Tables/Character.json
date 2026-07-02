@@ -2,8 +2,13 @@
   {
     "Id": "Char_Mj",
     "Name": "Mj",
-    "MoveSpeed": 5,
-    "JumpForce": 5,
+    "WalkSpeed": 5,
+    "RotationSpeed": 10,
+    "JumpSpeed": 2.5,
+    "JumpForce": 10,
+    "StartPositionX": -226,
+    "StartPositionY": 370,
+    "StartPositionZ": 524,
     "PrefabPath": "Prefab/Prefab_Char_Mj"
   }
 ]

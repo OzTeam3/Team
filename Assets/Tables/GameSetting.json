@@ -1,0 +1,42 @@
+[
+  {
+    "Id": "StartPosition_001",
+    "Name": "StartPosition",
+    "PositionX": 0,
+    "PositionY": 0,
+    "PositionZ": 0,
+    "PrefabsPath": "JsonOutput/StartPosition"
+  },
+  {
+    "Id": "FirstSave_001",
+    "Name": "FirstSave",
+    "PositionX": 0,
+    "PositionY": 50,
+    "PositionZ": 0,
+    "PrefabsPath": "JsonOutput/FirstSave"
+  },
+  {
+    "Id": "SecondSave_001",
+    "Name": "SecondSave",
+    "PositionX": 0,
+    "PositionY": 100,
+    "PositionZ": 0,
+    "PrefabsPath": "JsonOutput/SecondSave"
+  },
+  {
+    "Id": "ThirdSave_001",
+    "Name": "ThirdSave",
+    "PositionX": 0,
+    "PositionY": 150,
+    "PositionZ": 0,
+    "PrefabsPath": "JsonOutput/ThirdSave"
+  },
+  {
+    "Id": "FinalPpsition_001",
+    "Name": "FinalPpsition",
+    "PositionX": 0,
+    "PositionY": 150,
+    "PositionZ": 0,
+    "PrefabsPath": "JsonOutput/FinalPpsition"
+  }
+]

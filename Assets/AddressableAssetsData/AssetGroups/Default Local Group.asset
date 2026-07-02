@@ -1,4 +1,4 @@
-﻿%YAML 1.1
+%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: dcf732d7e0ea58346b14a4b673424943
   m_SerializeEntries:
+  - m_GUID: 62b72b9a346b3a949866162f8c6627b4
+    m_Address: JsonOutput/UI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 68054f97912e42b4fb7ca436100c4349
     m_Address: Assets/Prefabs/UI/OpeningUI
     m_ReadOnly: 0
@@ -22,11 +27,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6e6a9371fff082c4cb80a3573077ffe7
     m_Address: Prefab/Prefab_Trap_SpinTrap_001
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 788de3fb21187ff46936c7f6320a5322
-    m_Address: JsonOutput/Map
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -55,6 +55,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bf890fc9fed48bd4d9df1a47ff9fbf1e
+    m_Address: JsonOutput/GameSetting
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c4f714a25761da243989a5ee73231787
     m_Address: JsonOutput/Monster
     m_ReadOnly: 0
@@ -67,6 +72,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: cf2a00152d727ce4bbf5925f888cba05
     m_Address: JsonOutput/Ground
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d535613b59d177f4a8b02747c0fac4fe
+    m_Address: JsonOutput/Sound
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

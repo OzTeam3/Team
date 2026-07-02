@@ -1,0 +1,51 @@
+[
+  {
+    "Id": "ESCPopupUI_001",
+    "Name": "ESCPopupUI",
+    "UIRootType": "PopupUI",
+    "UIType": "ESCPopupUI",
+    "PrefabsPath": "JsonOutput/ESCPopupUI"
+  },
+  {
+    "Id": "FadePopupUI_001",
+    "Name": "FadePopupUI",
+    "UIRootType": "VeryFrontfUI",
+    "UIType": "FadePopupUI",
+    "PrefabsPath": "JsonOutput/FadePopupUI"
+  },
+  {
+    "Id": "MainHUD_001",
+    "Name": "MainHUD",
+    "UIRootType": "ContentUI",
+    "UIType": "MainHUD",
+    "PrefabsPath": "JsonOutput/MainHUD"
+  },
+  {
+    "Id": "TitleUI_001",
+    "Name": "TitleUI",
+    "UIRootType": "VeryFrontfUI",
+    "UIType": "TitleUI",
+    "PrefabsPath": "JsonOutput/TitleUI"
+  },
+  {
+    "Id": "SettingPopupUI_001",
+    "Name": "SettingPopupUI",
+    "UIRootType": "VeryFrontfUI",
+    "UIType": "SettingPopupUI",
+    "PrefabsPath": "JsonOutput/SettingPopupUI"
+  },
+  {
+    "Id": "StartPopupUI_001",
+    "Name": "StartPopupUI",
+    "UIRootType": "PopupUI",
+    "UIType": "StartPopupUI",
+    "PrefabsPath": "JsonOutput/StartPopupUI"
+  },
+  {
+    "Id": "EndingPopupUI_001",
+    "Name": "EndingPopupUI",
+    "UIRootType": "PopupUI",
+    "UIType": "EndingPopupUI",
+    "PrefabsPath": "JsonOutput/EndingPopupUI"
+  }
+]

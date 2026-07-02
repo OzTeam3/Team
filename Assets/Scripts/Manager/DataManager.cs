@@ -6,28 +6,22 @@ using System.Threading;
 using UnityEngine;
 
 
-//로그 찎는 부분은 다 삭제해주세요
-//유니테스크 쓰는부분 캔슬토큰 신경써주세여
 public class DataManager : MonoBehaviour
 {
     public static DataManager Instance { get; private set; }
     
-    //변수명 수정
-    private readonly Dictionary<Type, object> _dataContainer = new Dictionary<Type, object>();
+    private readonly Dictionary<Type, object> _dataTableList = new Dictionary<Type, object>();
 
-    //리소스매니저 똑같이 해주세요
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-
-        }
-        else
+        if (Instance != null && Instance != this)
         {
             Debug.LogWarning($"[DataManager:Awake] 현재 인스턴스가 존재하여 중복 오브젝트를 파괴합니다.");
             Destroy(gameObject);
+            return;
         }
+
+        Instance = this;
     }
 
     //삭제
@@ -37,28 +31,31 @@ public class DataManager : MonoBehaviour
         InitializeData().Forget();
     }
 
-    //{}제거
-    //무슨 자료인데 dict 수정
     public T GetData<T>(string dataId) where T : GameDataBase
     {
-        if (string.IsNullOrWhiteSpace(dataId))
-        {
-            Debug.LogError($"[DataManger:GetData] {typeof(T).Name} 요청한 ID가 틀렸거나 데이터가 로드되지 않았습니다.");
-            return null;
-        }
-
         Type type = typeof(T);
 
-        //두개로 분리
-        if (!_dataContainer.TryGetValue(type, out object container) || container is not Dictionary<string, T> dict)
+        if (string.IsNullOrWhiteSpace(dataId))
         {
-            Debug.LogWarning($"[DataManger:GetData] {type.Name} 컨테이너가 없습니다.");
+            Debug.LogError($"[DataManager:GetData] 요청한 ID가 틀렸거나 빈칸입니다.");
             return null;
         }
 
-        if (!dict.TryGetValue(dataId, out T data))
+        if (!_dataTableList.TryGetValue(type, out object container))
         {
-            Debug.LogWarning($"[DataManger:GetData] {type.Name} 데이터에 '{dataId}' ID를 가진 데이터가 없습니다.");
+            Debug.LogError($"[DataManager:GetData] 컨테이너가 없습니다.");
+            return null;
+        }
+
+        if (container is not Dictionary<string, T> dataTable)
+        {
+            Debug.LogError($"[DataManager:GetData] 데이터 구조가 올바르지 않습니다.");
+            return null;
+        }
+
+        if (!dataTable.TryGetValue(dataId, out T data))
+        {
+            Debug.LogError($"[DataManager:GetData] 요청한 ID의 데이터가 없습니다.");
             return null;
         }
 
@@ -67,78 +64,109 @@ public class DataManager : MonoBehaviour
 
     public List<T> GetAllData<T>() where T : GameDataBase
     {
-        //이걸 해야될까?
         Type type = typeof(T);
         
-        if (!_dataContainer.TryGetValue(type, out object container) || container is not Dictionary<string, T> dict)
+        if (!_dataTableList.TryGetValue(type, out object container))
         {
-            Debug.LogWarning($"[DataManger:GetAllData] {type.Name} 컨테이너가 없거나 데이터 구조가 올바르지 않습니다.");
+            Debug.LogError($"[DataManager:GetAllData] 컨테이너가 없거나 데이터 구조가 올바르지 않습니다.");
 
-            //리턴 리스트 최적화 << 캐싱
-            return new List<T>();
+            return CollectionCache<T>.EmptyList;
         }
 
-        //카운트 0이 에러인가?
-        if (dict == null || dict.Count == 0)
+        if (container is not Dictionary<string, T> dataTable)
         {
-            Debug.LogWarning($"[DataManger:GetAllData] {type.Name} 데이터가 비어있습니다.");
-            return new List<T>();
+            Debug.LogError($"[DataManager:GetAllData] 데이터 구조가 올바르지 않습니다.");
+            return CollectionCache<T>.EmptyList;
+        }
+
+        if (dataTable == null)
+        {
+            Debug.LogError($"[DataManager:GetAllData] 데이터가 비어있습니다.");
+            return CollectionCache<T>.EmptyList;
+        }
+
+        if (dataTable.Count == 0)
+        {
+            Debug.LogWarning($"[DataManager:GetAllData] 데이터가 비어있습니다.");
+            return CollectionCache<T>.EmptyList;
         }
 
         //이건 생각만 : Linq 사용해야될까?
         //foreach문 으로 처리할 순 없나?
-        return dict.Values.ToList();
+        return dataTable.Values.ToList();
     }
 
-    public async UniTask LoadAllDatasAsync()
+    public async UniTask LoadAllDatasAsync(CancellationToken cancellationToken = default)
     {
-        await LoadDataAsync<CharacterData>(AddressableUtil.AddressPath.Character);
-        await LoadDataAsync<ItemData>(AddressableUtil.AddressPath.Item);
-        await LoadDataAsync<TrapData>(AddressableUtil.AddressPath.Trap);
-        await LoadDataAsync<MonsterData>(AddressableUtil.AddressPath.Monster);
-        await LoadDataAsync<ZoneData>(AddressableUtil.AddressPath.Zone);
+        await LoadDataAsync<CharacterData>(AddressableUtil.DataPath.Character, cancellationToken);
+        await LoadDataAsync<ItemData>(AddressableUtil.DataPath.Item, cancellationToken);
+        await LoadDataAsync<TrapData>(AddressableUtil.DataPath.Trap, cancellationToken);
+        await LoadDataAsync<MonsterData>(AddressableUtil.DataPath.Monster, cancellationToken);
+        await LoadDataAsync<ZoneData>(AddressableUtil.DataPath.Zone, cancellationToken);
+        await LoadDataAsync<UIData>(AddressableUtil.DataPath.UI, cancellationToken);
+        await LoadDataAsync<SoundData>(AddressableUtil.DataPath.Sound, cancellationToken);
     }
 
-    //삭제
+    //삭제 게임매니저 머지후
     private async UniTask InitializeData()
     {
         await LoadAllDatasAsync();
-
-        //DataManagerTest();
-
-        Debug.Log("[DataManager:InitializeData] 데이터 로드 완료");
     }
 
-    private async UniTask LoadDataAsync<T>(string address) where T : GameDataBase
+    private async UniTask LoadDataAsync<T>(string address, CancellationToken cancellationToken) where T : GameDataBase
     {
-        Debug.Log($"[DataManager:LoadDataAsync<{typeof(T).Name}>] '{address}' 로드 시도 중");
-
+        Type type = typeof(T);
         TextAsset textAsset = await ResourceManager.Instance.GetAssetAsync<TextAsset>(address);
-
-        //널체크 해주세요
+        if (textAsset == null)
+        {
+            Debug.LogError($"[DataManager: LoadDataAsync] 데이터 로드 실패");
+            return;
+        }
 
         try
         {
             string JsonText = textAsset.text;
             string wrappedJson = "{\"items\":" + JsonText + "}";
             SerializationWrapper<T> wrapper = JsonUtility.FromJson<SerializationWrapper<T>>(wrappedJson);
-
-            if (wrapper != null && wrapper.items != null)
+            if (wrapper?.items == null)
             {
-                //람다 뺼수 있을까?
-                //_dataContainer[typeof(T)] 있는지 체크 그리고 있으면 워닝 덮어쓴다는 경고문 추가
-                _dataContainer[typeof(T)] = wrapper.items.ToDictionary(item => item.Id.ToString());
-                Debug.Log($"[DataManger:LoadDataAsync<{typeof(T).Name}>] 데이터를 {wrapper.items.Count}개 로드했습니다.");
+                Debug.LogError($"[DataManager: LoadDataAsync] 데이터 파싱 결과가 비어있습니다.");
+                return;
             }
+
+            if (_dataTableList.ContainsKey(type))
+            {
+                Debug.LogWarning($"[DataManager: LoadDataAsync] 데이터가 이미 존재합니다. 덮어씁니다.");
+            }
+
+            _dataTableList[type] = CreateDictionary(wrapper.items);
         }
         catch
         {
-            //오류가 아니라 예외상황 발생
-            Debug.LogError($"[DataManger:LoadDataAsync<{typeof(T).Name}> JSON 변환 오류]");
+            Debug.LogError($"[DataManager:LoadDataAsync] 예외상황 발생");
         }
     }
 
-    //시리얼라이즈 데이터 DTO GameDataBase로 뺴쭈세요
-    [Serializable]
-    private class SerializationWrapper<T> { public List<T> items; }
+    private Dictionary<string, T> CreateDictionary<T>(List<T> items) where T : GameDataBase
+    {
+        Dictionary<string, T> dictionary = new Dictionary<string, T>();
+        if (items == null)
+        {
+            Debug.LogError($"[DataManager:CreateDictionary] 리스트가 null입니다.");
+            return dictionary;
+        }
+
+        foreach (T item in items)
+        {
+            if (item == null)
+            {
+                Debug.LogWarning($"[DataManager:CreateDictionary] 리스트에 null 데이터가 포함되어 건너뜁니다.");
+                continue;
+            }
+
+            dictionary[item.Id.ToString()] = item;
+        }
+
+        return dictionary;
+    }
 }
