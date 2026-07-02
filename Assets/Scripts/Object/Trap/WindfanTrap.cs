@@ -12,6 +12,7 @@ public class WindFanTrap : TrapBase
     private float _maxWindStrength;
     private float _maxDistance;
     private bool _useDistanceFalloff = true;
+    private Rigidbody _targetRigidbody;
 
 
     public override void Init(string trapId, TrapData data)
@@ -29,7 +30,16 @@ public class WindFanTrap : TrapBase
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    private void FixedUpdate()
+    {
+        if (_targetRigidbody == null)
+        {
+            return;
+        }
+        ApplyWindForce(_targetRigidbody);
+    }
+
+    private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player"))
         {
@@ -40,8 +50,20 @@ public class WindFanTrap : TrapBase
         {
             return;
         }
+        _targetRigidbody = targetRigidbody;
+    }
 
-        ApplyWindForce(targetRigidbody);
+    private void OnTriggerExit(Collider other)
+    {
+        if (!other.TryGetComponent(out Rigidbody targetRigidbody))
+        {
+            return;
+        }
+
+        if (_targetRigidbody == targetRigidbody)
+        {
+            _targetRigidbody = null;
+        }
     }
 
     private void ApplyWindForce(Rigidbody targetRigidbody)

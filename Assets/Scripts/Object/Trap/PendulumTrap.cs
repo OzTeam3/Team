@@ -17,7 +17,7 @@ public class PendulumTrap : TrapBase
     {
         if (!TryGetComponent(out _trapRigidbody))
         {
-            Debug.LogError("[PendulumTrap] Rigidbody 컴포넌트가 없습니다.");
+            Debug.LogError("[PendulumTrap] Rigidbody가 없습니다.");
             return;
         }
 

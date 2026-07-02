@@ -8,8 +8,8 @@ public class BreakingPlatform : TrapBase
     [Header("Platform Settings")]
     [SerializeField] private GameObject _trapPlatform;
 
-    private int _waitingTime;
-    private int _respawnTime;
+    private float _waitingTime;
+    private float _respawnTime;
     private Animator _animator;
     private bool _isTriggered;
 
@@ -19,7 +19,7 @@ public class BreakingPlatform : TrapBase
     {
         if (_trapPlatform == null)
         {
-            Debug.LogError("[FallingPlatform] _trapFloor가 지정되지 않았습니다.");
+            Debug.LogError("[FallingPlatform] _trapPlatform이 지정되지 않았습니다.");
             return;
         }
 
@@ -37,8 +37,8 @@ public class BreakingPlatform : TrapBase
 
     public override void Init(string trapId, TrapData data)
     {
-        _waitingTime = data.WaitingTime * 1000;
-        _respawnTime = data.RespawnTime * 1000;
+        _waitingTime = data.WaitingTime;
+        _respawnTime = data.RespawnTime;
     }
 
     private void OnEnable()
@@ -82,12 +82,16 @@ public class BreakingPlatform : TrapBase
     {
         _isTriggered = true;
 
+        int waitingTime = (int)(_waitingTime * 1000);
+        int respawnTime = (int)(_respawnTime * 1000);
+
+
         if (_animator != null)
         {
             _animator.SetTrigger("IsShake");
         }
 
-        bool isCanceled = await UniTask.Delay(_waitingTime, cancellationToken: cancellationToken).SuppressCancellationThrow();
+        bool isCanceled = await UniTask.Delay(waitingTime, cancellationToken: cancellationToken).SuppressCancellationThrow();
 
         if (isCanceled)
         {
@@ -97,7 +101,7 @@ public class BreakingPlatform : TrapBase
 
         _trapPlatform.SetActive(false);
 
-        isCanceled = await UniTask.Delay(_respawnTime, cancellationToken: cancellationToken).SuppressCancellationThrow();
+        isCanceled = await UniTask.Delay(respawnTime, cancellationToken: cancellationToken).SuppressCancellationThrow();
 
         if (isCanceled)
         {

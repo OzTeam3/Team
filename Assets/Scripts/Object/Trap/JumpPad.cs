@@ -11,7 +11,7 @@ public class JumpPad : TrapBase
 
         if ( _animator == null)
         {
-            Debug.LogWarning("[JumpPad] 애니메이션이 없습니다.");
+            Debug.LogWarning("[JumpPad] Animator를 찾지 못했습니다.");
             return;
         }
     }

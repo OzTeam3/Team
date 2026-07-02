@@ -28,14 +28,10 @@ public class ItemData : GameDataBase
 public class TrapData : GameDataBase
 {
     public string Name;
-    public int SpinSpeed;
+    public int ActionValue;
     public int KnockbackForce;
-    public int WaitingTime;
-    public int RespawnTime;
-    public int BounceForce;
-    public int MaxAngle;
-    public int MaxWindStrength;
-    public int MaxDistance;
+    public int Value1;
+    public int Value2;
     public string PrefabPath;
 }
 
