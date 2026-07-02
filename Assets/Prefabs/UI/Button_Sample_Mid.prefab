@@ -299,3 +299,5 @@ MonoBehaviour:
   _imageBase: {fileID: 8783315372728417866}
   _imageSelect: {fileID: 0}
   _hoverScale: 1.1
+  _hoverSoundPath: Assets/Sound/Button_1
+  _clickSoundPath: Assets/Sound/Button_2

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using System.Threading;
+using UnityEngine;
 
 public class StartPopupUI : UIBase
 {
@@ -13,20 +15,27 @@ public class StartPopupUI : UIBase
         _buttonBack.BindOnClickButtonEvent(OnClickBack);
     }
 
-    private void OnClickNewStart()
+    private async void OnClickNewStart()
     {
-        SoundManager.Instance.StopBGM();
-        SoundManager.Instance.PlayBGM("Assets/Sound/BGM1");
-
-        //todo 데이터와 연동해서 저장한 기록을 불러온다. 일단 UI를 닫아 실행
-        UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.MainHUD);
+        AudioController.Instance.PlayBGM(AddressableUtil.SoundPath.Bgm1);
+        GameManager.Instance.ResetGame();
         UIManager.Instance.ClosePopupUI(UIType.StartPopupUI);
-        UIManager.Instance.CloseUI(UIRootType.MainUI, UIType.OpeningUI);
+        UIManager.Instance.CloseUI(UIRootType.MainUI, UIType.TitleUI);
+        GameManager.Instance.InitPlayer();
+
+        await UIManager.Instance.OpenContentUIAsync(UIType.MainHUD);
+        MainHUD.Instance.StartHUD();
     }
 
-    private void OnClickContinue()
+    private async void OnClickContinue()
     {
-        //todo 데이터와 연동해서 저장한 기록을 불러온다.
+        GameManager.Instance.LoadGame();
+        GameManager.Instance.InitPlayer();
+        UIManager.Instance.ClosePopupUI(UIType.StartPopupUI);
+        UIManager.Instance.CloseUI(UIRootType.MainUI, UIType.TitleUI);
+
+        await UIManager.Instance.OpenContentUIAsync(UIType.MainHUD);
+        MainHUD.Instance.StartHUD();
     }
 
     private void OnClickBack()

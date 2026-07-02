@@ -1,6 +1,8 @@
 ﻿using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Xml.Linq;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -8,13 +10,15 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance { get; private set; }
 
     [SerializeField] private RectTransform Canvas_BgRoot;
-    [SerializeField] private Canvas Canvas_MainRoot;
-    [SerializeField] private Canvas Canvas_ContentRoot;
-    [SerializeField] private Canvas Canvas_PopupRoot;
-    [SerializeField] private Canvas Canvas_VeryFrontRoot;
+    [SerializeField] private RectTransform Canvas_MainRoot;
+    [SerializeField] private RectTransform Canvas_ContentRoot;
+    [SerializeField] private RectTransform Canvas_PopupRoot;
+    [SerializeField] private RectTransform Canvas_VeryFrontRoot;
 
-    private readonly Dictionary<UIType, UIBase> _createrdUIDictionary = new Dictionary<UIType, UIBase>();
+    private readonly Dictionary<UIType, UIBase> _createUIDictionary = new Dictionary<UIType, UIBase>();
     private readonly HashSet<UIType> _openedUIDictionary = new HashSet<UIType>();
+
+    
 
     private void Awake()
     {
@@ -28,107 +32,103 @@ public class UIManager : MonoBehaviour
         Instance = this;
     }
 
-    private void Start()
+    public async UniTask<UIBase> OpenUI(UIRootType uiRootType, UIType uiType, bool isInitialHide = false, CancellationToken cancellationToken = default)
     {
-        //이거 게임매니저로 가야됨
-       // ShowStartupUIOnGameStart();
+        return await OpenUIAsync(uiRootType, uiType, isInitialHide, cancellationToken);
     }
 
-    //유니태스크로 만드세요
-    public void OpenUI(UIRootType uiRootType, UIType uiType, bool isInitialHide = false)
+    public void CloseUI(UIRootType uiRootType, UIType uiType, CancellationToken cancellationToken = default)
     {
-        OpenUIAsync(uiRootType, uiType, isInitialHide).Forget();
-    }
-
-    //얼리리턴 예외처리 하세요
-    public void CloseUI(UIRootType uiRootType, UIType uiType)
-    {
-        if (_openedUIDictionary.Contains(uiType))
+        if (!_openedUIDictionary.Contains(uiType))
         {
-            var openedUi = _createrdUIDictionary[uiType];
-            openedUi.gameObject.SetActive(false);
-            _openedUIDictionary.Remove(uiType);
+            return;
         }
+
+        UIBase openUi = _createUIDictionary[uiType];
+
+        if (openUi == null)
+        {
+            _createUIDictionary.Remove(uiType);
+            return;
+        }
+        openUi.gameObject.SetActive(false);
+        _openedUIDictionary.Remove(uiType);
     }
 
-    //유니태스크로 바꾸기, 캔슬토큰
-    public void OpenContentUI(UIType uiType)
+    // Forget 전용 - 반환 타입이 void라서 .Forget()을 붙이고 싶어도 붙일 데가 없음
+    public void OpenContentUI(UIType uiType, CancellationToken cancellationToken = default)
     {
-        OpenUI(UIRootType.ContentUI, uiType);
+        OpenUI(UIRootType.ContentUI, uiType, cancellationToken: cancellationToken).Forget();
     }
 
-    public void OpenPopupUI(UIType uiType)
+    // Await 전용 - UniTask<UIBase>를 반환하니 호출부가 반드시 await로 받게 유도됨
+    public async UniTask<UIBase> OpenContentUIAsync(UIType uiType, CancellationToken cancellationToken = default)
     {
-        OpenUI(UIRootType.PopupUI, uiType);
+        return await OpenUIAsync(UIRootType.ContentUI, uiType, false, cancellationToken);
     }
 
-    public void CloseContentUI(UIType uiType)
+    public void OpenPopupUI(UIType uiType, CancellationToken cancellationToken = default)
+    {
+        OpenUI(UIRootType.PopupUI, uiType, cancellationToken: cancellationToken).Forget();
+    }
+
+    public async UniTask<UIBase> OpenPopupUIAsync(UIType uiType, CancellationToken cancellationToken = default)
+    {
+        return await OpenUIAsync(UIRootType.PopupUI, uiType, false, cancellationToken);
+    }
+
+    public void CloseContentUI(UIType uiType, CancellationToken cancellationToken = default)
     {
         CloseUI(UIRootType.ContentUI, uiType);
     }
 
-    public void ClosePopupUI(UIType uiType)
+    public void ClosePopupUI(UIType uiType, CancellationToken cancellationToken = default)
     {
         CloseUI(UIRootType.PopupUI, uiType);
     }
 
-    //바꿔주세요
-    public UniTask<UIBase> OpenPopupUIAsync(UIType uiType)
+    public async UniTask OpenFadeUI(CancellationToken cancellationToken, Action onComplete = null)
     {
-        return OpenUIAsync(UIRootType.PopupUI, uiType, false);
-    }
+        var uiBase = await OpenUI(UIRootType.VeryFrontUI, UIType.FadePopupUI, cancellationToken: cancellationToken);
 
-    //사용처를 봐야됨?
-    public void PreloadUI(UIRootType uiRootType, UIType uiType)
-    {
-        GetOrCreateUI(uiRootType, uiType).Forget();
-    }
-
-
-    public async UniTask OpenFadeUI(Action onComplete = null)
-    {
-        var uiBase = await OpenPopupUIAsync(UIType.FadePopupUI);
         if (uiBase is FadePopupUI fadePopupUI)
         {
-            fadePopupUI.Fade(onComplete);
+            await fadePopupUI.Fade(onComplete);
         }
     }
 
     #region 메인 로직
-    private async UniTask<UIBase> CreateUI(UIRootType uiRootType, UIType uiType)
+    private async UniTask<UIBase> CreateUI(UIRootType uiRootType, UIType uiType, CancellationToken cancellationToken = default)
     {
-        string path = GameUtil.GetUIPath(uiType);
+        string path = AddressableUtil.GetUIPath(uiType.ToString());
         Transform root = GetRootTransform(uiRootType);
 
-        //캔슬토큰
-        GameObject uiInstance = await ResourceManager.Instance.InstantiateGameObjectAsync(path, root);
+        GameObject uiInstance = await ResourceManager.Instance.InstantiateGameObjectAsync(path, root, cancellationToken: cancellationToken);
 
-        //에러 코드 리소스 매니저와 일치
         if (uiInstance == null)
         {
-            Debug.LogError($"[UIManager] UI 로드 실패: {uiType} ({path})");
+            Debug.LogError($"[UIManager:CreateUI] 현재 인스턴스가 존재하여 중복 오브젝트를 파괴합니다.");
             return null;
         }
 
-        UIBase uiBase = uiInstance.GetComponent<UIBase>();
+        if (!uiInstance.TryGetComponent(out UIBase uiBase))
+        {
+            Debug.LogError($"[UIManager:TryGetComponent] {uiType}에 현재 인스턴스의 컴포넌트를 찾을 수 없습니다.");
+            return uiBase;
+        }
 
-        //out 이 먼가 params<< in<< 이 먼가
-        //널체크 (trygetComponent)
-        _createrdUIDictionary[uiType] = uiBase;
+        _createUIDictionary[uiType] = uiBase;
         return uiBase;
     }
 
-    //작업하세요
-    private UniTask<UIBase> GetOrCreateUI(UIRootType uiRootType, UIType uiType)
+    private async UniTask<UIBase> GetOrCreateUI(UIRootType uiRootType, UIType uiType, CancellationToken cancellationToken = default)
     {
-        if (!_createrdUIDictionary.TryGetValue(uiType, out UIBase existingUI))
+        if (!_createUIDictionary.TryGetValue(uiType, out UIBase createUi))
         {
-            //딕셔너리에 가져온 값 사용
-            Debug.Log("딕셔너리에서 가져와야됨");
+            createUi = await CreateUI(uiRootType, uiType, cancellationToken);
         }
 
-        UniTask<UIBase> newTask = CreateUI(uiRootType, uiType);
-        return newTask;
+        return createUi;
     }
 
     private Transform GetRootTransform(UIRootType uiRootType)
@@ -140,29 +140,28 @@ public class UIManager : MonoBehaviour
                 root = Canvas_BgRoot;
                 break;
             case UIRootType.MainUI:
-                root = Canvas_MainRoot.transform;
+                root = Canvas_MainRoot;
                 break;
             case UIRootType.ContentUI:
-                root = Canvas_ContentRoot.transform;
+                root = Canvas_ContentRoot;
                 break;
             case UIRootType.PopupUI:
-                root = Canvas_PopupRoot.transform;
+                root = Canvas_PopupRoot;
                 break;
             case UIRootType.VeryFrontUI:
-                root = Canvas_VeryFrontRoot.transform;
+                root = Canvas_VeryFrontRoot;
                 break;
         }
         return root;
     }
 
-    //흐름 수정? 열린 유아이먄 리턴, 안열렸으면 열어야된다.
-    private async UniTask<UIBase> OpenUIAsync(UIRootType uiRootType, UIType uiType, bool isInitialHide)
+    private async UniTask<UIBase> OpenUIAsync(UIRootType uiRootType, UIType uiType, bool isInitialHide, CancellationToken cancellationToken = default)
     {
-        UIBase openedUI = await GetOrCreateUI(uiRootType, uiType);
+        UIBase openedUI = await GetOrCreateUI(uiRootType, uiType, cancellationToken);
 
-        //에러체크
-        if (openedUI == null) 
+        if (openedUI == null)
         {
+            Debug.LogWarning("[UIManager:GetOrCreateUI] 생성된 UI가 없습니다.");
             return null;
         }
 

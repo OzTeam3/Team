@@ -59,7 +59,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 30
   m_TargetDisplay: 0
 --- !u!114 &5706310305259517597
 MonoBehaviour:
@@ -160,7 +160,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!114 &5430351861186811157
 MonoBehaviour:
@@ -251,11 +251,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5816c4fc147e08944a94c36ed2212825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
-  Canvas_BgRoot: {fileID: 6877016399752184960}
-  Canvas_MainRoot: {fileID: 7507614233200078142}
-  Canvas_ContentRoot: {fileID: 2106183111578928423}
-  Canvas_PopupRoot: {fileID: 510379214514571966}
-  Canvas_VeryFrontRoot: {fileID: 7029770060707969242}
+  Canvas_BgRoot: {fileID: 5375188224998106902}
+  Canvas_MainRoot: {fileID: 7635473494318052259}
+  Canvas_ContentRoot: {fileID: 7238906602780368259}
+  Canvas_PopupRoot: {fileID: 3899158111336974993}
+  Canvas_VeryFrontRoot: {fileID: 6741315402874152282}
 --- !u!1 &4027038145548931407
 GameObject:
   m_ObjectHideFlags: 0
@@ -315,7 +315,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 20
   m_TargetDisplay: 0
 --- !u!114 &7210632137800649075
 MonoBehaviour:
@@ -416,7 +416,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 50
   m_TargetDisplay: 0
 --- !u!114 &5451125270788862358
 MonoBehaviour:
@@ -517,7 +517,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 40
   m_TargetDisplay: 0
 --- !u!114 &6273896984059580960
 MonoBehaviour:

@@ -11,6 +11,8 @@ public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] private Image _imageBase;
     [SerializeField] private Image _imageSelect;
     [SerializeField] private float _hoverScale = 1.1f;
+    [SerializeField] private string _clickSoundPath = AddressableUtil.SoundPath.Button1;
+    [SerializeField] private string _hoverSoundPath = AddressableUtil.SoundPath.Button2;
 
     private Vector3 _originalScale;
 
@@ -43,68 +45,63 @@ public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         transform.localScale = _originalScale;
     }
 
-    //얼리리턴
     private void SetDefaultUI()
     {
-        if (_imageSelect != null)
+        if (_imageSelect == null)
         {
-            _imageSelect.gameObject.SetActive(false);
+            return;
         }
+        _imageSelect.gameObject.SetActive(false);
+
     }
 
-    //널체크 에러 추카
     private void InitUIButton()
     {
         if (_buttonBase != null)
         {
+            Debug.Log("[UIButton:InitButton] 버튼 컴포넌트가 할당되어 있습니다.");
             return;
         }
         _buttonBase = GetComponentInChildren<Button>();
     }
 
-    //수정
     public void BindOnClickButtonEvent(UnityAction onClickCallback)
     {
-        if (_buttonBase == null)
-        {
-            return;
-        }
         _buttonBase.onClick.AddListener(onClickCallback);
     }
 
     public void UnBindOnClickButtonEvent(UnityAction onClickCallback)
     {
-        if (_buttonBase == null)
-        {
-            return;
-        }
         _buttonBase.onClick.RemoveListener(onClickCallback);
     }
 
-    //널체크
     public void OnClickSetSelectUI()
     {
-        if (_imageSelect != null)
+        if (_imageSelect == null)
         {
-            bool currentActive = _imageSelect.gameObject.activeSelf;
-            _imageSelect.gameObject.SetActive(!currentActive);
+            return;
         }
+
+        bool currentActive = _imageSelect.gameObject.activeSelf;
+        _imageSelect.gameObject.SetActive(!currentActive);
     }
 
-    //하드코드 빼주세요 최상위로 올려주세요.
     private void PlayHoverSound()
     {
-        SoundManager.Instance.PlaySFX("Assets/Sound/Button_1");
+        AudioController.Instance.PlaySFX(_hoverSoundPath);
     }
 
     private void PlayClickSound()
     {
-        SoundManager.Instance.PlaySFX("Assets/Sound/Button_2");
+        AudioController.Instance.PlaySFX(_clickSoundPath);
     }
 
     public void ChangeButtonSprite(Sprite sprite)
     {
-        if (_imageBase == null) return;
+        if (_imageBase == null)
+        {
+            return;
+        }
         _imageBase.sprite = sprite;
     }
 }

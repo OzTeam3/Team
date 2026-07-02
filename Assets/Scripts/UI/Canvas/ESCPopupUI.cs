@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 public class ESCPopupUI : UIBase
 {
@@ -17,6 +18,7 @@ public class ESCPopupUI : UIBase
 
     private void OnClickBack()
     {
+
         UIManager.Instance.ClosePopupUI(UIType.ESCPopupUI);
     }
 
@@ -27,14 +29,15 @@ public class ESCPopupUI : UIBase
 
     private void OnClickSetting()
     {
-        UIManager.Instance.OpenUI(UIRootType.VeryFrontUI, UIType.SettingPopupUI);
+        UIManager.Instance.OpenUI(UIRootType.VeryFrontUI, UIType.SettingPopupUI).Forget();
     }
 
     private void OnClickTitle()
     {
-        SoundManager.Instance.StopBGM();
+        AudioController.Instance.StopBGM();
         UIManager.Instance.ClosePopupUI(UIType.ESCPopupUI);
-        UIManager.Instance.ClosePopupUI(UIType.MainHUD);
-        UIManager.Instance.OpenPopupUI(UIType.OpeningUI);
+        UIManager.Instance.CloseContentUI(UIType.MainHUD);
+        UIManager.Instance.OpenPopupUI(UIType.TitleUI, this.GetCancellationTokenOnDestroy());
+        GameManager.Instance.ResetGame();
     }
 }
