@@ -65,7 +65,6 @@
         public const string Pendulum_Axe = "Prefab/Prefab_Trap_Pendulum_Axe";
         public const string Pendulum_Hammer = "Prefab/Prefab_Trap_Pendulum_Hammer";
         public const string WindFan01 = "Prefab/Prefab_Trap_WindFan_001";
-
     }
 
 
@@ -77,5 +76,23 @@
     public static string GetUIPath(string uiName)
     {
         return $"JsonOutput/{uiName}";
+    }
+    public static class ZoneName
+    {
+        public const string Ground = "Ground";
+        public const string FirstStage = "FirstStage";
+        public const string SecondStage = "SecondStage";
+        public const string ThirdStage = "ThirdStage";
+        public const string WayUp = "WayUp";
+        public const string Map = "Map";
+    }
+    public static class StageConfig
+    {
+        public const string DefaultStageName = ZoneName.WayUp;
+
+        public static string GetStageName()
+        {
+            return DefaultStageName;
+        }
     }
 }

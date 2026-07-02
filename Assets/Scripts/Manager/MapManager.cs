@@ -56,7 +56,7 @@ public class MapManager : MonoBehaviour
             return;
         }
 
-        _stageParent = new GameObject(AddressableUtil.ZonePath.WayUp);
+        _stageParent = new GameObject(AddressableUtil.StageConfig.GetStageName());
         if (_stageParent == null)
         {
             Debug.LogError("[MapManager: InitializeMapManager] 오브젝트를 생성하지 못했습니다.");
@@ -120,12 +120,12 @@ public class MapManager : MonoBehaviour
 
         zoneData.IsLoaded = isInside;
 
-        if (!_spawnedZones.TryGetValue(zoneData.Name, out GameObject zoneObj))
+        if (!_spawnedZones.TryGetValue(zoneData.Name, out GameObject zoneObject))
         {
             Debug.LogWarning($"[MapManager: UpdateZoneState] 오브젝트를 찾을 수 없습니다.");
             return;
         }
 
-        zoneObj.SetActive(isInside);
+        zoneObject.SetActive(isInside);
     }
 }

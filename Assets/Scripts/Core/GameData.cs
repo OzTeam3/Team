@@ -25,7 +25,8 @@ public enum ZoneType
 //    MainHUD,
 //    TitleUI,
 //    SettingPopupUI,
-//    StartPopupUI
+//    StartPopupUI,
+//    EndingPopupUI
 //}
 
 [Serializable]
