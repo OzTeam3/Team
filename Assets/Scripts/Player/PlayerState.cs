@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.InputSystem;
-
-
 
 public enum PlayerState
 {
@@ -19,63 +16,59 @@ public interface IPlayerState
     void ExitState(Player player);
 }
 
-
-
-
-public class PlayerState_Idle : IPlayerState
+public abstract class PlayerState_Base : IPlayerState
 {
-    private Animator _animator;
-    private Rigidbody _rigidbody; // 플레이어 에서 퍼블릭으로 열어 주면 이걸 빼고 player._rigidbody 이렇게 접근하는 방법도 있다.
+    protected Animator _animator;
+    protected Rigidbody _rigidbody;
 
-    public void EnterState(Player player)
+    public abstract void EnterState(Player player);
+    public abstract void ExitState(Player player);
+    public abstract void UpdateState(Player player);
+}
+
+public class PlayerState_Idle : PlayerState_Base
+{
+    public override void EnterState(Player player)
     {
         if (_animator == null)
         {
             _animator = player.GetAnimator();
-            if (_animator == null)
-            {
-                return;
-            }
         }
         if (_rigidbody == null)
         {
             _rigidbody = player.GetRigidbody();
-            if (_rigidbody == null)
-            {
-                return;
-            }
         }
+        if (_animator == null || _rigidbody == null)
+        {
+            return;
+        }
+
         _animator.SetBool("Idle", true);
     }
 
-    public void UpdateState(Player player)
+    public override void UpdateState(Player player)
     {
-        if (!player._isGrounded)
+        if (!player.IsGrounded)
         {
             player.ChangeState(PlayerState.Jump);
             return;
         }
-        if (player._grab)
+        if (player.IsGrab)
         {
             player.ChangeState(PlayerState.Grab);
             return;
         }
-        if (player._playerInput != Vector2.zero)
+
+        if (player.PlayerInput != Vector2.zero)
         {
-            if (player._running)
-            {
-                player.ChangeState(PlayerState.Run);
-            }
-            else
-            {
-                player.ChangeState(PlayerState.Walk);
-            }
+            player.ChangeState(player.IsRunning ? PlayerState.Run : PlayerState.Walk);
             return;
         }
+
         Idle();
     }
 
-    public void ExitState(Player player)
+    public override void ExitState(Player player)
     {
         _animator.SetBool("Idle", false);
     }
@@ -83,66 +76,46 @@ public class PlayerState_Idle : IPlayerState
     {
         _rigidbody.linearVelocity = new Vector3(0f, _rigidbody.linearVelocity.y, 0f);
     }
-
 }
 
-public class PlayerState_Walk : IPlayerState
+public class PlayerState_Walk : PlayerState_Base
 {
-    private Animator _animator;
-    private Rigidbody _rigidbody;
-    private Camera _camera;
-
-    private float _speed = 5f;
-    private float _rotationSpeed = 10f;
-
-    public void EnterState(Player player)
+    public override void EnterState(Player player)
     {
         if (_animator == null)
         {
             _animator = player.GetAnimator();
-            if (_animator == null)
-            {
-                return;
-            }
         }
         if (_rigidbody == null)
         {
             _rigidbody = player.GetRigidbody();
-            if (_rigidbody == null)
-            {
-                return;
-            }
         }
-        if (_camera == null)
+        if (_animator == null || _rigidbody == null)
         {
-            _camera = Camera.main;
-            if (_camera == null)
-            {
-                return;
-            }
+            return;
         }
-        player.SetSpeed(_speed);
+        
         _animator.SetBool("Walk", true);
     }
 
-    public void UpdateState(Player player)
+    public override void UpdateState(Player player)
     {
-        if (!player._isGrounded)
+        if (!player.IsGrounded)
         {
             player.ChangeState(PlayerState.Jump);
             return;
         }
-        if (player._grab)
+        if (player.IsGrab)
         {
             player.ChangeState(PlayerState.Grab);
             return;
         }
-        if (player._running)
+        if (player.IsRunning)
         {
             player.ChangeState(PlayerState.Run);
             return;
         }
-        if (player._playerInput == Vector2.zero)
+        if (player.PlayerInput == Vector2.zero)
         {
             player.ChangeState(PlayerState.Idle);
             return;
@@ -150,85 +123,66 @@ public class PlayerState_Walk : IPlayerState
         Move(player);
     }
 
-    public void ExitState(Player player)
+    public override void ExitState(Player player)
     {
         _animator.SetBool("Walk", false);
     }
+
     private void Move(Player player)
     {
-        Vector2 _playerInput = player._playerInput;
+        Vector2 _playerInput = player.PlayerInput;
 
-        Vector3 cameraForward = Vector3.ProjectOnPlane(_camera.transform.forward, Vector3.up).normalized;
-        Vector3 cameraRight = Vector3.ProjectOnPlane(_camera.transform.right, Vector3.up).normalized;
+        Vector3 cameraForward = Vector3.ProjectOnPlane(player.Camera.transform.forward, Vector3.up).normalized;
+        Vector3 cameraRight = Vector3.ProjectOnPlane(player.Camera.transform.right, Vector3.up).normalized;
 
         Vector3 targetDir = ((cameraForward * _playerInput.y) + (cameraRight * _playerInput.x)).normalized;
 
         Quaternion targetRotation = Quaternion.LookRotation(targetDir);
-        _rigidbody.MoveRotation(Quaternion.Slerp(player.transform.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime));
+        _rigidbody.MoveRotation(Quaternion.Slerp(player.transform.rotation, targetRotation, player.RotationSpeed * Time.fixedDeltaTime));
 
-        Vector3 moveOffset = targetDir * _speed * Time.fixedDeltaTime;
+        Vector3 moveOffset = player.WalkSpeed * Time.fixedDeltaTime * targetDir;
         _rigidbody.MovePosition(_rigidbody.position + moveOffset);
     }
 }
 
-public class PlayerState_Run : IPlayerState
+public class PlayerState_Run : PlayerState_Base
 {
-    private Animator _animator;
-    private Rigidbody _rigidbody;
-    private Camera _camera;
-
-    private float _speed = 5f;
-    private float _rotationSpeed = 10f;
-
-    public void EnterState(Player player)
+    public override void EnterState(Player player)
     {
         if (_animator == null)
         {
             _animator = player.GetAnimator();
-            if (_animator == null)
-            {
-                return;
-            }
         }
         if (_rigidbody == null)
         {
             _rigidbody = player.GetRigidbody();
-            if (_rigidbody == null)
-            {
-                return;
-            }
         }
-        if (_camera == null)
+        if (_animator == null || _rigidbody == null)
         {
-            _camera = Camera.main;
-            if (_camera == null)
-            {
-                return;
-            }
+            return;
         }
 
-        player.SetSpeed(_speed);
         _animator.SetBool("Run", true);
     }
 
-    public void UpdateState(Player player)
+    public override void UpdateState(Player player)
     {
-        if (!player._isGrounded)
+        if (!player.IsGrounded)
         {
             player.ChangeState(PlayerState.Jump);
             return;
         }
-        if (player._grab)
+        if (player.IsGrab)
         {
             player.ChangeState(PlayerState.Grab);
             return;
         }
-        if (player._playerInput == Vector2.zero)
+        if (player.PlayerInput == Vector2.zero)
         {
             player.ChangeState(PlayerState.Idle);
             return;
         }
-        if (!player._running)
+        if (!player.IsRunning)
         {
             player.ChangeState(PlayerState.Walk);
             return;
@@ -236,197 +190,145 @@ public class PlayerState_Run : IPlayerState
         Move(player);
     }
 
-    public void ExitState(Player player)
+    public override void ExitState(Player player)
     {
         _animator.SetBool("Run", false);
     }
+
     private void Move(Player player)
     {
-        Vector2 _playerInput = player._playerInput;
+        Vector2 _playerInput = player.PlayerInput;
 
-        Vector3 cameraForward = Vector3.ProjectOnPlane(_camera.transform.forward, Vector3.up).normalized;
-        Vector3 cameraRight = Vector3.ProjectOnPlane(_camera.transform.right, Vector3.up).normalized;
+        Vector3 cameraForward = Vector3.ProjectOnPlane(player.Camera.transform.forward, Vector3.up).normalized;
+        Vector3 cameraRight = Vector3.ProjectOnPlane(player.Camera.transform.right, Vector3.up).normalized;
 
         Vector3 targetDir = ((cameraForward * _playerInput.y) + (cameraRight * _playerInput.x)).normalized;
 
         Quaternion targetRotation = Quaternion.LookRotation(targetDir);
-        _rigidbody.MoveRotation(Quaternion.Slerp(player.transform.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime));
+        _rigidbody.MoveRotation(Quaternion.Slerp(player.transform.rotation, targetRotation, player.RotationSpeed * Time.fixedDeltaTime));
 
-        Vector3 moveOffset = targetDir * _speed * Time.fixedDeltaTime;
+        Vector3 moveOffset = targetDir * player.RunSpeed * Time.fixedDeltaTime;
         _rigidbody.MovePosition(_rigidbody.position + moveOffset);
     }
 }
-public class PlayerState_Jump : IPlayerState
+
+public class PlayerState_Jump : PlayerState_Base
 {
-    private Animator _animator;
-    private Rigidbody _rigidbody;
-    private Camera _camera;
-
-    private float _speed = 2.5f;
-    private float _rotationSpeed = 10f;
-
-    public void EnterState(Player player)
+    public override void EnterState(Player player)
     {
         if (_animator == null)
         {
             _animator = player.GetAnimator();
-            if (_animator == null)
-            {
-                return;
-            }
         }
         if (_rigidbody == null)
         {
             _rigidbody = player.GetRigidbody();
-            if (_rigidbody == null)
-            {
-                return;
-            }
         }
-        if (_camera == null)
+        if (_animator == null || _rigidbody == null)
         {
-            _camera = Camera.main;
-            if (_camera == null)
-            {
-                return;
-            }
+            return;
         }
-        player.SetSpeed(_speed);
+
         _animator.SetBool("Jump", true);
     }
 
-    public void UpdateState(Player player)
+    public override void UpdateState(Player player)
     {
-        if (player._grab)
+        if (player.IsGrab)
         {
             player.ChangeState(PlayerState.Grab);
             return;
         }
-        if (player._isGrounded)
+
+        if (player.IsGrounded)
         {
-            if (player._playerInput == Vector2.zero)
-            {
-                player.ChangeState(PlayerState.Idle);
-            }
-            else
-            {
-                player.ChangeState(player._running ? PlayerState.Run : PlayerState.Walk);
-            }
-            return;
+            player.ChangeState(PlayerState.Idle);
         }
+        
         Move(player);
     }
 
-    public void ExitState(Player player)
+    public override void ExitState(Player player)
     {
         _animator.SetBool("Jump", false);
     }
 
     private void Move(Player player)
     {
-        Vector2 _playerInput = player._playerInput;
+        Vector2 _playerInput = player.PlayerInput;
 
         if (_playerInput == Vector2.zero)
         {
-            return; 
+            return;
         }
 
-        Vector3 cameraForward = Vector3.ProjectOnPlane(_camera.transform.forward, Vector3.up).normalized;
-        Vector3 cameraRight = Vector3.ProjectOnPlane(_camera.transform.right, Vector3.up).normalized;
+        Vector3 cameraForward = Vector3.ProjectOnPlane(player.Camera.transform.forward, Vector3.up).normalized;
+        Vector3 cameraRight = Vector3.ProjectOnPlane(player.Camera.transform.right, Vector3.up).normalized;
 
         Vector3 targetDir = ((cameraForward * _playerInput.y) + (cameraRight * _playerInput.x)).normalized;
 
         Quaternion targetRotation = Quaternion.LookRotation(targetDir);
-        _rigidbody.MoveRotation(Quaternion.Slerp(player.transform.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime));
+        _rigidbody.MoveRotation(Quaternion.Slerp(player.transform.rotation, targetRotation, player.RotationSpeed * Time.fixedDeltaTime));
 
-        Vector3 moveOffset = targetDir * _speed * Time.fixedDeltaTime;
+        Vector3 moveOffset = targetDir * player.JumpSpeed * Time.fixedDeltaTime;
         _rigidbody.MovePosition(_rigidbody.position + moveOffset);
     }
 }
 
-public class PlayerState_Grab : IPlayerState
+public class PlayerState_Grab : PlayerState_Base
 {
-    private Animator _animator;
-    private Rigidbody _rigidbody;
-
-    //private Vector3 _startPos;              //3안 일때 추가
-    //private float _climbTimer;              //3안 일때 추가
-    //private float _climbDuration = 0.5f;    //3안 일때 추가
-    public void EnterState(Player player)
+    public override void EnterState(Player player)
     {
         if (_animator == null)
         {
             _animator = player.GetAnimator();
-            if (_animator == null)
-            {
-                return;
-            }
         }
         if (_rigidbody == null)
         {
             _rigidbody = player.GetRigidbody();
-            if (_rigidbody == null)
-            {
-                return;
-            }
         }
+        if (_animator == null || _rigidbody == null)
+        {
+            return;
+        }
+
         _animator.SetBool("Grab", true);
         _rigidbody.useGravity = false;
-        //_rigidbody.isKinematic = true; // 2안일때 추가
-        _rigidbody.linearVelocity = Vector3.zero; // 기존
-
-        //_startPos = player.transform.position;     //3안 일때 추가
-        //_climbTimer = 0f;                          //3안 일때 추가
+        _rigidbody.linearVelocity = Vector3.zero;
     }
 
-    public void UpdateState(Player player)
+    public override void UpdateState(Player player)
     {
-        if (!player._grab)
+        if (!player.IsGrab)
         {
-            player.ChangeState(player._isGrounded ? PlayerState.Idle : PlayerState.Jump);
+            player.ChangeState(PlayerState.Idle);
             return;
         }
 
         Climb(player);
     }
 
-    public void ExitState(Player player)
+    public override void ExitState(Player player)
     {
         _animator.SetBool("Grab", false);
         _rigidbody.useGravity = true;
-        //_rigidbody.isKinematic = false; // 2안일때 추가
+
+        player.SetGrab(false);
     }
 
     private void Climb(Player player)
     {
-        // 기존 코드
-        //Vector3 targetPos = new Vector3(player._targetClimbPos.x, player.transform.position.y, player._targetClimbPos.z);
-        //float distance = Vector3.Distance(player.transform.position, targetPos);
-
-        //if (distance > 0.2f)
-        //{
-        //    Vector3 snapPos = Vector3.MoveTowards(player.transform.position, targetPos, 5f * Time.fixedDeltaTime);
-        //    _rigidbody.MovePosition(snapPos);
-        //}
-        //else
-        //{
-        //    Vector3 climbDir = new Vector3(0, 1f, 0);
-        //    _rigidbody.MovePosition(player.transform.position + (climbDir * 2f * Time.fixedDeltaTime));
-
-        //    player._grab = false;
-        //}
-
-        // 1안 (엘리베이터처럼 올라감)
-        if (player.transform.position.y < player._targetClimbPos.y - 0.05f)
+      
+        if (player.transform.position.y < player.TargetClimbPosition.y - 0.05f)
         {
-            Vector3 upTarget = new Vector3(player.transform.position.x, player._targetClimbPos.y, player.transform.position.z);
+            Vector3 upTarget = new Vector3(player.transform.position.x, player.TargetClimbPosition.y, player.transform.position.z);
 
             Vector3 movePos = Vector3.MoveTowards(player.transform.position, upTarget, 3f * Time.fixedDeltaTime);
             _rigidbody.MovePosition(movePos);
         }
         else
         {
-            Vector3 forwardTarget = new Vector3(player._targetClimbPos.x, player.transform.position.y, player._targetClimbPos.z);
+            Vector3 forwardTarget = new Vector3(player.TargetClimbPosition.x, player.transform.position.y, player.TargetClimbPosition.z);
             float dist = Vector3.Distance(player.transform.position, forwardTarget);
 
             if (dist > 0.15f)
@@ -436,40 +338,8 @@ public class PlayerState_Grab : IPlayerState
             }
             else
             {
-                player._grab = false;
+                player.ChangeState(PlayerState.Idle);
             }
         }
-
-        //2안 슝 하고 바로 올라가버림
-        //float distance = Vector3.Distance(player.transform.position, player._targetClimbPos);
-
-        //if (distance > 0.1f)
-        //{
-        //    Vector3 smoothPos = Vector3.Lerp(player.transform.position, player._targetClimbPos, 7f * Time.fixedDeltaTime);
-        //    _rigidbody.MovePosition(smoothPos);
-        //}
-        //else
-        //{
-        //    player._grab = false;
-        //}
-
-
-        //3안 
-        //_climbTimer += Time.fixedDeltaTime;
-
-        //float tClimb = _climbTimer / _climbDuration;
-
-        //float smoothT = Mathf.SmoothStep(0f, 1f, tClimb);
-
-        //Vector3 newPos = Vector3.Lerp(_startPos, player._targetClimbPos, smoothT);
-
-        //newPos.y += Mathf.Sin(smoothT * Mathf.PI) * 0.3f;
-
-        //_rigidbody.MovePosition(newPos);
-
-        //if (tClimb >= 1f)
-        //{
-        //    player._grab = false;
-        //}
     }
 }
