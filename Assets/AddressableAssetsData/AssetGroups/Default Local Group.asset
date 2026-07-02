@@ -1,4 +1,4 @@
-﻿%YAML 1.1
+%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -15,13 +15,33 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: dcf732d7e0ea58346b14a4b673424943
   m_SerializeEntries:
+  - m_GUID: 04a83711c9259954a8af5cf27253423f
+    m_Address: Prefab/Prefab_Trap_BreakingPlatform_001
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 23d259891abf3cc4fa220ca78d6ea77a
+    m_Address: Prefab/Prefab_Trap_RollingPlatform_002
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2f92aec1c47d642439210ea8c5805880
+    m_Address: Prefab/Prefab_Trap_PendulumObject_Hammer
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 44eb027c226b7224a969f669eef930de
+    m_Address: Prefab/Prefab_Trap_RollingObject_001
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 68054f97912e42b4fb7ca436100c4349
     m_Address: Assets/Prefabs/UI/OpeningUI
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6e6a9371fff082c4cb80a3573077ffe7
-    m_Address: Prefab/Prefab_Trap_SpinTrap_001
+    m_Address: Prefab/Prefab_Trap_SpinObject_001
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -55,6 +75,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b1b153f00a7d91e4da0841b9d44df9dd
+    m_Address: Prefab/Prefab_Trap_PendulumObject_Axe
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bdcc084de867d7b41a2c6b02637ab7ec
+    m_Address: Prefab/Prefab_Trap_JumpPad_001
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c4f714a25761da243989a5ee73231787
     m_Address: JsonOutput/Monster
     m_ReadOnly: 0
@@ -65,8 +95,23 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c9edb4b6fd863bd4caf6ae893f1ce1dd
+    m_Address: Prefab/Prefab_Trap_WindFan_001
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: cf2a00152d727ce4bbf5925f888cba05
     m_Address: JsonOutput/Ground
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cf87b5ec6ce637e4c8f177ad1fcab199
+    m_Address: Prefab/Prefab_Trap_RollingPlatform_001
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cfa0c41ebb4c7a541baa951200c8bbd8
+    m_Address: Prefab/Prefab_Trap_BlinkPlatform_001
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
