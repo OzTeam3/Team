@@ -1,49 +1,57 @@
-﻿using System;
-using UnityEngine.UI;
-using System.Collections;
+﻿using Cysharp.Threading.Tasks;
+using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FadePopupUI : UIBase
 {
-    [SerializeField] private Image Image_Panel;
+    [SerializeField] private Image _imagePanel;
+    [SerializeField] private Image _imagePane2;
 
-    float time = 0f;
-    float F_time = 1f;
 
-    public void Fade(Action onComplete)
+    [SerializeField] private float _fadeTime = 1f;
+
+    public async UniTask Fade(Action onComplete = null)
     {
-        StartCoroutine(FadeFlow(onComplete));
+        _imagePanel.gameObject.SetActive(true);
+
+        await FadeIn();
+
+        onComplete?.Invoke();
+
+        _imagePane2.gameObject.SetActive(false);
+
+        await UniTask.WaitForSeconds(1f);
+        await FadeOut();
     }
 
-    IEnumerator FadeFlow(Action onComplete)
+    private async UniTask FadeIn()
     {
-        Image_Panel.gameObject.SetActive(true);
-        time = 0f;
-        Color alpha = Image_Panel.color;
+        float time = 0f;
+        Color alpha = _imagePanel.color;
+        alpha.a = 0f;
+        _imagePanel.color = alpha;
 
-        // 페이드 인
         while (alpha.a < 1f)
         {
-            time += Time.deltaTime / F_time;
+            time += Time.deltaTime / _fadeTime;
             alpha.a = Mathf.Lerp(0, 1, time);
-            Image_Panel.color = alpha;
-            yield return null;
+            _imagePanel.color = alpha;
+            await UniTask.Yield();
         }
+    }
 
-        onComplete?.Invoke(); // 페이드 인 완료 후 콜백 실행
-
-        // 페이드 아웃
-        time = 0f;
-        yield return new WaitForSeconds(1);
+    private async UniTask FadeOut()
+    {
+        float time = 0f;
+        Color alpha = _imagePanel.color;
 
         while (alpha.a > 0f)
         {
-            time += Time.deltaTime / F_time;
+            time += Time.deltaTime / _fadeTime;
             alpha.a = Mathf.Lerp(1, 0, time);
-            Image_Panel.color = alpha;
-            yield return null;
+            _imagePanel.color = alpha;
+            await UniTask.Yield();
         }
-        Image_Panel.gameObject.SetActive(false);
-        yield return null;
     }
 }

@@ -35,12 +35,12 @@ public class SettingPopupUI : UIBase
 
     private void OnChangeBGM(float value)
     {
-        SoundManager.Instance.BGMVolume = value;
+        AudioController.Instance.BGMVolume = value;
     }
 
     private void OnChangeSFX(float value)
     {
-        SoundManager.Instance.SFXVolume = value;
+        AudioController.Instance.SFXVolume = value;
     }
 
     private void OnChangeResolution(int index)
@@ -52,8 +52,8 @@ public class SettingPopupUI : UIBase
 
     private void InitSliderVolume()
     {
-        _sliderBGM.value = SoundManager.Instance.BGMVolume;
-        _sliderSFX.value = SoundManager.Instance.SFXVolume;
+        _sliderBGM.value = AudioController.Instance.BGMVolume;
+        _sliderSFX.value = AudioController.Instance.SFXVolume;
     }
 
     private void InitResolutionDropdown()

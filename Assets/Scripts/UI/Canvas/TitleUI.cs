@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 
-public class OpeningUI : UIBase
+public class TitleUI : UIBase
 {
     [SerializeField] private UIButton _buttonStart;
     [SerializeField] private UIButton _buttonSetting;
@@ -8,7 +9,7 @@ public class OpeningUI : UIBase
 
     private void OnEnable()
     {
-        //노래 바꾸기
+        AudioController.Instance.PlayBGM(AddressableUtil.SoundPath.Title);
         _buttonStart.BindOnClickButtonEvent(OnClickStart);
         _buttonSetting.BindOnClickButtonEvent(OnClickSetting);
         _buttonExit.BindOnClickButtonEvent(OnClickExit);
@@ -16,18 +17,17 @@ public class OpeningUI : UIBase
 
     private void OnClickStart()
     {
-        UIManager.Instance.OpenPopupUI(UIType.StartPopupUI);
+        UIManager.Instance.OpenPopupUI(UIType.StartPopupUI, this.GetCancellationTokenOnDestroy());
         Debug.Log("시작선택 팝업 열림");
     }
 
     private void OnClickSetting()
     {
-        UIManager.Instance.OpenUI(UIRootType.VeryFrontUI, UIType.SettingPopupUI);
+        UIManager.Instance.OpenUI(UIRootType.VeryFrontUI, UIType.SettingPopupUI).Forget();
     }
 
-    //#ifUnityEditor 찾아보기
     private void OnClickExit()
     {
-        Application.Quit();
+        GameManager.Instance.ExitGame();
     }
 }

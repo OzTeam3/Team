@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.Events;
 
 public class UIBase : MonoBehaviour
 {
-   protected void Bind(ref UIButton a, UnityAction b)
+    protected void Bind(ref UIButton a, UnityAction b)
     {
-        if(a == null)
+        if (a == null)
         {
             Debug.Log("에러");
         }
@@ -25,12 +26,12 @@ public class UIPopup : UIBase
 
     private void OnClickNewStart()
     {
-        SoundManager.Instance.StopBGM();
-        SoundManager.Instance.PlayBGM("Assets/Sound/BGM1");
+        AudioController.Instance.StopBGM();
+        AudioController.Instance.PlayBGM(AddressableUtil.SoundPath.Bgm1);
 
         //todo 데이터와 연동해서 저장한 기록을 불러온다. 일단 UI를 닫아 실행
-        UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.MainHUD);
+        UIManager.Instance.OpenUI(UIRootType.MainUI, UIType.MainHUD).Forget();
         UIManager.Instance.ClosePopupUI(UIType.StartPopupUI);
-        UIManager.Instance.CloseUI(UIRootType.MainUI, UIType.OpeningUI);
+        UIManager.Instance.CloseUI(UIRootType.MainUI, UIType.TitleUI);
     }
 }
