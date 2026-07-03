@@ -94,7 +94,7 @@
     "Id": "Trap_PendulumObject_001",
     "Name": "Pendulum_Axe",
     "SpinSpeed": 6,
-    "KnockbackForce": 12,
+    "KnockbackForce": 6,
     "WaitingTime": 0,
     "RespawnTime": 0,
     "BounceForce": 0,

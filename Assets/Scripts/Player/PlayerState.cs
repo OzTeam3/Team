@@ -139,6 +139,11 @@ public class PlayerState_Walk : PlayerState_Base
     {
         Vector2 _playerInput = player.PlayerInput;
 
+        if (_playerInput == Vector2.zero)
+        {
+            return;
+        }
+
         Vector3 cameraForward = Vector3.ProjectOnPlane(player.Camera.transform.forward, Vector3.up).normalized;
         Vector3 cameraRight = Vector3.ProjectOnPlane(player.Camera.transform.right, Vector3.up).normalized;
 

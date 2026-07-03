@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: dcf732d7e0ea58346b14a4b673424943
   m_SerializeEntries:
+  - m_GUID: 04a83711c9259954a8af5cf27253423f
+    m_Address: Prefab/Prefab_Trap_BreakingPlatform_001
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 163e9d7a7fa1ee848907d05bd7a89180
     m_Address: JsonOutput/Button1
     m_ReadOnly: 0
@@ -25,13 +30,33 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 23d259891abf3cc4fa220ca78d6ea77a
+    m_Address: Prefab/Prefab_Trap_RollingPlatform_002
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 28038f5ae3b966f409c16aa6c35ff470
     m_Address: Prefab/Prefab_Char_Mj
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2f92aec1c47d642439210ea8c5805880
+    m_Address: Prefab/Prefab_Trap_PendulumObject_Hammer
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3b7c00b9fe0a7a945969f2361bbd2947
     m_Address: JsonOutput/MainHUD
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 44eb027c226b7224a969f669eef930de
+    m_Address: Prefab/Prefab_Trap_RollingObject_001
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4e03f022b16bdec4bacedbb3ae708cb3
+    m_Address: ItemMesh/EnergyDrink
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -61,7 +86,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6e6a9371fff082c4cb80a3573077ffe7
-    m_Address: Prefab/Prefab_Trap_SpinTrap_001
+    m_Address: Prefab/Prefab_Trap_SpinObject_001
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -90,8 +115,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b1b153f00a7d91e4da0841b9d44df9dd
+    m_Address: Prefab/Prefab_Trap_PendulumObject_Axe
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b8c21484f4a90ef4d9a49fe77c6f3d8e
-    m_Address: JsonOutput/ItemStatUp
+    m_Address: JsonOutput/StatUpItem
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bdcc084de867d7b41a2c6b02637ab7ec
+    m_Address: Prefab/Prefab_Trap_JumpPad_001
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -115,8 +150,28 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c9edb4b6fd863bd4caf6ae893f1ce1dd
+    m_Address: Prefab/Prefab_Trap_WindFan_001
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: cf2a00152d727ce4bbf5925f888cba05
     m_Address: JsonOutput/Ground
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cf605d14f19d4464d8de7b6edb4cd042
+    m_Address: ItemMesh/HastePotion
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cf87b5ec6ce637e4c8f177ad1fcab199
+    m_Address: Prefab/Prefab_Trap_RollingPlatform_001
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cfa0c41ebb4c7a541baa951200c8bbd8
+    m_Address: Prefab/Prefab_Trap_BlinkPlatform_001
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

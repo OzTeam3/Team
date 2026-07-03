@@ -67,7 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c787999fefa8a14895c6312641e022f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemEntity
-  _meshFilter: {fileID: 764721845936297161}
+  _itemDataId: 
 --- !u!1 &7248233338448858528
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,7 +108,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7248233338448858528}
-  m_Mesh: {fileID: 4300000, guid: 4e03f022b16bdec4bacedbb3ae708cb3, type: 2}
+  m_Mesh: {fileID: 0}
 --- !u!23 &4075453941362453520
 MeshRenderer:
   m_ObjectHideFlags: 0
