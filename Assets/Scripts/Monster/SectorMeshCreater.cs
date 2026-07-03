@@ -1,22 +1,27 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))] //두줄
+[RequireComponent(typeof(MeshFilter))] 
+[RequireComponent(typeof(MeshRenderer))] //두줄
 public class SectorMeshCreator : MonoBehaviour
 {
     //상수로 만들지 판단
     //캡슐화 변경
-    public float _viewAngle = 90f;
-    public float _detectRadius = 6f;
-    public int _segments = 20;
+    private const float _viewAngle = 90f;
+    private const float _detectRadius = 6f;
+    private const int _segments = 20;
 
     private Mesh _mesh;
     private MeshFilter _meshFilter;
 
     private void Awake()
     {
-        _meshFilter = GetComponent<MeshFilter>(); //널체크
-        _mesh = new Mesh { name = "SectorMesh" };
-        _meshFilter.mesh = _mesh;
+        if( _mesh == null)
+        {
+            _meshFilter = GetComponent<MeshFilter>(); //널체크
+            _mesh = new Mesh { name = "SectorMesh" };
+            _meshFilter.mesh = _mesh;
+        }
+        
 
         CreateSectorMesh();
     }
@@ -24,8 +29,6 @@ public class SectorMeshCreator : MonoBehaviour
     //이거 안쓰고있음 참고바람
     public void UpdateMeshSettings(float angle, float radius)
     {
-        _viewAngle = angle;
-        _detectRadius = radius;
         CreateSectorMesh();
     }
 
