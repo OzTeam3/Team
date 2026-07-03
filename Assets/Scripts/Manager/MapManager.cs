@@ -71,6 +71,7 @@ public class MapManager : MonoBehaviour
 
         PlayerController player = await GameManager.Instance.SettingPlayer();
         _playerTransform = player.transform;
+ 
         _playerTransform.gameObject.SetActive(true);
     }
 

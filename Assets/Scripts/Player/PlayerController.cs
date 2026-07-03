@@ -84,7 +84,6 @@ public class PlayerController : MonoBehaviour
         _groundDetector.OnGroundTriggeredAction += OnGroundTriggered;
         _ledgeDetector.OnLedgeTriggeredAction += OnLedgeTriggered;
 
-        //전부 인풋매니저로 간다!
         _moveAction.action.Enable();
         _runAction.action.Enable();
         _jumpAction.action.Enable();
@@ -235,7 +234,7 @@ public class PlayerController : MonoBehaviour
 
         float heightDifference = actualHeight - transform.position.y;
 
-        if (heightDifference < 1.0f || heightDifference > 2.2f)
+        if (heightDifference < 1.0f || heightDifference > 3.0f)
         {
             IsCanGrab = false;
             return;

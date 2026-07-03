@@ -56,7 +56,6 @@ public class EndingPopupUI : UIBase
     {
         UIManager.Instance.CloseUI(UIType.MainHUD);
         await UIManager.Instance.OpenMainUIAsync(UIType.TitleUI, _disableCancellationToken.Token);
-        GameManager.Instance.EndGame();
         MapManager.Instance.DisableMap();
         UIManager.Instance.CloseUI(UIType.EndingPopupUI);
     }
