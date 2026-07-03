@@ -1,88 +1,114 @@
-﻿//using Cysharp.Threading.Tasks;
-//using System;
-//using Unity.VisualScripting;
-//using UnityEngine;
-//using UnityEngine.Rendering;
-//using UnityEngine.XR;
+﻿using Cysharp.Threading.Tasks;
+using System;
+using System.Threading;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.XR;
 
-////안쓰는 유징 정리해주세요
-////에러문
-//public class ItemEntity : MonoBehaviour
-//{
-//    //매시 필터는 겟컴포넌트로 뺴기
-//    [SerializeField] private MeshFilter _meshFilter;
-//    [SerializeField] private string _itemDataId;
+//안쓰는 유징 정리해주세요
+//에러문
+public class ItemEntity : MonoBehaviour
+{
+    [SerializeField] private string _itemDataId;
 
-//    private ItemBase _item;
+    private ItemBase _item;
 
-//    private void OnEnable()
-//    {
-//        InitItem();
-//    }
+    private SphereCollider _sphereCollider;
+    private MeshFilter _meshFilter;
 
-//    //업데이트에서 해주세요
-//    private void FixedUpdate()
-//    {
-//        transform.Rotate(0, 60 * Time.fixedDeltaTime, 0);
-//    }
+    private void Awake()
+    {
+        _sphereCollider = GetComponent<SphereCollider>();
+        _meshFilter = GetComponentInChildren<MeshFilter>();
+        if(_sphereCollider == null)
+        {
+            Debug.LogWarning($"[ItemEntity:Awake] SphereCollider 컴포넌트 없음");
+        }
+        if(_meshFilter == null)
+        {
+            Debug.LogWarning($"[ItemEntity:Awake] MeshFilter 컴포넌트 없음");
+        }
+    }
+    private void OnEnable()
+    {
+        InitItemEntity().Forget();
+    }
 
-//    //메서드명 수정
-//    public async UniTask InitItem()
-//    {
-//        ItemData itemData = DataManager.Instance.GetData<ItemData>(_itemDataId);
-//        if(itemData == null)
-//        {
-//            Debug.LogWarning($"[ItemEntity] Can't find {_itemDataId} in DataManager");
-//            return;
-//        }
-       
-//        //변수명을 성공했는지?
-//        bool isVariableType = Enum.TryParse(itemData.ItemType, out ItemType itemtype);
-       
-//        //에러체크
-//        if(!isVariableType)
-//        {
-//            itemtype = ItemType.None;
-//        }
+    private void Update()
+    {
+        RotateEntity();
+    }
 
-//        switch (itemtype)
-//        {
-//            case ItemType.StatUp:
-//                _item = new StatUpItem();
-//                break;
-//            default:
-//                return;
-//        }
+    private void RotateEntity()
+    {
+        transform.Rotate(0, 60 * Time.fixedDeltaTime, 0);
+    }
 
-//        //_Item초기화 하는 메서드
+    public async UniTask InitItemEntity()
+    {
+        ItemData itemData = DataManager.Instance.GetData<ItemData>(_itemDataId);
+        if(itemData == null)
+        {
+            Debug.LogWarning($"[ItemEntity:InitItemEntity] 데이터 매니저에서 아이템ID 찾을 수 없음");
+            return;
+        }
 
-//        //위로 가도될듯
-//        Mesh itemMesh = await ResourceManager.Instance.GetAssetAsync<Mesh>(itemData.MeshId);
-//        _meshFilter.mesh = itemMesh;
-//    }
+        //위로 가도될듯
+        Mesh itemMesh = await ResourceManager.Instance.GetAssetAsync<Mesh>(itemData.MeshId);
+        _meshFilter.mesh = itemMesh;
 
-//    private void OnTriggerEnter(Collider other)
-//    {
-//        if(other.CompareTag("Player") == false)
-//        {
-//            return;
-//        }
+        bool isItemParsed = Enum.TryParse(itemData.ItemType, out ItemType itemtype);
+        if (!isItemParsed)
+        {
+            Debug.LogWarning($"[ItemEntity:InitItemEntity] 아이템 타입 파싱 실패");
+            return;
+        }
 
-//        if(other.transform.TryGetComponent(out Player player) == false)
-//        {
-//            Debug.LogWarning("PlayerTag Object does not have a PlayerView componenet");
-//            return;
-//        }
+        switch (itemtype)
+        {
+            case ItemType.StatUp:
+                _item = new StatUpItem();
+                break;
+            default:
+                return;
+        }
+        _item.InitItem(_itemDataId);
+    }
 
-//        //유즈 아이템
-//        AddItem(player);
-//    }
+    private async UniTask RespawnItemDelay()
+    {
+        _sphereCollider.enabled = false;
+        _meshFilter.gameObject.SetActive(false);
+        bool isCancel = await UniTask.Delay(TimeSpan.FromSeconds(4f)).SuppressCancellationThrow();
+        if(isCancel)
+        {
+            Debug.LogWarning("[ItemEntity:RespawnItemDelay] 비동기 처리 중 관련 오브젝트 파괴 됨");
+            return;
+        }
+        _sphereCollider.enabled = true;
+        _meshFilter.gameObject.SetActive(true);
+    }
 
-//    //삭제될수도
-//    private void AddItem(Player character)
-//    {
-//        _item.UseItem(character);
-//        //character.AddItem(_item);
-//        Destroy(this.gameObject);
-//    }
-//}
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Player") == false)
+        {
+            return;
+        }
+
+        if(other.transform.TryGetComponent(out Player player) == false)
+        {
+            Debug.LogWarning("[ItemEntity:OnTriggerEnter] 플레이어 태그 오브젝트에 Player컴포넌트 없음");
+            return;
+        }
+
+        UseItem(player);
+    }
+
+    private void UseItem(Player player)
+    {
+        _item.UseItem(player);
+        RespawnItemDelay().Forget();
+    }
+}

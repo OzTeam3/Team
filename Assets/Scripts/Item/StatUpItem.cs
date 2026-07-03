@@ -1,79 +1,71 @@
-﻿//using Cysharp.Threading.Tasks;
-//using System;
-//using System.Threading;
-//using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using System;
+using System.Threading;
+using UnityEngine;
 
-//public enum StatType
-//{
-//    None,
-//    MoveSpeed,
-//    JumpForce
-//}
+public enum StatType
+{
+    None,
+    MoveSpeed,
+    JumpForce
+}
 
-//public class StatUpItem : ItemBase
-//{
-//    Player _owner; //삭제해도될듯
-//    StatUpItemData _itemData;
-//    StatType _statType;
+public class StatUpItem : ItemBase
+{
+    private StatUpItemData _itemData;
+    private StatType _statType;
 
-//    public override void InitItem(string itemName)
-//    {
-//        base.InitItem(itemName);
+    public override void InitItem(string itemId)
+    {
+        _itemData = DataManager.Instance.GetData<StatUpItemData>(itemId);
 
-//        _itemData = DataManager.Instance.GetData<StatUpItemData>(itemName);
+        if (_itemData == null)
+        {
+            Debug.LogWarning($"[StatUpItem:InitItem] StatUpItemData 테이블에서 아이디를 찾을 수 없음");
+            return;
+        }
 
-//        if (_itemData == null)
-//        {
-//            Debug.LogWarning($"Can't Find Item {ItemId}");
-//            return;
-//        }
+        //아까처럼 수정
+        bool isStatParsed = Enum.TryParse(_itemData.StatType, out _statType);
 
-//        //아까처럼 수정
-//        bool isVariableStat = Enum.TryParse(_itemData.StatType, out _statType);
+        if (!isStatParsed)
+        {
+            Debug.LogWarning($"[StatUpItem:InitItem] StatType 파싱 실패");
+            return;
+        }
+    }
 
-//        if (!isVariableStat)
-//        {
-//            _statType = StatType.None;
-//        }
-//    }
+    public override void UseItem(Player player)
+    {
+        if (_itemData == null)
+        {
+            Debug.LogWarning($"[StatUpItem:UseItem] 아이템 데이터 없음.");
+            return;
+        }
 
-//    //없어지겟죠
-//    public override void AcquireItem(Player player)
-//    {
-//        _owner = player;
-//    }
+        player.AddStat(_statType, _itemData.Value);
 
-//    public override void UseItem(Player player)
-//    {
-//        if (_itemData == null)
-//        {
-//            Debug.LogWarning($"Can't Find Item {ItemId}");
-//            return;
-//        }
+        if (_itemData.Duration > 0)
+        {
+            ReserveDisableItem(player, _itemData.Duration).Forget();
+        }
+    }
 
-//        player.AddStat(_statType, _itemData.Value);
+    public void UnUseItem(Player player)
+    {
+        player.AddStat(_statType, -(_itemData.Value));
+    }
 
-//        if (_itemData.Duration > 0)
-//        {
-//            ReserveDisableItem(player, _itemData.Duration).Forget();
-//        }
-//    }
-
-//    public void UnUseItem(Player player)
-//    {
-//        player.AddStat(_statType, -(_itemData.Value));
-//    }
-
-//    private async UniTask ReserveDisableItem(Player player, float duration)
-//    {
-//        CancellationToken cancelToken = _owner.GetCancellationTokenOnDestroy();
-//        TimeSpan delayTime = System.TimeSpan.FromSeconds(duration);
-//        bool isCancel = await UniTask.Delay(delayTime, cancellationToken: cancelToken).SuppressCancellationThrow();
-//        if (isCancel)
-//        {
-//            Debug.LogWarning("Owner Object is Destroyed while Buff OnRunning");
-//            return;
-//        }
-//        UnUseItem(player);
-//    }
-//}
+    private async UniTask ReserveDisableItem(Player player, float duration)
+    {
+        CancellationToken cancelToken = player.GetCancellationTokenOnDestroy();
+        TimeSpan delayTime = System.TimeSpan.FromSeconds(duration);
+        bool isCancel = await UniTask.Delay(delayTime, cancellationToken: cancelToken).SuppressCancellationThrow();
+        if (isCancel)
+        {
+            Debug.LogWarning("[StatUpItem:ReserveDisableItem] 비동기 처리 중 관련 오브젝트 파괴 됨");
+            return;
+        }
+        UnUseItem(player);
+    }
+}
