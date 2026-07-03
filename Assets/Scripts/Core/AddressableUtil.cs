@@ -24,14 +24,6 @@
         public const string EndingPopupUI = "JsonOutput/EndingPopupUI";
     }
 
-    public static class SoundPath
-    {
-        public const string Bgm = "JsonOutput/Bgm";
-        public const string Title = "JsonOutput/Title";
-        public const string Button1 = "JsonOutput/Button1";
-        public const string Button2 = "JsonOutput/Button2";
-    }
-
     public static class GameSettingPath
     {
         public const string StartPosition = "JsonOutput/StartPosition";

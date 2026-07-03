@@ -127,10 +127,6 @@ MonoBehaviour:
   _buttonBase: {fileID: 2472937304885120412}
   _textBase: {fileID: 3846335234852626284}
   _imageBase: {fileID: 5334530083265952597}
-  _imageSelect: {fileID: 0}
-  _hoverScale: 1.1
-  _clickSoundPath: Assets/Sound/Button_2
-  _hoverSoundPath: Assets/Sound/Button_1
 --- !u!1 &2925605944104058862
 GameObject:
   m_ObjectHideFlags: 0
@@ -568,7 +564,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7733575298828375472
 MonoBehaviour:

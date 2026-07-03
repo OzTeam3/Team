@@ -113,7 +113,7 @@
                 {
                     "name": "",
                     "id": "58c17b2d-ebfd-4329-b9d5-ab1585e702b5",
-                    "path": "<Keyboard>/shift",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -124,11 +124,59 @@
                 {
                     "name": "",
                     "id": "4523027b-f874-4f22-bdb3-5e383e4f0388",
-                    "path": "<Keyboard>/e",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Grab",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Camera",
+            "id": "63d78fd2-8151-4724-a2d1-f55ff7cd0e9a",
+            "actions": [
+                {
+                    "name": "DragHotigontal",
+                    "type": "Value",
+                    "id": "6175f6cd-0441-40bc-b3ed-5ad662d9d238",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "DragVertical",
+                    "type": "Value",
+                    "id": "c8462bb8-95d6-4bc0-b04e-45ac1fe3be6c",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "c601d70e-911b-42c1-8559-b94f987a85a4",
+                    "path": "<Mouse>/delta/x",
+                    "interactions": "",
+                    "processors": "Scale(factor=2)",
+                    "groups": "",
+                    "action": "DragHotigontal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4ccb26e5-bb82-4365-9773-e6bcb04be7e5",
+                    "path": "<Mouse>/delta/y",
+                    "interactions": "",
+                    "processors": "Scale(factor=2)",
+                    "groups": "",
+                    "action": "DragVertical",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

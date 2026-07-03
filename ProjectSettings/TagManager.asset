@@ -5,8 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Monster
-  - PlayerFeet
-  - Ledge
+  - Ground
   layers:
   - Default
   - TransparentFX

@@ -30,7 +30,7 @@ public abstract class ItemBase
         MeshId = itemData.MeshId;
     }
 
-    public abstract void AcquireItem(Player player);
+    public abstract void AcquireItem(PlayerController player);
 
-    public abstract void UseItem(Player player);
+    public abstract void UseItem(PlayerController player);
 }

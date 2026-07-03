@@ -10,11 +10,11 @@ public class MapManager : MonoBehaviour
     private const float SeamlessOffset = 10.0f;
 
     [SerializeField] private Transform _mapRoot;
-    [SerializeField] private Transform _playerTransform;
 
     private readonly Dictionary<string, GameObject> _spawnedZones = new Dictionary<string, GameObject>();
     private List<ZoneData> _zoneDataList;
 
+    private Transform _playerTransform;
     private bool _isInitalized;
 
     private void Awake()
@@ -69,7 +69,7 @@ public class MapManager : MonoBehaviour
 
         EnableMap();
 
-        Player player = await GameManager.Instance.SettingPlayer();
+        PlayerController player = await GameManager.Instance.SettingPlayer();
         _playerTransform = player.transform;
         _playerTransform.gameObject.SetActive(true);
     }

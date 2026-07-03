@@ -1,6 +1,4 @@
-﻿using Cysharp.Threading.Tasks;
-using UnityEngine;
-using UnityEngine.Events;
+﻿using UnityEngine;
 
 public class UIBase : MonoBehaviour
 {

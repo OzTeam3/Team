@@ -11,12 +11,14 @@ public class GameManager : MonoBehaviour
 
     private CharacterData _characterData;
 
-    private PlayerView _playerSaveModel;
+    private PlayerSaveModel _playerSaveModel;
+
+    private CancellationTokenSource _disableCancellationToken;
 
     private string _savePath;
     private bool _isPlaying;
 
-    public Player PlayerController { get; private set; }
+    public PlayerController PlayerController { get; private set; }
 
     public float ElapsedTime { get; private set; }
 
@@ -32,9 +34,14 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
+    private void OnEnable()
+    {
+        _disableCancellationToken = new CancellationTokenSource();
+    }
+
     private void Start()
     {
-        UIManager.Instance.OpenFadeUI(InitalizeGame, token).Forget();
+        UIManager.Instance.OpenFadeUI(InitalizeGame, _disableCancellationToken.Token).Forget();
     }
 
     private void Update()
@@ -52,19 +59,29 @@ public class GameManager : MonoBehaviour
         ElapsedTime += Time.deltaTime;
     }
 
-    private void OpenEscapePopup()
+    private void OnDisable()
     {
-        UIManager.Instance.OpenPopupUIAsync(UIType.ESCPopupUI, token).Forget();
+        if (_disableCancellationToken == null)
+        {
+            return;
+        }
+
+        _disableCancellationToken.Cancel();
+        _disableCancellationToken.Dispose();
+        _disableCancellationToken = null;
     }
 
-    private CancellationToken token = new CancellationToken();
-    
+    private void OpenEscapePopup()
+    {
+        UIManager.Instance.OpenPopupUIAsync(UIType.ESCPopupUI, _disableCancellationToken.Token).Forget();
+    }
+
     public void InitalizeGame()
     {
         InitallizeLogic().Forget();
     }
 
-    public async UniTask<Player> SettingPlayer()
+    public async UniTask<PlayerController> SettingPlayer()
     {
         if (PlayerController == null)
         {
@@ -115,7 +132,7 @@ public class GameManager : MonoBehaviour
     {
         if (_playerSaveModel == null)
         {
-            Debug.LogError("_currentSaveData가 널입니다");
+            Debug.LogError("[GameManager:SaveGame] _currentSaveData가 널입니다");
             return;
         }
 
@@ -126,11 +143,11 @@ public class GameManager : MonoBehaviour
 
         if(!isRequestSuccess)
         {
-            Debug.LogError("");
+            Debug.LogError("[GameManager:SaveGame] 세이브에 실패했습니다.");
         }
     }
-    
-    public void LoadGame()
+
+    private void LoadGame()
     {
         RequstLoadGame();
     }
@@ -143,29 +160,37 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        PlayerController.transform.position = _playerSaveModel.CheckPointPosition;
+        if(!PlayerController.TryGetComponent(out Rigidbody rigidbody))
+        {
+            Debug.LogError("[GameManager:SetPlayerPosition] 플레이어 Rigidbody가 없습니다.");
+            return;
+        }
+
+        rigidbody.position = _playerSaveModel.CheckPointPosition;
     }
 
     private async UniTask InitallizeLogic()
     {
-        await DataManager.Instance.LoadAllDatasAsync(token);
+        await DataManager.Instance.LoadAllDatasAsync(_disableCancellationToken.Token);
         _characterData = DataManager.Instance.GetData<CharacterData>(PlayerID);
-        await UIManager.Instance.OpenMainUIAsync(UIType.TitleUI);
+        await UIManager.Instance.OpenMainUIAsync(UIType.TitleUI, _disableCancellationToken.Token);
     }
 
     private async UniTask InstantiatePlayerAsync()
     {
-        GameObject player = await ResourceManager.Instance.InstantiateGameObjectAsync(_characterData.PrefabPath, cancellationToken: token);
+        GameObject player = await ResourceManager.Instance.InstantiateGameObjectAsync(_characterData.PrefabPath, cancellationToken: _disableCancellationToken.Token);
 
-        if (!player.TryGetComponent(out Player player1))
+        if (!player.TryGetComponent(out PlayerController playerController))
         {
             Debug.LogError("[GameManager:InstantiatePlayerAsync] 플레이어 컨트롤러 컴포.");
             return;
         }
 
-        //플레이어 초기화
+        CharacterData characterData = DataManager.Instance.GetData<CharacterData>(PlayerID);
+        playerController.InitPlayerData(characterData);
+        PlayerController = playerController;
 
-        PlayerController = player1;
+        CameraManager.Instance.SetCameraTarget(PlayerController.transform);
     }
 
     private string GetSavePath()
@@ -190,7 +215,7 @@ public class GameManager : MonoBehaviour
 
         if (string.IsNullOrWhiteSpace(savePath))
         {
-            Debug.LogError("");
+            Debug.LogError("[GameManager:RequestSaveGame] 세이브 경로를 가져오지 못했습니다.");
             return false;
         }
 
@@ -198,7 +223,7 @@ public class GameManager : MonoBehaviour
 
         if (string.IsNullOrWhiteSpace(saveData))
         {
-            Debug.LogError("\"[GameManager:RequestSaveGame] 저장할 세이브 데이터가 없습니다");
+            Debug.LogError("[GameManager:RequestSaveGame] 저장할 세이브 데이터가 없습니다.");
             return false;
         }
 
@@ -217,11 +242,11 @@ public class GameManager : MonoBehaviour
         }
 
         string saveData = File.ReadAllText(savePath);
-        PlayerView loadPlayerSaveModel = JsonUtility.FromJson<PlayerView>(saveData);
+        PlayerSaveModel loadPlayerSaveModel = JsonUtility.FromJson<PlayerSaveModel>(saveData);
 
         if (loadPlayerSaveModel == null)
         {
-            Debug.LogError("\"[GameManager:RequstLoadGame] 데이터를 읽어오는 데 실패했습니다.");
+            Debug.LogError("[GameManager:RequstLoadGame] 데이터를 읽어오는 데 실패했습니다.");
             return;
         }
 
@@ -230,7 +255,7 @@ public class GameManager : MonoBehaviour
 
     public void ResetPlaySaveModel()
     {
-        PlayerView newPlayerSaveModel = new PlayerView();
+        PlayerSaveModel newPlayerSaveModel = new PlayerSaveModel();
 
         newPlayerSaveModel.PlayerId = _characterData.Id;
         newPlayerSaveModel.CheckPointPosition = new Vector3(_characterData.StartPositionX, _characterData.StartPositionY, _characterData.StartPositionZ);

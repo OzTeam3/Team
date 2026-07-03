@@ -2,12 +2,7 @@
   {
     "Id": "Bgm1_001",
     "Name": "Bgm1",
-    "PrefabPath": "JsonOutput/Bgm1"
-  },
-  {
-    "Id": "Bgm2_001",
-    "Name": "Bgm2",
-    "PrefabPath": "JsonOutput/Bgm2"
+    "PrefabPath": "JsonOutput/Bgm"
   },
   {
     "Id": "Title_001",

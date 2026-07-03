@@ -25,13 +25,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 3b7c00b9fe0a7a945969f2361bbd2947
-    m_Address: JsonOutput/MainHUD
+  - m_GUID: 28038f5ae3b966f409c16aa6c35ff470
+    m_Address: Prefab/Prefab_Char_Mj
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 4ca738e4a03badf4a89491ed46666e10
-    m_Address: Prefab/Prefab_Char_Mj
+  - m_GUID: 3b7c00b9fe0a7a945969f2361bbd2947
+    m_Address: JsonOutput/MainHUD
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

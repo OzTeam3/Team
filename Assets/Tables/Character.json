@@ -1,11 +1,11 @@
 ﻿[
   {
     "Id": "Char_Mj",
-    "Name": "Mj",
+    "Name": "명진",
     "WalkSpeed": 5,
     "RotationSpeed": 10,
-    "JumpSpeed": 2.5,
-    "JumpForce": 10,
+    "JumpSpeed": 4,
+    "JumpForce": 5,
     "StartPositionX": 50,
     "StartPositionY": 0.5,
     "StartPositionZ": 50,

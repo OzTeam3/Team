@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using System.Threading;
 using UnityEngine;
 
 public class ESCPopupUI : UIBase
@@ -8,14 +9,21 @@ public class ESCPopupUI : UIBase
     [SerializeField] private UIButton _buttonSetting;
     [SerializeField] private UIButton _buttonTitle;
 
+    private CancellationTokenSource _disableCancellationToken;
+
+    private bool _isDisabled;
+
     private void OnEnable()
     {
         Time.timeScale = 0;
+        _isDisabled = false;
 
         _buttonBack.BindOnClickButtonEvent(OnClickBack);
         _buttonResume.BindOnClickButtonEvent(OnClickResume);
         _buttonSetting.BindOnClickButtonEvent(OnClickSetting);
         _buttonTitle.BindOnClickButtonEvent(OnClickTitle);
+
+        _disableCancellationToken = new CancellationTokenSource();
     }
 
     private void OnDisable()
@@ -26,6 +34,15 @@ public class ESCPopupUI : UIBase
         _buttonResume.UnBindOnClickButtonEvent(OnClickResume);
         _buttonSetting.UnBindOnClickButtonEvent(OnClickSetting);
         _buttonTitle.UnBindOnClickButtonEvent(OnClickTitle);
+
+        if (_disableCancellationToken == null)
+        {
+            return;
+        }
+
+        _disableCancellationToken.Cancel();
+        _disableCancellationToken.Dispose();
+        _disableCancellationToken = null;
     }
 
 
@@ -41,21 +58,28 @@ public class ESCPopupUI : UIBase
 
     private void OnClickSetting()
     {
-        UIManager.Instance.OpenVeryFrontUIAsync(UIType.SettingPopupUI).Forget();
+        UIManager.Instance.OpenVeryFrontUIAsync(UIType.SettingPopupUI, _disableCancellationToken.Token).Forget();
     }
 
     private void OnClickTitle()
     {
+        if (_isDisabled)
+        {
+            return;
+        }
+
         ClickTitle().Forget();
+        _isDisabled = true;
     }
 
     private async UniTask ClickTitle()
     {
-        UIManager.Instance.CloseUI(UIType.MainHUD);
-        UIManager.Instance.CloseUI(UIType.ESCPopupUI);
-        await UIManager.Instance.OpenMainUIAsync(UIType.TitleUI);
+        await UIManager.Instance.OpenMainUIAsync(UIType.TitleUI, _disableCancellationToken.Token);
+        
         GameManager.Instance.EndGame();
         MapManager.Instance.DisableMap();
 
+        UIManager.Instance.CloseUI(UIType.MainHUD);
+        UIManager.Instance.CloseUI(UIType.ESCPopupUI);
     }
 }

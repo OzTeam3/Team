@@ -1,11 +1,11 @@
 ﻿using System;
 using UnityEngine;
 
-//이벤트도 맞는데 액션으로 바꿔주세요 On붙혀주세요
-//그냥 태그검사 한번 해주길
 public class GroundDetector : MonoBehaviour
 {
     public event Action<bool> OnGroundTriggeredAction;
+
+    private int _triggerCount;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -14,6 +14,7 @@ public class GroundDetector : MonoBehaviour
             return;
         }
 
+        _triggerCount++;
         OnGroundTriggeredAction?.Invoke(true);
     }
 
@@ -24,6 +25,11 @@ public class GroundDetector : MonoBehaviour
             return;
         }
 
-        OnGroundTriggeredAction?.Invoke(false);
+        _triggerCount--;
+
+        if (_triggerCount <= 0)
+        {
+            OnGroundTriggeredAction?.Invoke(false);
+        }
     }
 }

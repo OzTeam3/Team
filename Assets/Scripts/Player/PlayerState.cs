@@ -11,9 +11,10 @@ public enum PlayerState
 
 public interface IPlayerState
 {
-    void EnterState(Player player);
-    void UpdateState(Player player);
-    void ExitState(Player player);
+    void EnterState(PlayerController player);
+    void UpdateState(PlayerController player);
+    void FixedUpdateState(PlayerController player);
+    void ExitState(PlayerController player);
 }
 
 public abstract class PlayerState_Base : IPlayerState
@@ -21,14 +22,15 @@ public abstract class PlayerState_Base : IPlayerState
     protected Animator _animator;
     protected Rigidbody _rigidbody;
 
-    public abstract void EnterState(Player player);
-    public abstract void ExitState(Player player);
-    public abstract void UpdateState(Player player);
+    public abstract void EnterState(PlayerController player);
+    public abstract void ExitState(PlayerController player);
+    public abstract void FixedUpdateState(PlayerController player);
+    public abstract void UpdateState(PlayerController player);
 }
 
 public class PlayerState_Idle : PlayerState_Base
 {
-    public override void EnterState(Player player)
+    public override void EnterState(PlayerController player)
     {
         if (_animator == null)
         {
@@ -42,11 +44,9 @@ public class PlayerState_Idle : PlayerState_Base
         {
             return;
         }
-
-        _animator.SetBool("Idle", true);
     }
 
-    public override void UpdateState(Player player)
+    public override void UpdateState(PlayerController player)
     {
         if (!player.IsGrounded)
         {
@@ -67,11 +67,14 @@ public class PlayerState_Idle : PlayerState_Base
 
         Idle();
     }
-
-    public override void ExitState(Player player)
+    public override void FixedUpdateState(PlayerController player)
     {
-        _animator.SetBool("Idle", false);
     }
+
+    public override void ExitState(PlayerController player)
+    {
+    }
+
     private void Idle()
     {
         _rigidbody.linearVelocity = new Vector3(0f, _rigidbody.linearVelocity.y, 0f);
@@ -80,7 +83,7 @@ public class PlayerState_Idle : PlayerState_Base
 
 public class PlayerState_Walk : PlayerState_Base
 {
-    public override void EnterState(Player player)
+    public override void EnterState(PlayerController player)
     {
         if (_animator == null)
         {
@@ -98,7 +101,7 @@ public class PlayerState_Walk : PlayerState_Base
         _animator.SetBool("Walk", true);
     }
 
-    public override void UpdateState(Player player)
+    public override void UpdateState(PlayerController player)
     {
         if (!player.IsGrounded)
         {
@@ -120,15 +123,19 @@ public class PlayerState_Walk : PlayerState_Base
             player.ChangeState(PlayerState.Idle);
             return;
         }
+    }
+
+    public override void FixedUpdateState(PlayerController player)
+    {
         Move(player);
     }
 
-    public override void ExitState(Player player)
+    public override void ExitState(PlayerController player)
     {
         _animator.SetBool("Walk", false);
     }
 
-    private void Move(Player player)
+    private void Move(PlayerController player)
     {
         Vector2 _playerInput = player.PlayerInput;
 
@@ -147,7 +154,7 @@ public class PlayerState_Walk : PlayerState_Base
 
 public class PlayerState_Run : PlayerState_Base
 {
-    public override void EnterState(Player player)
+    public override void EnterState(PlayerController player)
     {
         if (_animator == null)
         {
@@ -165,7 +172,7 @@ public class PlayerState_Run : PlayerState_Base
         _animator.SetBool("Run", true);
     }
 
-    public override void UpdateState(Player player)
+    public override void UpdateState(PlayerController player)
     {
         if (!player.IsGrounded)
         {
@@ -187,15 +194,19 @@ public class PlayerState_Run : PlayerState_Base
             player.ChangeState(PlayerState.Walk);
             return;
         }
+    }
+
+    public override void FixedUpdateState(PlayerController player)
+    {
         Move(player);
     }
 
-    public override void ExitState(Player player)
+    public override void ExitState(PlayerController player)
     {
         _animator.SetBool("Run", false);
     }
 
-    private void Move(Player player)
+    private void Move(PlayerController player)
     {
         Vector2 _playerInput = player.PlayerInput;
 
@@ -207,14 +218,14 @@ public class PlayerState_Run : PlayerState_Base
         Quaternion targetRotation = Quaternion.LookRotation(targetDir);
         _rigidbody.MoveRotation(Quaternion.Slerp(player.transform.rotation, targetRotation, player.RotationSpeed * Time.fixedDeltaTime));
 
-        Vector3 moveOffset = targetDir * player.RunSpeed * Time.fixedDeltaTime;
+        Vector3 moveOffset = player.RunSpeed * Time.fixedDeltaTime * targetDir;
         _rigidbody.MovePosition(_rigidbody.position + moveOffset);
     }
 }
 
 public class PlayerState_Jump : PlayerState_Base
 {
-    public override void EnterState(Player player)
+    public override void EnterState(PlayerController player)
     {
         if (_animator == null)
         {
@@ -232,7 +243,7 @@ public class PlayerState_Jump : PlayerState_Base
         _animator.SetBool("Jump", true);
     }
 
-    public override void UpdateState(Player player)
+    public override void UpdateState(PlayerController player)
     {
         if (player.IsGrab)
         {
@@ -240,20 +251,24 @@ public class PlayerState_Jump : PlayerState_Base
             return;
         }
 
+
         if (player.IsGrounded)
         {
             player.ChangeState(PlayerState.Idle);
         }
-        
+    }
+
+    public override void FixedUpdateState(PlayerController player)
+    {
         Move(player);
     }
 
-    public override void ExitState(Player player)
+    public override void ExitState(PlayerController player)
     {
         _animator.SetBool("Jump", false);
     }
 
-    private void Move(Player player)
+    private void Move(PlayerController player)
     {
         Vector2 _playerInput = player.PlayerInput;
 
@@ -277,7 +292,7 @@ public class PlayerState_Jump : PlayerState_Base
 
 public class PlayerState_Grab : PlayerState_Base
 {
-    public override void EnterState(Player player)
+    public override void EnterState(PlayerController player)
     {
         if (_animator == null)
         {
@@ -297,18 +312,21 @@ public class PlayerState_Grab : PlayerState_Base
         _rigidbody.linearVelocity = Vector3.zero;
     }
 
-    public override void UpdateState(Player player)
+    public override void UpdateState(PlayerController player)
     {
         if (!player.IsGrab)
         {
             player.ChangeState(PlayerState.Idle);
             return;
         }
+    }
 
+    public override void FixedUpdateState(PlayerController player)
+    {
         Climb(player);
     }
 
-    public override void ExitState(Player player)
+    public override void ExitState(PlayerController player)
     {
         _animator.SetBool("Grab", false);
         _rigidbody.useGravity = true;
@@ -316,7 +334,7 @@ public class PlayerState_Grab : PlayerState_Base
         player.SetGrab(false);
     }
 
-    private void Climb(Player player)
+    private void Climb(PlayerController player)
     {
       
         if (player.transform.position.y < player.TargetClimbPosition.y - 0.05f)

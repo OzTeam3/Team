@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody))]
-public class Player : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [Header("Component")]
     [SerializeField] private Animator _animator;
@@ -18,8 +18,6 @@ public class Player : MonoBehaviour
     [SerializeField] private InputActionReference _runAction;
     [SerializeField] private InputActionReference _grabAction;
 
-
-    private PlayerState _currentStateEnum;
     private IPlayerState _currentState;
     private Dictionary<PlayerState, IPlayerState> _playerStates;
     
@@ -27,12 +25,11 @@ public class Player : MonoBehaviour
     public Vector2 PlayerInput { get; private set; }
     public Vector3 TargetClimbPosition { get; private set; }
 
-    public float WalkSpeed { get; private set; } = 5f;
-    public float RunSpeed { get; private set; } = 5f;
-    public float JumpSpeed { get; private set; } = 2.5f;
-    public float RotationSpeed { get; private set; } = 10f;
-    public float JumpForce { get; private set; } = 5f;
-
+    public float WalkSpeed { get; private set; }
+    public float RunSpeed { get { return WalkSpeed * 2; } }
+    public float JumpSpeed { get; private set; }
+    public float RotationSpeed { get; private set; }
+    public float JumpForce { get; private set; }
     public bool IsRunning { get; private set; }
     public bool IsGrab { get; private set; }
     public bool IsCanGrab { get; private set; }
@@ -42,16 +39,18 @@ public class Player : MonoBehaviour
     {
         if (!TryGetComponent(out _animator))
         {
-            Debug.LogError("[Player:Awake] 컴포넌트를 찾을 수 없습니다.");
+            Debug.LogError("[Player:Awake] Animator 컴포넌트를 찾을 수 없습니다.");
             return;
         }
+        
         if (!TryGetComponent(out _rigidbody))
         {
-            Debug.LogError("[Player:Awake] 컴포넌트를 찾을 수 없습니다.");
+            Debug.LogError("[Player:Awake] Rigidbody 컴포넌트를 찾을 수 없습니다.");
             return;
         }
 
         Camera = Camera.main;
+
         if (Camera == null)
         {
             Debug.LogError("[Player:Awake] 카메라를 찾을 수 없습니다.");
@@ -97,9 +96,24 @@ public class Player : MonoBehaviour
         _grabAction.action.started += OnClimb;
     }
 
+    private void Update()
+    {
+        if (_currentState == null)
+        {
+            return;
+        }
+
+        _currentState.UpdateState(this);
+    }
+
     private void FixedUpdate()
     {
-        _currentState?.UpdateState(this);
+        if (_currentState == null)
+        {
+            return;
+        }
+
+        _currentState.FixedUpdateState(this);
     }
 
     private void OnDisable()
@@ -111,12 +125,62 @@ public class Player : MonoBehaviour
         _runAction.action.performed -= OnRun;
         _jumpAction.action.started -= OnJump;
         _grabAction.action.started -= OnClimb;
-
+        
         _moveAction.action.Disable();
         _runAction.action.Disable();
         _jumpAction.action.Disable();
         _grabAction.action.Disable();
+    }
+    public void ChangeState(PlayerState newState)
+    {
+        if (_playerStates.ContainsKey(newState) == false)
+        {
+            Debug.LogError("[Player:ChangeState] 플레이어 상태를 찾을 수 없습니다.");
+            return;
+        }
 
+        if (_currentState != null)
+        {
+            _currentState.ExitState(this);
+        }
+
+        _currentState = _playerStates[newState];
+        _currentState.EnterState(this);
+    }
+
+    public void InitPlayerData(CharacterData _characterData)
+    {
+        WalkSpeed = _characterData.WalkSpeed;
+        JumpSpeed = _characterData.JumpSpeed;
+        RotationSpeed = _characterData.RotationSpeed;
+        JumpForce = _characterData.JumpForce;
+    }
+
+    public Animator GetAnimator()
+    {
+        return _animator;
+    }
+
+    public Rigidbody GetRigidbody()
+    {
+        return _rigidbody;
+    }
+
+    public void SetGrab(bool value)
+    {
+        IsGrab = value;
+    }
+
+    private void InitStateDictionary()
+    {
+        _playerStates = new Dictionary<PlayerState, IPlayerState>
+        {
+            {PlayerState.Idle, new PlayerState_Idle() },
+            {PlayerState.Walk, new PlayerState_Walk() },
+            {PlayerState.Run, new PlayerState_Run() },
+            {PlayerState.Jump, new PlayerState_Jump() },
+            {PlayerState.Grab, new PlayerState_Grab() }
+        };
     }
 
     private void OnMove(InputAction.CallbackContext context)
@@ -183,67 +247,5 @@ public class Player : MonoBehaviour
         TargetClimbPosition = new Vector3(TargetClimbPosition.x, actualHeight, TargetClimbPosition.z);
 
         IsCanGrab = true;
-    }
-
-    private void InitStateDictionary()
-    {
-        _playerStates = new Dictionary<PlayerState, IPlayerState>
-        {
-            {PlayerState.Idle, new PlayerState_Idle() },
-            {PlayerState.Walk, new PlayerState_Walk() },
-            {PlayerState.Run, new PlayerState_Run() },
-            {PlayerState.Jump, new PlayerState_Jump() },
-            {PlayerState.Grab, new PlayerState_Grab() }
-        };
-    }
-
-
-    public void ChangeState(PlayerState newState)
-    {
-        if (_playerStates.ContainsKey(newState) == false)
-        {
-            Debug.LogError($"[Player:ChangeState] 플레이어 상태를 찾을 수 없습니다.");
-            return;
-        }
-
-        if (_currentState != null)
-        {
-            _currentState.ExitState(this);
-        }
-
-        _currentState = _playerStates[newState];
-        _currentState.EnterState(this);
-        _currentStateEnum = newState;
-    }
-
-    // 머지 시 풀고 아이디 묶기
-    //public void InitPlayerData()
-    //{
-    //    CharacterData _characterData = DataManager.Instance.GetData<CharacterData>(_characterId);
-
-    //    WalkSpeed = _characterData.WalkSpeed;
-    //    RunSpeed = _characterData.RunSpeed;
-    //    JumpSpeed = _characterData.JumpSpeed;
-    //    RotationSpeed = _characterData.RotationSpeed;
-    //    JumpForce = _characterData.JumpForce;
-    //}
-
-    public Animator GetAnimator()
-    {
-        return _animator;
-    }
-
-    public Rigidbody GetRigidbody()
-    {
-        return _rigidbody;
-    }
-    public void SetGrounded(bool value)
-    {
-        IsGrounded = value;
-    }
-
-    public void SetGrab(bool value)
-    {
-        IsGrab = value;
     }
 }

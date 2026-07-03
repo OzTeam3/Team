@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Threading;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class MainHUD : UIBase
@@ -7,9 +8,12 @@ public class MainHUD : UIBase
     [SerializeField] private Text _textHeight;
     [SerializeField] private Text _textTime;
 
+    private const string bgmDataid = "Bgm1_001";
     public const float MaxHeight = 200.0f;
 
     private Transform _playerTransform;
+
+    private CancellationTokenSource _disableCancellationToken;
 
     private void Awake()
     {
@@ -19,8 +23,11 @@ public class MainHUD : UIBase
 
     private void OnEnable()
     {
-        Player player = GameManager.Instance.PlayerController;
+        _disableCancellationToken = new CancellationTokenSource();
 
+        AudioController.Instance.PlayBGM(bgmDataid, _disableCancellationToken.Token);
+
+        PlayerController player = GameManager.Instance.PlayerController;
         _playerTransform = player.transform;
     }
 
@@ -28,6 +35,18 @@ public class MainHUD : UIBase
     {
         UpdateHeightUI();
         UpdateTimeUI();
+    }
+
+    private void OnDisable()
+    {
+        if (_disableCancellationToken == null)
+        {
+            return;
+        }
+
+        _disableCancellationToken.Cancel();
+        _disableCancellationToken.Dispose();
+        _disableCancellationToken = null;
     }
 
     private void UpdateHeightUI()

@@ -8,17 +8,22 @@ public class TitleUI : UIBase
     [SerializeField] private UIButton _buttonSetting;
     [SerializeField] private UIButton _buttonExit;
 
+    private const string TitleID = "Title_001";
     private CancellationTokenSource _disableCancellationToken;
+
+    private bool _isDisabled;
 
     private void OnEnable()
     {
+        _isDisabled = false;
+
         _buttonStart.BindOnClickButtonEvent(OnClickStart);
         _buttonSetting.BindOnClickButtonEvent(OnClickSetting);
         _buttonExit.BindOnClickButtonEvent(OnClickExit);
 
         _disableCancellationToken = new CancellationTokenSource();
 
-        AudioController.Instance.PlayBGM(AddressableUtil.SoundPath.Title);
+        AudioController.Instance.PlayBGM(TitleID, _disableCancellationToken.Token);
     }
 
     private void OnDisable()
@@ -49,6 +54,13 @@ public class TitleUI : UIBase
 
     private void OnClickExit()
     {
+        if (_isDisabled)
+        {
+            return;
+        }
+
+        _isDisabled = true;
+
         GameManager.Instance.ExitGame();
     }
 }

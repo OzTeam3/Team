@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerView
+public class PlayerSaveModel
 {
     public string PlayerId;
     public Vector3 CheckPointPosition;
