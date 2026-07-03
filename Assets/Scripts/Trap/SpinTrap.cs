@@ -8,8 +8,10 @@ public class SpinTrap : TrapBase
     private float _spinSpeed;
     private float _knockbackForce;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         if (!TryGetComponent(out _trapRigidbody))
         {
             Debug.LogError("[SpinTrap] Rigidbody 컴포넌트가 없습니다.");

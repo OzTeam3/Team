@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &645878325327140710
 Transform:
   m_ObjectHideFlags: 0
@@ -68,6 +68,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 952361a64b2d8a44e8a122d79c62fdff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FanTrap
+  _trapId: Trap_WindFan_001
   _wing: {fileID: 5428534690404418147}
 --- !u!1 &5887055344579775779
 GameObject:

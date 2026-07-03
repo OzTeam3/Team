@@ -173,7 +173,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4485819326983818734
 Transform:
   m_ObjectHideFlags: 0
@@ -231,6 +231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dc5f96b7d4fc8044bc84a508947fd6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RotatingPlatform
+  _trapId: Trap_RollingPlatform_001
   _rotationAxis: {x: 1, y: 0, z: 0}
 --- !u!1 &7110123602537992084
 GameObject:
