@@ -1,13 +1,13 @@
-[
+﻿[
   {
     "Id": "Mob_Bear_001",
     "Name": "Bear",
-    "MoveSpeed": 3,
-    "ChaseSpeed": 6,
+    "MoveSpeed": 8,
+    "ChaseSpeed": 15,
     "PatrolRadius": 20,
-    "DetectRadius": 6,
-    "AttackRadius": 2.5,
-    "PushFroce": 12,
+    "DetectRadius": 18,
+    "AttackRadius": 7.5,
+    "PushForce": 20,
     "MinWaitTime": 1,
     "MaxWaitTime": 3,
     "AttackCooldown": 1.7,
@@ -15,9 +15,6 @@
     "PatrolRotationSpeed": 120,
     "ChaseRotationSpeed": 360,
     "AttackHitBuffer": 1.5,
-    "StartPositionX": "-69.3",
-    "StartPositionY": "110",
-    "StartPositionZ": "106.66",
     "PrefabPath": "Prefab/Prefab_Mob_Bear_001"
   }
 ]

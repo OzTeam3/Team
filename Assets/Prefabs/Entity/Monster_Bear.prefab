@@ -646,9 +646,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ba038d4d1b714349a1f993930175700, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SectorMeshCreator
-  _viewAngle: 90
-  _detectRadius: 6
-  _segments: 20
 --- !u!1 &2127973896996941755
 GameObject:
   m_ObjectHideFlags: 0
@@ -1636,8 +1633,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3006774952031263803}
   - {fileID: 5156078013957987828}
@@ -1705,7 +1702,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f67e71b0932cbf459f130f053c18c22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BearController
-  _agent: {fileID: 1243039259426964858}
 --- !u!195 &1243039259426964858
 NavMeshAgent:
   m_ObjectHideFlags: 0

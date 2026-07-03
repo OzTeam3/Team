@@ -16,20 +16,19 @@ public enum BearState
 
 public class BearController : MonoBehaviour
 {
-    //데이터 드리븐
-    private float _moveSpeed = 3.0f;
-    private float _chaseSpeed = 6.0f;
-    private float _patrolRadius = 20.0f;
-    private float _detectRadius = 6.0f;
-    private float _attackRadius = 2.5f;
-    private float _pushForce = 12.0f;
-    private float _minWaitTime = 1.0f;
-    private float _maxWaitTime = 3.0f;
-    private float _attackCooldown = 1.7f;
-    private float _viewAngle = 90f;
-    private float _patrolRotationSpeed = 120.0f;
-    private float _chaseRotationSpeed = 360.0f;
-    private float _attackHitBuffer = 1.5f;
+    private float _moveSpeed;
+    private float _chaseSpeed;
+    private float _patrolRadius;
+    private float _detectRadius;
+    private float _attackRadius;
+    private float _pushForce;
+    private float _minWaitTime;
+    private float _maxWaitTime;
+    private float _attackCooldown;
+    private float _viewAngle;
+    private float _patrolRotationSpeed;
+    private float _chaseRotationSpeed;
+    private float _attackHitBuffer;
 
     private const float _accelerationMagnification = 1.5f;
     private const float _attackDelayTime = 0.6f;
@@ -42,8 +41,6 @@ public class BearController : MonoBehaviour
     private NavMeshAgent _agent;
     private Transform _playerTransform;
     private BearAnimationController _bearAnimation;
-    private AssetReference _monsterBearPrefab;
-    private GameObject _cachedMonsterBearPrefab;
     private SectorMeshCreator _sectorMeshCreator;
 
     private BearState _currentState = BearState.Patrol;
@@ -60,40 +57,51 @@ public class BearController : MonoBehaviour
 
     private void Awake()
     {
-        if (TryGetComponent<Rigidbody>(out Rigidbody rb))
+        if (TryGetComponent(out Rigidbody rb))
         {
             _rigidbodyComponent = rb;
             _rigidbodyComponent.freezeRotation = true;
         }
 
-        if(TryGetComponent<NavMeshAgent>(out NavMeshAgent agent))
+        if(TryGetComponent(out NavMeshAgent agent))
         {
             _agent = agent;
         }
 
-
-        InitializeBearAssetsAsync();
         _sectorMeshCreator = GetComponentInChildren<SectorMeshCreator>();
 
-        //널체크 필수
         Animator unityAnimator = GetComponentInChildren<Animator>();
         if(unityAnimator != null)
         {
             _bearAnimation = new BearAnimationController(unityAnimator);
         }
 
-        _spawnedPosition = transform.position; //awake
+        _spawnedPosition = transform.position;
         UpdateNextPatrolPosition();
 
-        //하드코딩 풀어주기
         _attackDelayWait = new WaitForSeconds(_attackDelayTime);
+
+        MonsterData monsterData = DataManager.Instance.GetData<MonsterData>("Mob_Bear_001");
+        InitializeBear(monsterData);
     }
 
-    private async void InitializeBearAssetsAsync()
+    public void InitializeBear(MonsterData monsterData)
     {
-        if (_monsterBearPrefab == null) return;
-        _cachedMonsterBearPrefab = await _monsterBearPrefab.LoadAssetAsync<GameObject>().Task;
+        _moveSpeed = monsterData.MoveSpeed;
+        _chaseSpeed = monsterData.ChaseSpeed;
+        _patrolRadius = monsterData.PatrolRadius;
+        _detectRadius = monsterData.DetectRadius;
+        _attackRadius = monsterData.AttackRadius;
+        _pushForce = monsterData.PushForce;
+        _minWaitTime = monsterData.MinWaitTime;
+        _maxWaitTime = monsterData.MaxWaitTime;
+        _attackCooldown = monsterData.AttackCooldown;
+        _viewAngle = monsterData.ViewAngle;
+        _patrolRotationSpeed = monsterData.PatrolRotationSpeed;
+        _chaseRotationSpeed = monsterData.ChaseRotationSpeed;
+        _attackHitBuffer = monsterData.AttackHitBuffer;
     }
+
     private void OnEnable()
     {
         _isWaiting = false;
@@ -192,10 +200,8 @@ public class BearController : MonoBehaviour
         }
     }
 
-    //메서드명 바꿔주세요
     private void UpdateAnimationStates()
     {
-        //리턴 괄호추가 띄어쓰기 하기
         if (_bearAnimation == null)
         {
             return;
@@ -216,7 +222,6 @@ public class BearController : MonoBehaviour
 
     private bool ScanForPlayer()
     {
-        //overlapSphere -> nonalloc 바꿔보기 (과제)
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, _detectRadius);
 
         foreach (var hitCollider in hitColliders)
@@ -233,7 +238,6 @@ public class BearController : MonoBehaviour
                 _playerTransform = hitCollider.transform;
                 return true;
             }
-
         }
         return false;
     }
@@ -273,16 +277,17 @@ public class BearController : MonoBehaviour
 
     private void KnockbackTarget(Transform target)
     {
-        Rigidbody targetRigidbody = target.GetComponent<Rigidbody>();
-        if (targetRigidbody != null)
+        if (!target.TryGetComponent(out Rigidbody targetRigidbody))
         {
-            Vector3 pushDirection = (target.position - transform.position).normalized;
-            pushDirection.y = _knockbackUpwardForce;
-
-            targetRigidbody.linearVelocity = Vector3.zero;
-            targetRigidbody.AddForce(pushDirection * _pushForce, ForceMode.Impulse);
-
+            Debug.LogError("[BearController:KnockbackTarget] 플레이어 Rigidbody 컴포넌트가 없습니다.");
+            return;
         }
+
+        Vector3 pushDirection = (target.position - transform.position).normalized;
+        pushDirection.y = _knockbackUpwardForce;
+
+        targetRigidbody.linearVelocity = Vector3.zero;
+        targetRigidbody.AddForce(pushDirection * _pushForce, ForceMode.Impulse);
     }
 
     private void Patrol()
@@ -310,7 +315,7 @@ public class BearController : MonoBehaviour
     private void MoveTo(Vector3 targetPosition, float speed, float rotationSpeed)
     {
         _agent.speed = speed;
-        _agent.acceleration = speed * _accelerationMagnification; //상수로 뺴주세요
+        _agent.acceleration = speed * _accelerationMagnification;
         _agent.angularSpeed = rotationSpeed;
 
         _agent.destination = targetPosition;
@@ -332,7 +337,6 @@ public class BearController : MonoBehaviour
     {
         Vector2 randomCircle = Random.insideUnitCircle * _patrolRadius;
        
-        //한줄로 바꿔주기
         Vector3 randomTarget = new Vector3(_spawnedPosition.x + randomCircle.x, _spawnedPosition.y, _spawnedPosition.z + randomCircle.y);
         if (NavMesh.SamplePosition(randomTarget, out NavMeshHit hit, _patrolRadius, NavMesh.AllAreas))
         {
