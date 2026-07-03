@@ -90,6 +90,7 @@ public class DataManager : MonoBehaviour
     {
         await LoadDataAsync<CharacterData>(AddressableUtil.DataPath.Character, cancellationToken);
         await LoadDataAsync<ItemData>(AddressableUtil.DataPath.Item, cancellationToken);
+        await LoadDataAsync<StatUpItemData>(AddressableUtil.DataPath.StatUpItem, cancellationToken);
         await LoadDataAsync<TrapData>(AddressableUtil.DataPath.Trap, cancellationToken);
         await LoadDataAsync<MonsterData>(AddressableUtil.DataPath.Monster, cancellationToken);
         await LoadDataAsync<ZoneData>(AddressableUtil.DataPath.Zone, cancellationToken);

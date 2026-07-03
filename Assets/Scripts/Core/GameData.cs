@@ -71,16 +71,6 @@ public class ItemData : GameDataBase
     public string ItemType;
     public string MeshId;
 }
-/*
-[System.Serializable]
-public class ItemData : GameDataBase
-{
-    public string Name;
-    public string ItemType;
-    public int Regen;
-    public string IconPath;
-}
-*/
 
 [System.Serializable]
 public class TrapData : GameDataBase

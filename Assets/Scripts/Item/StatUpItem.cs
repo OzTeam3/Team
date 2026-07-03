@@ -6,7 +6,7 @@ using UnityEngine;
 public enum StatType
 {
     None,
-    MoveSpeed,
+    WalkSpeed,
     JumpForce
 }
 
@@ -25,7 +25,6 @@ public class StatUpItem : ItemBase
             return;
         }
 
-        //아까처럼 수정
         bool isStatParsed = Enum.TryParse(_itemData.StatType, out _statType);
 
         if (!isStatParsed)
@@ -35,7 +34,7 @@ public class StatUpItem : ItemBase
         }
     }
 
-    public override void UseItem(Player player)
+    public override void UseItem(PlayerController player)
     {
         if (_itemData == null)
         {
@@ -51,12 +50,12 @@ public class StatUpItem : ItemBase
         }
     }
 
-    public void UnUseItem(Player player)
+    public void UnUseItem(PlayerController player)
     {
         player.AddStat(_statType, -(_itemData.Value));
     }
 
-    private async UniTask ReserveDisableItem(Player player, float duration)
+    private async UniTask ReserveDisableItem(PlayerController player, float duration)
     {
         CancellationToken cancelToken = player.GetCancellationTokenOnDestroy();
         TimeSpan delayTime = System.TimeSpan.FromSeconds(duration);

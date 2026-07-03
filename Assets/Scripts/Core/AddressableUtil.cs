@@ -4,7 +4,7 @@
     {
         public const string Character = "JsonOutput/Character";
         public const string Item = "JsonOutput/Item";
-        public const string ItemStatUp = "JsonOutput/ItemStatUp";
+        public const string StatUpItem = "JsonOutput/StatUpItem";
         public const string Trap = "JsonOutput/Trap";
         public const string Monster = "JsonOutput/Monster";
         public const string Zone = "JsonOutput/Zone";

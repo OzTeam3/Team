@@ -1,9 +1,4 @@
-﻿using Cysharp.Threading.Tasks;
-using System;
-using System.Threading;
-using UnityEngine;
-
-public enum ItemType
+﻿public enum ItemType
 {
     None,
     StatUp
@@ -12,5 +7,5 @@ public enum ItemType
 public abstract class ItemBase
 {
     public abstract void InitItem(string itemId);
-    public abstract void UseItem(Player player);
+    public abstract void UseItem(PlayerController player);
 }

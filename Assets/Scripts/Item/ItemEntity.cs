@@ -1,13 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using System;
-using System.Threading;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.XR;
 
-//안쓰는 유징 정리해주세요
-//에러문
 public class ItemEntity : MonoBehaviour
 {
     [SerializeField] private string _itemDataId;
@@ -21,6 +15,7 @@ public class ItemEntity : MonoBehaviour
     {
         _sphereCollider = GetComponent<SphereCollider>();
         _meshFilter = GetComponentInChildren<MeshFilter>();
+
         if(_sphereCollider == null)
         {
             Debug.LogWarning($"[ItemEntity:Awake] SphereCollider 컴포넌트 없음");
@@ -30,6 +25,7 @@ public class ItemEntity : MonoBehaviour
             Debug.LogWarning($"[ItemEntity:Awake] MeshFilter 컴포넌트 없음");
         }
     }
+
     private void OnEnable()
     {
         InitItemEntity().Forget();
@@ -54,7 +50,6 @@ public class ItemEntity : MonoBehaviour
             return;
         }
 
-        //위로 가도될듯
         Mesh itemMesh = await ResourceManager.Instance.GetAssetAsync<Mesh>(itemData.MeshId);
         _meshFilter.mesh = itemMesh;
 
@@ -76,11 +71,13 @@ public class ItemEntity : MonoBehaviour
         _item.InitItem(_itemDataId);
     }
 
+    private const float RespownTime = 4.0f;
+
     private async UniTask RespawnItemDelay()
     {
         _sphereCollider.enabled = false;
         _meshFilter.gameObject.SetActive(false);
-        bool isCancel = await UniTask.Delay(TimeSpan.FromSeconds(4f)).SuppressCancellationThrow();
+        bool isCancel = await UniTask.Delay(TimeSpan.FromSeconds(RespownTime)).SuppressCancellationThrow();
         if(isCancel)
         {
             Debug.LogWarning("[ItemEntity:RespawnItemDelay] 비동기 처리 중 관련 오브젝트 파괴 됨");
@@ -97,7 +94,7 @@ public class ItemEntity : MonoBehaviour
             return;
         }
 
-        if(other.transform.TryGetComponent(out Player player) == false)
+        if(other.transform.TryGetComponent(out PlayerController player) == false)
         {
             Debug.LogWarning("[ItemEntity:OnTriggerEnter] 플레이어 태그 오브젝트에 Player컴포넌트 없음");
             return;
@@ -106,9 +103,10 @@ public class ItemEntity : MonoBehaviour
         UseItem(player);
     }
 
-    private void UseItem(Player player)
+    private void UseItem(PlayerController player)
     {
         _item.UseItem(player);
+
         RespawnItemDelay().Forget();
     }
 }
