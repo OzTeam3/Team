@@ -15,8 +15,10 @@ public class BreakingPlatform : TrapBase
 
     private CancellationTokenSource _cancellationTokenSource;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         if (_trapPlatform == null)
         {
             Debug.LogError("[FallingPlatform] _trapPlatform이 지정되지 않았습니다.");

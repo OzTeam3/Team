@@ -152,7 +152,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5560306108661825945
 Transform:
   m_ObjectHideFlags: 0
@@ -181,6 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 259ac36ddcac83142b72f45dad26d040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FallingPlatform
+  _trapId: Trap_BreakingPlatform_001
   _trapPlatform: {fileID: 5219075288202173174}
 --- !u!65 &4571254796549001211
 BoxCollider:

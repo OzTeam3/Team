@@ -5,8 +5,10 @@ public class JumpPad : TrapBase
     private float _bounceForce;
     private Animator _animator;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         _animator = GetComponentInChildren<Animator>();
 
         if ( _animator == null)

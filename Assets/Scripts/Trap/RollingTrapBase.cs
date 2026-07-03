@@ -12,8 +12,10 @@ public abstract class RollingTrapBase : TrapBase
     protected float _rotationSpeed;
     protected float _maxSurfaceAngle;
 
-    protected virtual void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         if (!TryGetComponent(out _platformRigidbody))
         {
             Debug.LogError($"[RollingTrap] Rigidbody가 없습니다.");

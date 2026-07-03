@@ -13,8 +13,10 @@ public class PendulumTrap : TrapBase
     private float _maxAngle;
     private float _knockbackForce;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         if (!TryGetComponent(out _trapRigidbody))
         {
             Debug.LogError("[PendulumTrap] Rigidbody가 없습니다.");

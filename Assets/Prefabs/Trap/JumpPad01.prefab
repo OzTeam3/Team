@@ -220,7 +220,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7825347967780114643
 Transform:
   m_ObjectHideFlags: 0
@@ -250,6 +250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecfcde093ef7dce44a386ccffb9bc143, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPad
+  _trapId: Trap_JumpPad_001
 --- !u!65 &2493668491169618831
 BoxCollider:
   m_ObjectHideFlags: 0
