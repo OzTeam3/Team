@@ -55,10 +55,6 @@ public class GameManager : MonoBehaviour
         {
             OpenEscapePopup();
         }
-        if (Input.GetKeyDown(KeyCode.Q)) // 테스트 이후 삭제 예정
-        {
-            SaveGame(PlayerController.transform.position);
-        }
 
         ElapsedTime += Time.deltaTime;
     }
