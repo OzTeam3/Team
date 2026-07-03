@@ -72,7 +72,7 @@ public class FadePopupUI : UIBase
             _backGround.color = alpha;
             await UniTask.Yield(_disableCancellationToken.Token);
         }
-
+        Camera.main.clearFlags = CameraClearFlags.Skybox;
         UIManager.Instance.CloseUI(UIType.FadePopupUI);
     }
 }

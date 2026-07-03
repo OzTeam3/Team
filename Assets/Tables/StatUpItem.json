@@ -2,19 +2,19 @@
   {
     "Id": "Item_HastePotion",
     "StatType": "WalkSpeed",
-    "Value": 1,
-    "Duration": 0
+    "Value": 5,
+    "Duration": 10
   },
   {
     "Id": "Item_JumpPotion",
     "StatType": "JumpForce",
-    "Value": 3,
-    "Duration": 0
+    "Value": 2,
+    "Duration": 3
   },
   {
-    "Id": "Item_EnergyDrink",
-    "StatType": "WalkSpeed",
-    "Value": 2,
-    "Duration": 10
+      "Id": "Item_SuperJumpPotion",
+      "StatType": "JumpForce",
+      "Value": 12,
+      "Duration": 1
   }
 ]

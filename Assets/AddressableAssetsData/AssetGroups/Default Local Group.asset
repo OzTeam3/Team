@@ -125,11 +125,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: cfa0c41ebb4c7a541baa951200c8bbd8
-    m_Address: Prefab/Prefab_Trap_BlinkPlatform_001
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d535613b59d177f4a8b02747c0fac4fe
     m_Address: JsonOutput/Sound
     m_ReadOnly: 0

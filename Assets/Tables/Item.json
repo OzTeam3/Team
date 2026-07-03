@@ -14,10 +14,10 @@
     "MeshId": "ItemMesh/EnergyDrink"
   },
   {
-    "Id": "Item_EnergyDrink",
-    "Name": "에너지드링크",
-    "Description": "마시면 일시적으로 이동속도가 상승한다.",
-    "ItemType": "StatUp",
-    "MeshId": "ItemMesh/EnergyDrink"
+      "Id": "Item_SuperJumpPotion",
+      "Name": "초 각력의 포션",
+      "Description": "마시면 점프가 매우 상승한다.",
+      "ItemType": "StatUp",
+      "MeshId": "ItemMesh/EnergyDrink"
   }
 ]

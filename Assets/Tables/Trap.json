@@ -2,8 +2,8 @@
   {
     "Id": "Trap_SpinObject_001",
     "Name": "SpinObject01",
-    "SpinSpeed": 400,
-    "KnockbackForce": 12,
+    "SpinSpeed": 100,
+    "KnockbackForce": 3,
     "WaitingTime": 0,
     "RespawnTime": 0,
     "BounceForce": 0,
@@ -42,7 +42,7 @@
     "KnockbackForce": 0,
     "WaitingTime": 0,
     "RespawnTime": 0,
-    "BounceForce": 15,
+    "BounceForce": 30,
     "MaxAngle": 0,
     "MaxWindStrength": 0,
     "MaxDistance": 0
@@ -86,7 +86,7 @@
   {
     "Id": "Trap_PendulumObject_001",
     "Name": "Pendulum_Axe",
-    "SpinSpeed": 6,
+    "SpinSpeed": 4,
     "KnockbackForce": 6,
     "WaitingTime": 0,
     "RespawnTime": 0,
@@ -98,7 +98,7 @@
   {
     "Id": "Trap_PendulumObject_002",
     "Name": "Pendulum_Hammer",
-    "SpinSpeed": 6,
+    "SpinSpeed": 4,
     "KnockbackForce": 6,
     "WaitingTime": 0,
     "RespawnTime": 0,
