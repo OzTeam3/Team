@@ -1,21 +1,21 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.AddressableAssets;
+
+
+public enum BearState
+{
+    Patrol,
+    Chase,
+    Attack
+}
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(NavMeshAgent))]
 
 public class BearController : MonoBehaviour
 {
-    public enum BearState
-    {
-        Patrol,
-        Chase,
-        Attack
-    }
-
-    [SerializeField] private NavMeshAgent _agent;
-
     //데이터 드리븐
     private float _moveSpeed = 3.0f;
     private float _chaseSpeed = 6.0f;
@@ -30,10 +30,21 @@ public class BearController : MonoBehaviour
     private float _patrolRotationSpeed = 120.0f;
     private float _chaseRotationSpeed = 360.0f;
     private float _attackHitBuffer = 1.5f;
-    
+
+    private const float _accelerationMagnification = 1.5f;
+    private const float _attackDelayTime = 0.6f;
+    private const float _knockbackUpwardForce = 0.5f;
+    private const float _attackRotationSpeed = 10f;
+    private const float _pathRemainingBuffer = 0.1f;
+    private const float _halfRatio = 0.5f;
+
     private Rigidbody _rigidbodyComponent;
+    private NavMeshAgent _agent;
     private Transform _playerTransform;
     private BearAnimationController _bearAnimation;
+    private AssetReference _monsterBearPrefab;
+    private GameObject _cachedMonsterBearPrefab;
+    private SectorMeshCreator _sectorMeshCreator;
 
     private BearState _currentState = BearState.Patrol;
     
@@ -55,20 +66,36 @@ public class BearController : MonoBehaviour
             _rigidbodyComponent.freezeRotation = true;
         }
 
+        if(TryGetComponent<NavMeshAgent>(out NavMeshAgent agent))
+        {
+            _agent = agent;
+        }
+
+
+        InitializeBearAssetsAsync();
+        _sectorMeshCreator = GetComponentInChildren<SectorMeshCreator>();
+
         //널체크 필수
         Animator unityAnimator = GetComponentInChildren<Animator>();
+        if(unityAnimator != null)
+        {
+            _bearAnimation = new BearAnimationController(unityAnimator);
+        }
 
-        _bearAnimation = new BearAnimationController(unityAnimator);
-
-        //하드코딩 풀어주기
-        _attackDelayWait = new WaitForSeconds(0.6f);
-    }
-
-    private void OnEnable()
-    {
         _spawnedPosition = transform.position; //awake
         UpdateNextPatrolPosition();
 
+        //하드코딩 풀어주기
+        _attackDelayWait = new WaitForSeconds(_attackDelayTime);
+    }
+
+    private async void InitializeBearAssetsAsync()
+    {
+        if (_monsterBearPrefab == null) return;
+        _cachedMonsterBearPrefab = await _monsterBearPrefab.LoadAssetAsync<GameObject>().Task;
+    }
+    private void OnEnable()
+    {
         _isWaiting = false;
         ChangeState(BearState.Patrol);
     }
@@ -101,11 +128,11 @@ public class BearController : MonoBehaviour
                 _agent.ResetPath();
                 if (_playerTransform != null)
                 {
-                    RotateToTarget(_playerTransform.position, 10f); 
+                    RotateToTarget(_playerTransform.position, _attackRotationSpeed); 
                 }
                 break;
         }
-        Animate();
+        UpdateAnimationStates();
     }
 
     private void HandlePatrolState()
@@ -151,6 +178,13 @@ public class BearController : MonoBehaviour
 
         _currentState = newState;
 
+        if(_sectorMeshCreator != null)
+        {
+            bool shouldShowRange = (newState == BearState.Patrol);
+
+            _sectorMeshCreator.gameObject.SetActive(shouldShowRange);   
+        }
+
         if (_agent != null && _agent.isOnNavMesh)
         {
             _agent.ResetPath();
@@ -159,10 +193,13 @@ public class BearController : MonoBehaviour
     }
 
     //메서드명 바꿔주세요
-    private void Animate()
+    private void UpdateAnimationStates()
     {
         //리턴 괄호추가 띄어쓰기 하기
-        if (_bearAnimation == null) return;
+        if (_bearAnimation == null)
+        {
+            return;
+        }
 
         Vector3 horizontalVelocity = new Vector3(_agent.velocity.x, 0, _agent.velocity.z);
         float currentSpeed = horizontalVelocity.magnitude;
@@ -191,7 +228,7 @@ public class BearController : MonoBehaviour
 
             Vector3 dir = (hitCollider.transform.position - transform.position).normalized;
             float angle = Vector3.Angle(transform.forward, dir);
-            if (angle < _viewAngle * 0.5f)
+            if (angle < _viewAngle * _halfRatio)
             {
                 _playerTransform = hitCollider.transform;
                 return true;
@@ -240,7 +277,7 @@ public class BearController : MonoBehaviour
         if (targetRigidbody != null)
         {
             Vector3 pushDirection = (target.position - transform.position).normalized;
-            pushDirection.y = 0.5f;
+            pushDirection.y = _knockbackUpwardForce;
 
             targetRigidbody.linearVelocity = Vector3.zero;
             targetRigidbody.AddForce(pushDirection * _pushForce, ForceMode.Impulse);
@@ -262,7 +299,7 @@ public class BearController : MonoBehaviour
         }
 
 
-        if (!_agent.pathPending && _agent.remainingDistance <= _agent.stoppingDistance + 0.1f)
+        if (!_agent.pathPending && _agent.remainingDistance <= _agent.stoppingDistance + _pathRemainingBuffer)
         {
             _isWaiting = true;
             _waitTimer = Random.Range(_minWaitTime, _maxWaitTime);
@@ -272,9 +309,8 @@ public class BearController : MonoBehaviour
 
     private void MoveTo(Vector3 targetPosition, float speed, float rotationSpeed)
     {
-        _agent.destination = targetPosition;
         _agent.speed = speed;
-        _agent.acceleration = speed * 1.5f; //상수로 뺴주세요
+        _agent.acceleration = speed * _accelerationMagnification; //상수로 뺴주세요
         _agent.angularSpeed = rotationSpeed;
 
         _agent.destination = targetPosition;
@@ -297,12 +333,7 @@ public class BearController : MonoBehaviour
         Vector2 randomCircle = Random.insideUnitCircle * _patrolRadius;
        
         //한줄로 바꿔주기
-        Vector3 randomTarget = new Vector3(
-            _spawnedPosition.x + randomCircle.x,
-            _spawnedPosition.y,
-            _spawnedPosition.z + randomCircle.y
-        );
-
+        Vector3 randomTarget = new Vector3(_spawnedPosition.x + randomCircle.x, _spawnedPosition.y, _spawnedPosition.z + randomCircle.y);
         if (NavMesh.SamplePosition(randomTarget, out NavMeshHit hit, _patrolRadius, NavMesh.AllAreas))
         {
             _targetPosition = hit.position;
