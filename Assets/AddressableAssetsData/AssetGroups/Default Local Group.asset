@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: dcf732d7e0ea58346b14a4b673424943
   m_SerializeEntries:
+  - m_GUID: 20680c83217a78544956e7b13db2134b
+    m_Address: Assets/Prefabs/Map/Object_1/ThirdStage_Zone 1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 62b72b9a346b3a949866162f8c6627b4
     m_Address: JsonOutput/UI
     m_ReadOnly: 0
@@ -30,11 +35,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7cf985890cbb50b47a852d9b52d4068c
-    m_Address: JsonOutput/ThirdStage
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8e1bf7bfdd37fae44a01ac6f23629929
     m_Address: JsonOutput/Item
     m_ReadOnly: 0
@@ -42,11 +42,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 921e197c01d7e4e44bc8b9632a4d7e2c
     m_Address: Assets/Prefabs/Manager/UIManager.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 97c3ecc5190efe94383d815aa276c610
-    m_Address: JsonOutput/FirstStage
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -80,13 +75,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: e38ae4858db21f24e89413b05b2659c8
-    m_Address: JsonOutput/Character
+  - m_GUID: d871b84cc94384b4989bf67980df7009
+    m_Address: Assets/Prefabs/Map/Object_1/SecondStage_Zone 1.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: fe2b5184a7364a646a86742f13537177
-    m_Address: JsonOutput/SecondStage
+  - m_GUID: e38ae4858db21f24e89413b05b2659c8
+    m_Address: JsonOutput/Character
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
