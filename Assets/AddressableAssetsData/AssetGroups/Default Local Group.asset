@@ -25,6 +25,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 20680c83217a78544956e7b13db2134b
+    m_Address: JsonOutput/ThirdStage
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 20a340f5f25f0ce4b83bd5ce3eb3a11d
     m_Address: JsonOutput/FadePopupUI
     m_ReadOnly: 0
@@ -60,6 +65,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 52aa1a2b181531948adecb713851cfae
+    m_Address: JsonOutput/FirstStage
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 56d21883949422e4a962def5d5296cf1
     m_Address: JsonOutput/Button2
     m_ReadOnly: 0
@@ -90,11 +100,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7cf985890cbb50b47a852d9b52d4068c
-    m_Address: JsonOutput/ThirdStage
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 845e614ed30060647b7292c0a2157e4f
     m_Address: JsonOutput/Title
     m_ReadOnly: 0
@@ -102,11 +107,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8e1bf7bfdd37fae44a01ac6f23629929
     m_Address: JsonOutput/Item
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 97c3ecc5190efe94383d815aa276c610
-    m_Address: JsonOutput/FirstStage
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -180,6 +180,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d871b84cc94384b4989bf67980df7009
+    m_Address: JsonOutput/SecondStage
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: da9111ba423de004d9ce6a19fcf549e8
     m_Address: JsonOutput/SettingPopupUI
     m_ReadOnly: 0
@@ -192,11 +197,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f1c862beeccdba64a9f1f1529dd8e51f
     m_Address: JsonOutput/EndingPopupUI
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: fe2b5184a7364a646a86742f13537177
-    m_Address: JsonOutput/SecondStage
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class CheckPoint : MonoBehaviour
+public class EndGame : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
@@ -9,6 +9,6 @@ public class CheckPoint : MonoBehaviour
             return;
         }
 
-        GameManager.Instance.SaveGame(other.transform.position);
+        GameManager.Instance.FinishGame();
     }
 }

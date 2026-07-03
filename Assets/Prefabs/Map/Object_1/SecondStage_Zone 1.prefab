@@ -223,7 +223,7 @@ GameObject:
   - component: {fileID: 6806289801922628949}
   m_Layer: 0
   m_Name: FakeTable_01
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3968,7 +3968,7 @@ GameObject:
   - component: {fileID: 2331964983070776810}
   m_Layer: 0
   m_Name: SecondStage_Zone 1
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -3987,6 +3987,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2319349950504545615}
+  - {fileID: 4330087128064055131}
   - {fileID: 8022514164424622360}
   - {fileID: 2404223808117972176}
   - {fileID: 3631234931645190282}
@@ -6155,6 +6156,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: KitchenShelf_02
       objectReference: {fileID: 0}
+    - target: {fileID: 1927495606906403192, guid: 86146fe8e1e34124b956c23d5184bc91, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -6187,6 +6192,10 @@ PrefabInstance:
     - target: {fileID: 3947883604010907469, guid: 7cb17f918a528a34d9e5de9799e8d5b1, type: 3}
       propertyPath: m_Name
       value: Towel_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 3947883604010907469, guid: 7cb17f918a528a34d9e5de9799e8d5b1, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 4432214470812036599, guid: 7cb17f918a528a34d9e5de9799e8d5b1, type: 3}
       propertyPath: m_LocalScale.x
@@ -6400,6 +6409,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Table_06
       objectReference: {fileID: 0}
+    - target: {fileID: 5580237999360498787, guid: 41d0bc9a43c41ac4daa46518db94cb1b, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 6228478924950306230, guid: 41d0bc9a43c41ac4daa46518db94cb1b, type: 3}
       propertyPath: m_CastShadows
       value: 0
@@ -6458,6 +6471,10 @@ PrefabInstance:
     - target: {fileID: 1569744805326958, guid: af46e0e24402dfa49aea336191bc47ab, type: 3}
       propertyPath: m_Name
       value: chair_01a (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1569744805326958, guid: af46e0e24402dfa49aea336191bc47ab, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 1569744805326958, guid: af46e0e24402dfa49aea336191bc47ab, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -6617,6 +6634,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HulaHoop_01
       objectReference: {fileID: 0}
+    - target: {fileID: 7958227791878072094, guid: 761e24fa02fc69e4e949b9f5547dc4e2, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 8462741382168512203, guid: 761e24fa02fc69e4e949b9f5547dc4e2, type: 3}
       propertyPath: m_CastShadows
       value: 0
@@ -6697,6 +6718,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HulaHoop_02
       objectReference: {fileID: 0}
+    - target: {fileID: 2235547989614563291, guid: b867725f0364de34fbd8a2984d047cb8, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6766,6 +6791,10 @@ PrefabInstance:
     - target: {fileID: 9197540064984474238, guid: 961bc67184cb33d4594f6b33322ee462, type: 3}
       propertyPath: m_Name
       value: Flower_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 9197540064984474238, guid: 961bc67184cb33d4594f6b33322ee462, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6849,6 +6878,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: KitchenShelf_02 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1927495606906403192, guid: 86146fe8e1e34124b956c23d5184bc91, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -6913,6 +6946,10 @@ PrefabInstance:
     - target: {fileID: 6630534384500338990, guid: 40982eb6dcde6a04cb132258ee0a8c2e, type: 3}
       propertyPath: m_Name
       value: OilBerrel_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 6630534384500338990, guid: 40982eb6dcde6a04cb132258ee0a8c2e, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6995,6 +7032,10 @@ PrefabInstance:
     - target: {fileID: 6846020616431503365, guid: c51bd935e4212404096fbc7958faee4a, type: 3}
       propertyPath: m_Name
       value: Brush_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 6846020616431503365, guid: c51bd935e4212404096fbc7958faee4a, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7099,6 +7140,10 @@ PrefabInstance:
     - target: {fileID: 7466318447843190838, guid: 55430e238b7bb1b42b685a674ff555b2, type: 3}
       propertyPath: m_Name
       value: Table_13
+      objectReference: {fileID: 0}
+    - target: {fileID: 7466318447843190838, guid: 55430e238b7bb1b42b685a674ff555b2, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 7842563267453252236, guid: 55430e238b7bb1b42b685a674ff555b2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7239,6 +7284,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Chair_03
       objectReference: {fileID: 0}
+    - target: {fileID: 701297492818294596, guid: d4be6e6b191f4784f9592ab952f52670, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 1349811234662373009, guid: d4be6e6b191f4784f9592ab952f52670, type: 3}
       propertyPath: m_CastShadows
       value: 0
@@ -7309,6 +7358,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Table_14 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3227412604297626357, guid: a7a56e94137616b44ba24d1e4f670a63, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 4020288236519220000, guid: a7a56e94137616b44ba24d1e4f670a63, type: 3}
       propertyPath: m_CastShadows
       value: 0
@@ -7367,6 +7420,10 @@ PrefabInstance:
     - target: {fileID: 1315125114229348, guid: 4c1686a5131ac8b45bfe913f509289c0, type: 3}
       propertyPath: m_Name
       value: table_01 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1315125114229348, guid: 4c1686a5131ac8b45bfe913f509289c0, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 1315125114229348, guid: 4c1686a5131ac8b45bfe913f509289c0, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -7494,6 +7551,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WindfanTrap
       objectReference: {fileID: 0}
+    - target: {fileID: 3998841575126969127, guid: c9edb4b6fd863bd4caf6ae893f1ce1dd, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 5227431536797561313, guid: c9edb4b6fd863bd4caf6ae893f1ce1dd, type: 3}
       propertyPath: m_CastShadows
       value: 0
@@ -7601,6 +7662,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MathToy
       objectReference: {fileID: 0}
+    - target: {fileID: 6751765364439269016, guid: 9e766ac99d061c342820c197b4b4071a, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7692,6 +7757,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FarmMill_02
       objectReference: {fileID: 0}
+    - target: {fileID: 7612221126947815005, guid: a42676f730c2a654aa6040c7d4bf15ab, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 8260998889488588680, guid: a42676f730c2a654aa6040c7d4bf15ab, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -7721,6 +7790,10 @@ PrefabInstance:
     - target: {fileID: 7466318447843190838, guid: 55430e238b7bb1b42b685a674ff555b2, type: 3}
       propertyPath: m_Name
       value: Table_13 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7466318447843190838, guid: 55430e238b7bb1b42b685a674ff555b2, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 7842563267453252236, guid: 55430e238b7bb1b42b685a674ff555b2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7840,6 +7913,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bones_01
       objectReference: {fileID: 0}
+    - target: {fileID: 2094864038213025259, guid: ae1110b538793fe40ab50957f1143dd4, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7938,6 +8015,10 @@ PrefabInstance:
     - target: {fileID: 4677566573622310684, guid: f7d9fce91721779419f3bf22b82da35d, type: 3}
       propertyPath: m_Name
       value: RoofVent_03 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4677566573622310684, guid: f7d9fce91721779419f3bf22b82da35d, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 5449881839568154022, guid: f7d9fce91721779419f3bf22b82da35d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8041,6 +8122,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: OilBerrel_01 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6630534384500338990, guid: 40982eb6dcde6a04cb132258ee0a8c2e, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8123,6 +8208,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HulaHoop_02 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2235547989614563291, guid: b867725f0364de34fbd8a2984d047cb8, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -8196,6 +8285,10 @@ PrefabInstance:
     - target: {fileID: 5510207762804030438, guid: e97d0c313c3959e469626d7929162728, type: 3}
       propertyPath: m_Name
       value: KitchenCabinet_01_A
+      objectReference: {fileID: 0}
+    - target: {fileID: 5510207762804030438, guid: e97d0c313c3959e469626d7929162728, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 6303012752544176691, guid: e97d0c313c3959e469626d7929162728, type: 3}
       propertyPath: m_CastShadows
@@ -8283,6 +8376,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpinTrap_Cross
       objectReference: {fileID: 0}
+    - target: {fileID: 6489430146204041823, guid: 6e6a9371fff082c4cb80a3573077ffe7, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5319409537142792904, guid: 6e6a9371fff082c4cb80a3573077ffe7, type: 3}
     m_RemovedGameObjects: []
@@ -8354,6 +8451,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChickenCoop
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0c229022e6ea9c44ca48d6c12048f1bb, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -8407,6 +8508,10 @@ PrefabInstance:
     - target: {fileID: 73324641505870774, guid: 09d7d3ab8dc3eb84aa466d754c74ea39, type: 3}
       propertyPath: m_Name
       value: Bed_04
+      objectReference: {fileID: 0}
+    - target: {fileID: 73324641505870774, guid: 09d7d3ab8dc3eb84aa466d754c74ea39, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 742901471914088716, guid: 09d7d3ab8dc3eb84aa466d754c74ea39, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8485,6 +8590,10 @@ PrefabInstance:
     - target: {fileID: 3948440548343246544, guid: 5249f136a6a963b4f8fc6700e29b69f0, type: 3}
       propertyPath: m_Name
       value: KitchenCabinet_02_E
+      objectReference: {fileID: 0}
+    - target: {fileID: 3948440548343246544, guid: 5249f136a6a963b4f8fc6700e29b69f0, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 4431679948323763306, guid: 5249f136a6a963b4f8fc6700e29b69f0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8630,6 +8739,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoofVent_03 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 4677566573622310684, guid: f7d9fce91721779419f3bf22b82da35d, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 5449881839568154022, guid: f7d9fce91721779419f3bf22b82da35d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 23.089996
@@ -8699,6 +8812,10 @@ PrefabInstance:
     - target: {fileID: 6270401975127769311, guid: 315167b772dc9154a8c4982fb45aaede, type: 3}
       propertyPath: m_Name
       value: Table_07
+      objectReference: {fileID: 0}
+    - target: {fileID: 6270401975127769311, guid: 315167b772dc9154a8c4982fb45aaede, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 6651572503499397733, guid: 315167b772dc9154a8c4982fb45aaede, type: 3}
       propertyPath: m_LocalScale.x
@@ -8781,6 +8898,10 @@ PrefabInstance:
     - target: {fileID: 1368020379167398387, guid: 64f793e040e30624b89a6a08e31953a0, type: 3}
       propertyPath: m_Name
       value: OldTV
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368020379167398387, guid: 64f793e040e30624b89a6a08e31953a0, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 1853231134783357769, guid: 64f793e040e30624b89a6a08e31953a0, type: 3}
       propertyPath: m_LocalScale.x
@@ -8912,6 +9033,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Table_06 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5580237999360498787, guid: 41d0bc9a43c41ac4daa46518db94cb1b, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 6228478924950306230, guid: 41d0bc9a43c41ac4daa46518db94cb1b, type: 3}
       propertyPath: m_CastShadows
       value: 0
@@ -8941,6 +9066,10 @@ PrefabInstance:
     - target: {fileID: 556140282984196197, guid: 68d220a65d615a245bdaea7641253539, type: 3}
       propertyPath: m_Name
       value: Brush_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 556140282984196197, guid: 68d220a65d615a245bdaea7641253539, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 935655844815483615, guid: 68d220a65d615a245bdaea7641253539, type: 3}
       propertyPath: m_LocalScale.x
@@ -9064,6 +9193,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: OilBerrel_01 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 6630534384500338990, guid: 40982eb6dcde6a04cb132258ee0a8c2e, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9085,6 +9218,10 @@ PrefabInstance:
     - target: {fileID: 2756828200081872717, guid: ce7cad1a7b0c9a94ebe3e1de55ec3baa, type: 3}
       propertyPath: m_Name
       value: Book_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 2756828200081872717, guid: ce7cad1a7b0c9a94ebe3e1de55ec3baa, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 3245380131280686583, guid: ce7cad1a7b0c9a94ebe3e1de55ec3baa, type: 3}
       propertyPath: m_LocalScale.x
@@ -9176,6 +9313,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bones_03
       objectReference: {fileID: 0}
+    - target: {fileID: 8199090940646691298, guid: ef6c0c771921cd345afb4758d60892ea, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 8827852868912335704, guid: ef6c0c771921cd345afb4758d60892ea, type: 3}
       propertyPath: m_LocalPosition.x
       value: -11.269989
@@ -9242,6 +9383,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WallShelf_08
       objectReference: {fileID: 0}
+    - target: {fileID: 4007019171786185078, guid: fb3ee80fd4c958d42b57aff18628d442, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 4382031129906938828, guid: fb3ee80fd4c958d42b57aff18628d442, type: 3}
       propertyPath: m_LocalPosition.x
       value: 17.15097
@@ -9303,6 +9448,10 @@ PrefabInstance:
     - target: {fileID: 7323692442540816446, guid: 38fc058efd0077047ae14b565f48d406, type: 3}
       propertyPath: m_Name
       value: HulaHoop_03 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7323692442540816446, guid: 38fc058efd0077047ae14b565f48d406, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 7991967210986529412, guid: 38fc058efd0077047ae14b565f48d406, type: 3}
       propertyPath: m_LocalScale.x
@@ -9394,6 +9543,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Book_01
       objectReference: {fileID: 0}
+    - target: {fileID: 3499321576355623856, guid: bc21045d3561b68418c96017335c4a9f, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 4313259606328027402, guid: bc21045d3561b68418c96017335c4a9f, type: 3}
       propertyPath: m_LocalScale.x
       value: 5
@@ -9467,6 +9620,10 @@ PrefabInstance:
     - target: {fileID: 7323692442540816446, guid: 38fc058efd0077047ae14b565f48d406, type: 3}
       propertyPath: m_Name
       value: HulaHoop_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 7323692442540816446, guid: 38fc058efd0077047ae14b565f48d406, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 7991967210986529412, guid: 38fc058efd0077047ae14b565f48d406, type: 3}
       propertyPath: m_LocalScale.x
@@ -9696,6 +9853,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bed_02
       objectReference: {fileID: 0}
+    - target: {fileID: 2153323984110181769, guid: ab4f2aa8e5463214390b9a543c4848b0, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 6320980648598812545, guid: ab4f2aa8e5463214390b9a543c4848b0, type: 3}
       propertyPath: m_Size.z
       value: 0.45800406
@@ -9737,6 +9898,10 @@ PrefabInstance:
     - target: {fileID: 8176778230220668989, guid: fa3489bcbc57b444ab34041743c96c36, type: 3}
       propertyPath: m_Name
       value: Flower_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 8176778230220668989, guid: fa3489bcbc57b444ab34041743c96c36, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 8805118736022575751, guid: fa3489bcbc57b444ab34041743c96c36, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9860,6 +10025,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Table_11
       objectReference: {fileID: 0}
+    - target: {fileID: 1911465936584202598, guid: e26c923f3820f474593065db31bc5b17, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9889,6 +10058,10 @@ PrefabInstance:
     - target: {fileID: 6270401975127769311, guid: 315167b772dc9154a8c4982fb45aaede, type: 3}
       propertyPath: m_Name
       value: Table_07 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6270401975127769311, guid: 315167b772dc9154a8c4982fb45aaede, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 6651572503499397733, guid: 315167b772dc9154a8c4982fb45aaede, type: 3}
       propertyPath: m_LocalScale.x
@@ -9968,6 +10141,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Beauty_10
       objectReference: {fileID: 0}
+    - target: {fileID: 8182100640299679608, guid: 83f324328aa642d4b95ca75262ab00ec, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 8847173592769537474, guid: 83f324328aa642d4b95ca75262ab00ec, type: 3}
       propertyPath: m_LocalPosition.x
       value: 16.869263
@@ -10030,6 +10207,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bones_05
       objectReference: {fileID: 0}
+    - target: {fileID: 7305228319952173253, guid: 7b3fadac312db27458762553d15b180b, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 7938353965642490495, guid: 7b3fadac312db27458762553d15b180b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.76001
@@ -10088,6 +10269,88 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7938353965642490495, guid: 7b3fadac312db27458762553d15b180b, type: 3}
   m_PrefabInstance: {fileID: 5916374112304739716}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6191017411310442356
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2331964983070776810}
+    m_Modifications:
+    - target: {fileID: 1497610942196032243, guid: 6cc0de2a6dbecad4d8da789419da8f5d, type: 3}
+      propertyPath: m_Name
+      value: SaveGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 1497610942196032243, guid: 6cc0de2a6dbecad4d8da789419da8f5d, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 7637373542167019567, guid: 6cc0de2a6dbecad4d8da789419da8f5d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 7637373542167019567, guid: 6cc0de2a6dbecad4d8da789419da8f5d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 7637373542167019567, guid: 6cc0de2a6dbecad4d8da789419da8f5d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 7637373542167019567, guid: 6cc0de2a6dbecad4d8da789419da8f5d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.4599915
+      objectReference: {fileID: 0}
+    - target: {fileID: 7637373542167019567, guid: 6cc0de2a6dbecad4d8da789419da8f5d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 45.26999
+      objectReference: {fileID: 0}
+    - target: {fileID: 7637373542167019567, guid: 6cc0de2a6dbecad4d8da789419da8f5d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 68.26999
+      objectReference: {fileID: 0}
+    - target: {fileID: 7637373542167019567, guid: 6cc0de2a6dbecad4d8da789419da8f5d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.71027607
+      objectReference: {fileID: 0}
+    - target: {fileID: 7637373542167019567, guid: 6cc0de2a6dbecad4d8da789419da8f5d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7637373542167019567, guid: 6cc0de2a6dbecad4d8da789419da8f5d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7039233
+      objectReference: {fileID: 0}
+    - target: {fileID: 7637373542167019567, guid: 6cc0de2a6dbecad4d8da789419da8f5d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7637373542167019567, guid: 6cc0de2a6dbecad4d8da789419da8f5d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7637373542167019567, guid: 6cc0de2a6dbecad4d8da789419da8f5d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7637373542167019567, guid: 6cc0de2a6dbecad4d8da789419da8f5d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7637373542167019567, guid: 6cc0de2a6dbecad4d8da789419da8f5d, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6cc0de2a6dbecad4d8da789419da8f5d, type: 3}
+--- !u!4 &4330087128064055131 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7637373542167019567, guid: 6cc0de2a6dbecad4d8da789419da8f5d, type: 3}
+  m_PrefabInstance: {fileID: 6191017411310442356}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6297626437157082913
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10099,6 +10362,10 @@ PrefabInstance:
     - target: {fileID: 6941214940356117118, guid: e18caebf2cc9fd54a8bc1a3e83d0b984, type: 3}
       propertyPath: m_Name
       value: KitchenCabinet_01_B
+      objectReference: {fileID: 0}
+    - target: {fileID: 6941214940356117118, guid: e18caebf2cc9fd54a8bc1a3e83d0b984, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 7719159431233001668, guid: e18caebf2cc9fd54a8bc1a3e83d0b984, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10169,6 +10436,10 @@ PrefabInstance:
     - target: {fileID: 4677566573622310684, guid: f7d9fce91721779419f3bf22b82da35d, type: 3}
       propertyPath: m_Name
       value: RoofVent_03 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4677566573622310684, guid: f7d9fce91721779419f3bf22b82da35d, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 5449881839568154022, guid: f7d9fce91721779419f3bf22b82da35d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10296,6 +10567,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Oven
       objectReference: {fileID: 0}
+    - target: {fileID: 4096925967754011916, guid: 088f769d14eab584596c939818430919, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10325,6 +10600,10 @@ PrefabInstance:
     - target: {fileID: 6182561031729646946, guid: 4986ecd3fb865dc46a382d7cf40947d2, type: 3}
       propertyPath: m_Name
       value: WallShelf_11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6182561031729646946, guid: 4986ecd3fb865dc46a382d7cf40947d2, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 6811428547469203416, guid: 4986ecd3fb865dc46a382d7cf40947d2, type: 3}
       propertyPath: m_LocalScale.x
@@ -10440,6 +10719,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Chair_05
       objectReference: {fileID: 0}
+    - target: {fileID: 3360137049589760456, guid: 8b1ee06d8146d3c40a03576520b323c5, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 3864482827869544477, guid: 8b1ee06d8146d3c40a03576520b323c5, type: 3}
       propertyPath: m_CastShadows
       value: 0
@@ -10469,6 +10752,10 @@ PrefabInstance:
     - target: {fileID: 4677566573622310684, guid: f7d9fce91721779419f3bf22b82da35d, type: 3}
       propertyPath: m_Name
       value: RoofVent_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 4677566573622310684, guid: f7d9fce91721779419f3bf22b82da35d, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 5449881839568154022, guid: f7d9fce91721779419f3bf22b82da35d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10584,6 +10871,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SavePoint1
       objectReference: {fileID: 0}
+    - target: {fileID: 5245132157633622753, guid: 4ffcc8a315578ef4d81e4d3f78e1b9c3, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 6037796135472812852, guid: 4ffcc8a315578ef4d81e4d3f78e1b9c3, type: 3}
       propertyPath: m_CastShadows
       value: 0
@@ -10666,6 +10957,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Desk_08
       objectReference: {fileID: 0}
+    - target: {fileID: 1135649482684747109, guid: ef235f10188ca0240bd8e6a7d4e29d64, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 1495862755568676016, guid: ef235f10188ca0240bd8e6a7d4e29d64, type: 3}
       propertyPath: m_CastShadows
       value: 0
@@ -10703,6 +10998,10 @@ PrefabInstance:
     - target: {fileID: 3968717906975402039, guid: aef7a66dd5ed7b4448dd2eab50c2c4f7, type: 3}
       propertyPath: m_Name
       value: Book_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 3968717906975402039, guid: aef7a66dd5ed7b4448dd2eab50c2c4f7, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 4348338983486386829, guid: aef7a66dd5ed7b4448dd2eab50c2c4f7, type: 3}
       propertyPath: m_LocalScale.x
@@ -10830,6 +11129,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HulaHoop_01 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7958227791878072094, guid: 761e24fa02fc69e4e949b9f5547dc4e2, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 8462741382168512203, guid: 761e24fa02fc69e4e949b9f5547dc4e2, type: 3}
       propertyPath: m_CastShadows
       value: 0
@@ -10900,6 +11203,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Table_14
       objectReference: {fileID: 0}
+    - target: {fileID: 3227412604297626357, guid: a7a56e94137616b44ba24d1e4f670a63, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 4020288236519220000, guid: a7a56e94137616b44ba24d1e4f670a63, type: 3}
       propertyPath: m_CastShadows
       value: 0
@@ -10929,6 +11236,10 @@ PrefabInstance:
     - target: {fileID: 2735496403224442025, guid: 483aa33de14f1a34db937ced13d4e295, type: 3}
       propertyPath: m_Name
       value: RoofWaterStore_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 2735496403224442025, guid: 483aa33de14f1a34db937ced13d4e295, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 3368059000112115219, guid: 483aa33de14f1a34db937ced13d4e295, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11122,6 +11433,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: KitchenShelf_04 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8046614296841155216, guid: b154eaed30ffaf04781740329d021514, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 8407003764785173317, guid: b154eaed30ffaf04781740329d021514, type: 3}
       propertyPath: m_CastShadows
       value: 0
@@ -11192,6 +11507,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: OilBerrel_01 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 6630534384500338990, guid: 40982eb6dcde6a04cb132258ee0a8c2e, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11221,6 +11540,10 @@ PrefabInstance:
     - target: {fileID: 3935315961765088141, guid: 0d531f9ec2442a04a81e06af15269f1f, type: 3}
       propertyPath: m_Name
       value: KitchenCabinet_02_A
+      objectReference: {fileID: 0}
+    - target: {fileID: 3935315961765088141, guid: 0d531f9ec2442a04a81e06af15269f1f, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 4455992598198128951, guid: 0d531f9ec2442a04a81e06af15269f1f, type: 3}
       propertyPath: m_LocalPosition.x

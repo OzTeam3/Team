@@ -8,7 +8,7 @@
   {
     "Id": "Item_JumpPotion",
     "StatType": "JumpForce",
-    "Value": 0.5,
+    "Value": 3,
     "Duration": 0
   },
   {

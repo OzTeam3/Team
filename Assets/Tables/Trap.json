@@ -107,7 +107,7 @@
     "Id": "Trap_PendulumObject_002",
     "Name": "Pendulum_Hammer",
     "SpinSpeed": 6,
-    "KnockbackForce": 12,
+    "KnockbackForce": 6,
     "WaitingTime": 0,
     "RespawnTime": 0,
     "BounceForce": 0,
