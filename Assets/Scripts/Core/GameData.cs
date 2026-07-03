@@ -84,7 +84,6 @@ public class TrapData : GameDataBase
     public float MaxAngle;
     public float MaxWindStrength;
     public float MaxDistance;
-    public string PrefabPath;
 }
 
 [System.Serializable]

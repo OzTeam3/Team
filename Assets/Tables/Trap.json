@@ -9,8 +9,7 @@
     "BounceForce": 0,
     "MaxAngle": 0,
     "MaxWindStrength": 0,
-    "MaxDistance": 0,
-    "PrefabPath": "Prefab/Prefab_Trap_SpinObject_001"
+    "MaxDistance": 0
   },
   {
     "Id": "Trap_BreakingPlatform_001",
@@ -22,8 +21,7 @@
     "BounceForce": 0,
     "MaxAngle": 0,
     "MaxWindStrength": 0,
-    "MaxDistance": 0,
-    "PrefabPath": "Prefab/Prefab_Trap_BreakingPlatform_001"
+    "MaxDistance": 0
   },
   {
     "Id": "Trap_BlinkPlatform_001",
@@ -35,8 +33,7 @@
     "BounceForce": 0,
     "MaxAngle": 0,
     "MaxWindStrength": 0,
-    "MaxDistance": 0,
-    "PrefabPath": "Prefab/Prefab_Trap_BlinkPlatform_001"
+    "MaxDistance": 0
   },
   {
     "Id": "Trap_JumpPad_001",
@@ -48,8 +45,7 @@
     "BounceForce": 15,
     "MaxAngle": 0,
     "MaxWindStrength": 0,
-    "MaxDistance": 0,
-    "PrefabPath": "Prefab/Prefab_Trap_JumpPad_001"
+    "MaxDistance": 0
   },
   {
     "Id": "Trap_RollingObject_001",
@@ -61,8 +57,7 @@
     "BounceForce": 0,
     "MaxAngle": 60,
     "MaxWindStrength": 0,
-    "MaxDistance": 0,
-    "PrefabPath": "Prefab/Prefab_Trap_RollingObject_001"
+    "MaxDistance": 0
   },
   {
     "Id": "Trap_RollingPlatform_001",
@@ -74,8 +69,7 @@
     "BounceForce": 0,
     "MaxAngle": 45,
     "MaxWindStrength": 0,
-    "MaxDistance": 0,
-    "PrefabPath": "Prefab/Prefab_Trap_RollingPlatform_001"
+    "MaxDistance": 0
   },
   {
     "Id": "Trap_RollingPlatform_002",
@@ -87,8 +81,7 @@
     "BounceForce": 0,
     "MaxAngle": 45,
     "MaxWindStrength": 0,
-    "MaxDistance": 0,
-    "PrefabPath": "Prefab/Prefab_Trap_RollingPlatform_002"
+    "MaxDistance": 0
   },
   {
     "Id": "Trap_PendulumObject_001",
@@ -100,8 +93,7 @@
     "BounceForce": 0,
     "MaxAngle": 60,
     "MaxWindStrength": 0,
-    "MaxDistance": 0,
-    "PrefabPath": "Prefab/Prefab_Trap_PendulumObject_Axe"
+    "MaxDistance": 0
   },
   {
     "Id": "Trap_PendulumObject_002",
@@ -113,8 +105,7 @@
     "BounceForce": 0,
     "MaxAngle": 60,
     "MaxWindStrength": 0,
-    "MaxDistance": 0,
-    "PrefabPath": "Prefab/Prefab_Trap_PendulumObject_Hammer"
+    "MaxDistance": 0
   },
   {
     "Id": "Trap_WindFan_001",
@@ -126,7 +117,6 @@
     "BounceForce": 0,
     "MaxAngle": 0,
     "MaxWindStrength": 50,
-    "MaxDistance": 10,
-    "PrefabPath": "Prefab/Prefab_Trap_WindFan_001"
+    "MaxDistance": 10
   }
 ]
