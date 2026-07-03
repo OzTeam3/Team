@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8426209999623223492}
   - component: {fileID: 4845929052960061281}
   - component: {fileID: 7252138476781241259}
-  - component: {fileID: 8718207824179526227}
+  - component: {fileID: 1031115297505439439}
   m_Layer: 0
   m_Name: Flower_02
   m_TagString: Untagged
@@ -50,7 +50,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9197540064984474238}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -91,7 +91,7 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8718207824179526227
+--- !u!64 &1031115297505439439
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

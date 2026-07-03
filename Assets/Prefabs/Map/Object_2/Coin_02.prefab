@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5059395183230825916}
   - component: {fileID: 8185660144898849305}
   - component: {fileID: 6232341700863610579}
-  - component: {fileID: 8220518254784542910}
+  - component: {fileID: 4057425410964047404}
   m_Layer: 0
   m_Name: Coin_02
   m_TagString: Untagged
@@ -91,7 +91,7 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8220518254784542910
+--- !u!64 &4057425410964047404
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1610497643641644881}
   - component: {fileID: 2447275971939805428}
   - component: {fileID: 437570230156450878}
-  - component: {fileID: 2649608977249056660}
+  - component: {fileID: 1227896080127948918}
   m_Layer: 0
   m_Name: Bones_01
   m_TagString: Untagged
@@ -50,7 +50,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2094864038213025259}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -91,7 +91,7 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2649608977249056660
+--- !u!64 &1227896080127948918
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7749195999925335176}
   - component: {fileID: 6639844210057050925}
   - component: {fileID: 8917549925000187879}
-  - component: {fileID: 2787099482134647553}
+  - component: {fileID: 1408068668259659914}
   m_Layer: 0
   m_Name: Battery_02
   m_TagString: Untagged
@@ -91,7 +91,7 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2787099482134647553
+--- !u!64 &1408068668259659914
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

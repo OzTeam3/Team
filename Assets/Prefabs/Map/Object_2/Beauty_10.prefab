@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8847173592769537474}
   - component: {fileID: 5577886359662733927}
   - component: {fileID: 7677605329980448429}
-  - component: {fileID: 9029085031032930859}
+  - component: {fileID: 2630599981401575437}
   m_Layer: 0
   m_Name: Beauty_10
   m_TagString: Untagged
@@ -91,7 +91,7 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &9029085031032930859
+--- !u!64 &2630599981401575437
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
